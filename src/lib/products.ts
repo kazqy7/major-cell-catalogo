@@ -89,3 +89,13 @@ export const productMessage = (
   const price = formatPrice(p.price);
   return `Olá! Tenho interesse no ${detail}${price ? `, anunciado por ${price}` : ""}. Ele está disponível?`;
 };
+
+/** Generation (iPhone) or family (Redmi/Xiaomi) used to group the catalog. */
+export function groupKey(p: Pick<Product, "name">): string {
+  const n = p.name.trim();
+  const ip = n.match(/^iPhone\s+(\d+)/i);
+  if (ip) return `iPhone ${ip[1]}`;
+  const rd = n.match(/^(Redmi\s+(?:Note\s+\d+|[A-Z]?\d+[A-Z]?))/i);
+  if (rd) return rd[1]!;
+  return n;
+}
