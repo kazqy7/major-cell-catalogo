@@ -21,16 +21,17 @@ export const formatPrice = (p: number | null) =>
 
 export const BUCKET = "product-images";
 
-async function signAll(products: Product[]): Promise<ProductWithUrls[]> {
-  const paths = Array.from(new Set(products.flatMap((p) => p.images)));
-  const map = new Map<string, string>();
-  if (paths.length) {
-    const { data } = await supabase.storage.from(BUCKET).createSignedUrls(paths, 60 * 60 * 24);
-    data?.forEach((d) => d.path && d.signedUrl && map.set(d.path, d.signedUrl));
-  }
+// Product photos are served through a same-origin public endpoint that only
+// exposes the "official/" folder of the private bucket, so no public read
+// policy is needed on storage.
+function imageUrl(path: string): string {
+  return `/api/public/product-image/${encodeURIComponent(path)}`;
+}
+
+function withUrls(products: Product[]): ProductWithUrls[] {
   return products.map((p) => ({
     ...p,
-    imageUrls: p.images.map((i) => map.get(i)).filter(Boolean) as string[],
+    imageUrls: p.images.filter(Boolean).map(imageUrl),
   }));
 }
 
@@ -46,7 +47,7 @@ export const productsQuery = (opts: { includeSold?: boolean } = {}) =>
       if (!opts.includeSold) q = q.eq("status", "disponivel");
       const { data, error } = await q;
       if (error) throw error;
-      return signAll(data ?? []);
+      return withUrls(data ?? []);
     },
   });
 
@@ -57,7 +58,7 @@ export const productQuery = (id: string) =>
       const { data, error } = await supabase.from("products").select("*").eq("id", id).maybeSingle();
       if (error) throw error;
       if (!data) return null;
-      return (await signAll([data]))[0];
+      return withUrls([data])[0];
     },
   });
 

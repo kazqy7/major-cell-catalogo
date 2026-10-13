@@ -19,6 +19,7 @@ import { Route as IphonesSeminovosRouteImport } from './routes/iphones-seminovos
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as XiaomiRouteImport } from './routes/xiaomi'
 import { Route as ProdutoIdRouteImport } from './routes/produto.$id'
+import { Route as ApiPublicProductImagePathRouteImport } from './routes/api/public/product-image.$path'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +71,12 @@ const ProdutoIdRoute = ProdutoIdRouteImport.update({
   path: '/produto/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicProductImagePathRoute =
+  ApiPublicProductImagePathRouteImport.update({
+    id: '/api/public/product-image/$path',
+    path: '/api/public/product-image/$path',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/sobre': typeof SobreRoute
   '/xiaomi': typeof XiaomiRoute
   '/produto/$id': typeof ProdutoIdRoute
+  '/api/public/product-image/$path': typeof ApiPublicProductImagePathRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +102,7 @@ export interface FileRoutesByTo {
   '/sobre': typeof SobreRoute
   '/xiaomi': typeof XiaomiRoute
   '/produto/$id': typeof ProdutoIdRoute
+  '/api/public/product-image/$path': typeof ApiPublicProductImagePathRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +116,7 @@ export interface FileRoutesById {
   '/sobre': typeof SobreRoute
   '/xiaomi': typeof XiaomiRoute
   '/produto/$id': typeof ProdutoIdRoute
+  '/api/public/product-image/$path': typeof ApiPublicProductImagePathRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/xiaomi'
     | '/produto/$id'
+    | '/api/public/product-image/$path'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/xiaomi'
     | '/produto/$id'
+    | '/api/public/product-image/$path'
   id:
     | '__root__'
     | '/'
@@ -145,6 +157,7 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/xiaomi'
     | '/produto/$id'
+    | '/api/public/product-image/$path'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +171,7 @@ export interface RootRouteChildren {
   SobreRoute: typeof SobreRoute
   XiaomiRoute: typeof XiaomiRoute
   ProdutoIdRoute: typeof ProdutoIdRoute
+  ApiPublicProductImagePathRoute: typeof ApiPublicProductImagePathRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +246,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProdutoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/product-image/$path': {
+      id: '/api/public/product-image/$path'
+      path: '/api/public/product-image/$path'
+      fullPath: '/api/public/product-image/$path'
+      preLoaderRoute: typeof ApiPublicProductImagePathRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -246,6 +267,7 @@ const rootRouteChildren: RootRouteChildren = {
   SobreRoute: SobreRoute,
   XiaomiRoute: XiaomiRoute,
   ProdutoIdRoute: ProdutoIdRoute,
+  ApiPublicProductImagePathRoute: ApiPublicProductImagePathRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

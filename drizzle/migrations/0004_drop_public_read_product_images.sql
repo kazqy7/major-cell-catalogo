@@ -1,0 +1,1 @@
+DROP POLICY "public read product images" ON storage.objects;
