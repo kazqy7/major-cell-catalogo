@@ -11,6 +11,8 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
   const [f, setF] = useState({
     category: (product?.category ?? "iphone_novo") as Category,
     name: product?.name ?? "",
+    brand: product?.brand ?? "Apple",
+    ram: product?.ram ?? "",
     model: product?.model ?? "",
     storage: product?.storage ?? "",
     color: product?.color ?? "",
@@ -53,6 +55,8 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
     const row = {
       category: f.category,
       name: f.name.trim(),
+      brand: f.brand.trim() || null,
+      ram: f.ram.trim() || null,
       model: f.model.trim() || null,
       storage: f.storage.trim() || null,
       color: f.color.trim() || null,
@@ -87,11 +91,13 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
           </label>
           <label className="space-y-1 text-sm">Disponibilidade
             <select className={inp} value={f.status} onChange={set("status")}>
-              <option value="disponivel">Disponível</option><option value="vendido">Vendido</option>
+              <option value="disponivel">Disponível</option><option value="vendido">Esgotado / vendido</option>
             </select>
           </label>
           <label className="space-y-1 text-sm">Nome *<input required className={inp} value={f.name} onChange={set("name")} placeholder="Ex.: iPhone 15" /></label>
           <label className="space-y-1 text-sm">Modelo<input className={inp} value={f.model} onChange={set("model")} placeholder="Ex.: Pro Max" /></label>
+          <label className="space-y-1 text-sm">Marca<input className={inp} value={f.brand} onChange={set("brand")} placeholder="Ex.: Apple" /></label>
+          <label className="space-y-1 text-sm">Memória RAM<input className={inp} value={f.ram} onChange={set("ram")} placeholder="Ex.: 8GB (opcional)" /></label>
           <label className="space-y-1 text-sm">Armazenamento
             <select className={inp} value={f.storage} onChange={set("storage")}>
               <option value="">Selecione</option>

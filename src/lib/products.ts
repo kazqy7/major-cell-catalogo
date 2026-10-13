@@ -61,9 +61,9 @@ export const productQuery = (id: string) =>
     },
   });
 
-export const productMessage = (p: Pick<Product, "name" | "model" | "storage" | "color" | "price" | "description">) => {
+export const productMessage = (p: Pick<Product, "name" | "model" | "storage" | "color" | "price" | "description" | "ram">) => {
   const parts = [p.name, p.model, p.storage].filter(Boolean).join(" ");
-  const ram = p.description?.match(/\d+\s*GB\s*RAM/i)?.[0];
+  const ram = p.ram ? `${p.ram} RAM` : p.description?.match(/\d+\s*GB\s*RAM/i)?.[0];
   const detail = [parts, p.color, ram].filter(Boolean).join(" · ");
   const price = formatPrice(p.price);
   return `Olá! Tenho interesse no ${detail}${price ? `, anunciado por ${price}` : ""}. Ele está disponível?`;
