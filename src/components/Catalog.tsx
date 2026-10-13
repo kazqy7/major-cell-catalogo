@@ -1,11 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Search, SlidersHorizontal, PackageOpen } from "lucide-react";
 import { useMemo, useState } from "react";
-import { CATEGORIES, productsQuery, type Category } from "@/lib/products";
+import { CATEGORIES, groupKey, productsQuery, type Category, type ProductWithUrls } from "@/lib/products";
 import { ProductCard } from "./ProductCard";
 
 const sel =
-  "h-11 w-full rounded-xl hairline bg-card px-3 text-sm text-foreground focus:border-primary focus:outline-none";
+  "h-11 w-full rounded-full border-0 bg-secondary px-4 text-sm text-foreground focus:border-primary focus:outline-none";
 
 export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefined }) {
   const { data } = useSuspenseQuery(productsQuery());
@@ -39,8 +39,8 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
 
   return (
     <div className="space-y-8">
-      <div className="rounded-2xl hairline bg-card/60 p-5">
-        <div className="mb-4 flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-primary">
+      <div>
+        <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground">
           <SlidersHorizontal className="h-4 w-4" /> Filtrar aparelhos
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
@@ -93,19 +93,35 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
           )}
         </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {list.map((p) => <ProductCard key={p.id} p={p} />)}
+        <div className="space-y-16">
+          {groups(list).map(([g, items]) => (
+            <section key={g}>
+              <h2 className="mb-6 text-2xl font-semibold md:text-3xl">{g}</h2>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((p) => <ProductCard key={p.id} p={p} />)}
+              </div>
+            </section>
+          ))}
         </div>
       )}
     </div>
   );
 }
 
+function groups(list: ProductWithUrls[]) {
+  const m = new Map<string, ProductWithUrls[]>();
+  for (const p of list) {
+    const k = groupKey(p);
+    m.set(k, [...(m.get(k) ?? []), p]);
+  }
+  return Array.from(m.entries());
+}
+
 export function CatalogSkeleton() {
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {Array.from({ length: 8 }).map((_, i) => (
-        <div key={i} className="h-[460px] animate-pulse rounded-2xl bg-card" />
+        <div key={i} className="h-[460px] animate-pulse rounded-3xl bg-card" />
       ))}
     </div>
   );

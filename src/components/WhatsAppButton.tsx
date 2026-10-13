@@ -19,7 +19,7 @@ export function WhatsAppButton({
     "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all";
   const styles =
     variant === "gold"
-      ? "bg-gold text-primary-foreground shadow-gold hover:-translate-y-0.5"
+      ? "bg-gold text-primary-foreground hover:opacity-90"
       : "hairline text-foreground hover:border-primary hover:text-primary";
   if (!href) {
     return (
