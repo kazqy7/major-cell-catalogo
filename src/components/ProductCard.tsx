@@ -27,7 +27,7 @@ export function ProductCard({ p }: { p: ProductWithUrls }) {
       <p className="mt-6 text-lg font-medium">
         {price ?? <span className="text-sm text-muted-foreground">Consulte disponibilidade</span>}
       </p>
-      <div className="mt-4 flex items-center justify-center gap-5 text-sm">
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 whitespace-nowrap text-sm">
         <Link to="/produto/$id" params={{ id: p.id }} className="rounded-full bg-gold px-5 py-2 font-semibold text-primary-foreground">
           {hasColors ? "Escolher cor" : "Ver detalhes"}
         </Link>
