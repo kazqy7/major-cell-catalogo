@@ -24,38 +24,37 @@ const IMGS = { iphone_novo: catNovo, iphone_seminovo: catSemi, xiaomi: catXiaomi
 function Home() {
   return (
     <>
-      <section className="relative overflow-hidden border-b border-border">
-        <img src={hero} alt="" width={1600} height={1008} className="absolute inset-0 h-full w-full object-cover object-right opacity-70 md:opacity-100" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/10" />
-        <div className="relative mx-auto max-w-7xl px-5 py-24 md:py-36">
-          <p className="text-xs uppercase tracking-[0.35em] text-primary">Major Cell</p>
-          <h1 className="mt-5 max-w-2xl text-4xl font-semibold leading-[1.05] md:text-6xl">
-            Seu próximo smartphone está na <span className="text-gold">Major Cell.</span>
-          </h1>
-          <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-            iPhones novos, seminovos selecionados e Xiaomi. Encontre seu próximo aparelho com atendimento de confiança.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link to="/catalogo" className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground shadow-gold transition-transform hover:-translate-y-0.5">
-              Ver aparelhos <ArrowRight className="h-4 w-4" />
-            </Link>
-            <WhatsAppButton variant="outline" className="px-6 py-3" message="Olá, Major Cell! Gostaria de atendimento.">
-              Falar com a Major Cell
-            </WhatsAppButton>
-          </div>
+      <section className="px-5 pt-16 text-center md:pt-24">
+        <p className="text-sm font-medium text-primary">Major Cell</p>
+        <h1 className="mx-auto mt-3 max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
+          Seu próximo smartphone.
+        </h1>
+        <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground md:text-xl">
+          iPhones novos, seminovos selecionados e Xiaomi, com atendimento de confiança.
+        </p>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <Link to="/catalogo" className="rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground">
+            Ver aparelhos
+          </Link>
+          <WhatsAppButton variant="outline" className="px-6 py-3" message="Olá, Major Cell! Gostaria de atendimento.">
+            Falar com a Major Cell
+          </WhatsAppButton>
+        </div>
+        <div className="mx-auto mt-12 max-w-6xl overflow-hidden rounded-3xl">
+          <img src={hero} alt="Smartphones na Major Cell" width={1600} height={1008} className="w-full object-cover" />
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-20">
         <div className="mb-10 flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-primary">Categorias</p>
+            <p className="text-sm font-medium text-primary">Categorias</p>
             <h2 className="mt-2 text-3xl font-semibold md:text-4xl">Escolha por onde começar</h2>
           </div>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
           {CATEGORIES.map((c) => (
-            <Link key={c.value} to={c.slug} className="group relative block overflow-hidden rounded-2xl hairline shadow-card">
+            <Link key={c.value} to={c.slug} className="group relative block overflow-hidden rounded-3xl">
               <img src={IMGS[c.value]} alt={c.label} loading="lazy" width={800} height={1008} className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6">
@@ -70,8 +69,8 @@ function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5">
-        <div className="grid gap-6 rounded-2xl hairline bg-card/50 p-8 md:grid-cols-3">
+      <section className="mx-auto max-w-7xl px-5 pb-20">
+        <div className="grid gap-6 rounded-3xl bg-card p-8 md:grid-cols-3">
           {[
             { i: ShieldCheck, t: "Procedência garantida", d: "Aparelhos verificados antes de chegarem até você." },
             { i: BadgeCheck, t: "Seminovos selecionados", d: "Avaliação criteriosa de estado e bateria." },
