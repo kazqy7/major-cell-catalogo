@@ -10,7 +10,7 @@ export const Route = createFileRoute("/produto/$id")({
   loader: async ({ context, params }) => {
     const p = await context.queryClient.ensureQueryData(productQuery(params.id));
     if (!p) throw notFound();
-    return { name: p.name, model: p.model };
+    return { name: p.name as string, model: p.model as string | null };
   },
   head: ({ loaderData }) => {
     const t = loaderData ? `${loaderData.name}${loaderData.model ? " " + loaderData.model : ""} | Major Cell` : "Aparelho | Major Cell";

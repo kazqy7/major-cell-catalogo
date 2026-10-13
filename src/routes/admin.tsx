@@ -70,13 +70,13 @@ function Dashboard({ email }: { email: string }) {
 
   async function toggle(p: ProductWithUrls) {
     const { error } = await supabase.from("products").update({ status: p.status === "vendido" ? "disponivel" : "vendido" }).eq("id", p.id);
-    if (error) return toast.error("Não foi possível atualizar.");
+    if (error) { toast.error("Não foi possível atualizar."); return; }
     toast.success("Status atualizado."); refresh();
   }
   async function remove(p: ProductWithUrls) {
     if (!confirm(`Excluir "${p.name}"? Esta ação não pode ser desfeita.`)) return;
     const { error } = await supabase.from("products").delete().eq("id", p.id);
-    if (error) return toast.error("Não foi possível excluir.");
+    if (error) { toast.error("Não foi possível excluir."); return; }
     if (p.images.length) await supabase.storage.from("product-images").remove(p.images);
     toast.success("Aparelho excluído."); refresh();
   }

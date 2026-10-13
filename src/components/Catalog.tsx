@@ -7,7 +7,7 @@ import { ProductCard } from "./ProductCard";
 const sel =
   "h-11 w-full rounded-xl hairline bg-card px-3 text-sm text-foreground focus:border-primary focus:outline-none";
 
-export function Catalog({ fixedCategory }: { fixedCategory?: Category }) {
+export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefined }) {
   const { data } = useSuspenseQuery(productsQuery());
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<string>(fixedCategory ?? "");

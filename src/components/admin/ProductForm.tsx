@@ -42,13 +42,13 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
 
   const move = (i: number, d: number) => setImgs((s) => {
     const n = [...s]; const j = i + d; if (j < 0 || j >= n.length) return s;
-    [n[i], n[j]] = [n[j], n[i]]; return n;
+    const t = n[i]!; n[i] = n[j]!; n[j] = t; return n;
   });
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
     const battery = f.battery_health ? Number(f.battery_health) : null;
-    if (battery != null && (battery < 0 || battery > 100)) return toast.error("Saúde da bateria deve estar entre 0 e 100.");
+    if (battery != null && (battery < 0 || battery > 100)) { toast.error("Saúde da bateria deve estar entre 0 e 100."); return; }
     setSaving(true);
     const row = {
       category: f.category,
@@ -66,7 +66,7 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
       ? await supabase.from("products").update(row).eq("id", product.id)
       : await supabase.from("products").insert(row);
     setSaving(false);
-    if (error) return toast.error("Não foi possível salvar: " + error.message);
+    if (error) { toast.error("Não foi possível salvar: " + error.message); return; }
     if (removed.length) await supabase.storage.from(BUCKET).remove(removed);
     toast.success(product ? "Aparelho atualizado." : "Aparelho cadastrado.");
     onSaved();
