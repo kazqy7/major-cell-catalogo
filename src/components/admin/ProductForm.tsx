@@ -91,7 +91,7 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
           </label>
           <label className="space-y-1 text-sm">Disponibilidade
             <select className={inp} value={f.status} onChange={set("status")}>
-              <option value="disponivel">Disponível</option><option value="vendido">Vendido</option>
+              <option value="disponivel">Disponível</option><option value="vendido">Esgotado / vendido</option>
             </select>
           </label>
           <label className="space-y-1 text-sm">Nome *<input required className={inp} value={f.name} onChange={set("name")} placeholder="Ex.: iPhone 15" /></label>
