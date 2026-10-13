@@ -1,0 +1,2 @@
+ALTER TABLE public.products ADD COLUMN IF NOT EXISTS colors jsonb NOT NULL DEFAULT '[]'::jsonb;
+COMMENT ON COLUMN public.products.colors IS 'Array of {name text, image text|null (storage path), available boolean}';

@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { ArrowLeft, Smartphone } from "lucide-react";
-import { categoryLabel, conditionLabel, formatPrice, productMessage, productQuery } from "@/lib/products";
+import { colorImageUrl, parseColors, categoryLabel, conditionLabel, formatPrice, productMessage, productQuery } from "@/lib/products";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { catalogError } from "@/components/CategoryPage";
 
@@ -41,7 +41,12 @@ function ProductPage() {
   const { id } = Route.useParams();
   const { data: p } = useSuspenseQuery(productQuery(id));
   const [idx, setIdx] = useState(0);
+  const [chosen, setChosen] = useState<string | null>(null);
   if (!p) return null;
+  const colors = parseColors(p.colors);
+  const chosenColor = colors.find((c) => c.name === chosen && c.available);
+  const mainImg = chosenColor?.image ? colorImageUrl(chosenColor.image) : p.imageUrls[idx];
+  const anyAvailable = colors.some((c) => c.available);
   const price = formatPrice(p.price);
   return (
     <div className="mx-auto max-w-7xl px-5 py-10">
@@ -51,8 +56,8 @@ function ProductPage() {
       <div className="mt-8 grid gap-10 lg:grid-cols-2">
         <div>
           <div className="aspect-square overflow-hidden rounded-2xl hairline bg-card">
-            {p.imageUrls[idx] ? (
-              <img src={p.imageUrls[idx]} alt={p.name} className="h-full w-full object-cover" />
+            {mainImg ? (
+              <img src={mainImg} alt={p.name} className="h-full w-full object-cover" />
             ) : (
               <div className="flex h-full items-center justify-center text-muted-foreground"><Smartphone className="h-16 w-16" strokeWidth={1} /></div>
             )}
@@ -60,7 +65,7 @@ function ProductPage() {
           {p.imageUrls.length > 1 && (
             <div className="mt-4 grid grid-cols-5 gap-3">
               {p.imageUrls.map((u, i) => (
-                <button key={u} onClick={() => setIdx(i)} className={`aspect-square overflow-hidden rounded-xl border ${i === idx ? "border-primary" : "border-border"}`} aria-label={`Foto ${i + 1}`}>
+                <button key={u} onClick={() => { setIdx(i); setChosen(null); }} className={`aspect-square overflow-hidden rounded-xl border ${i === idx ? "border-primary" : "border-border"}`} aria-label={`Foto ${i + 1}`}>
                   <img src={u} alt="" className="h-full w-full object-cover" />
                 </button>
               ))}
@@ -78,11 +83,46 @@ function ProductPage() {
           <div className="mt-8">
             <Row k="Condição" v={conditionLabel(p.category)} />
             <Row k="Armazenamento" v={p.storage} />
-            <Row k="Cor" v={p.color} />
+            {colors.length === 0 && <Row k="Cor" v={p.color} />}
             {p.category === "iphone_seminovo" && <Row k="Saúde da bateria" v={p.battery_health != null ? `${p.battery_health}%` : null} />}
           </div>
           {p.description && <p className="mt-8 whitespace-pre-line leading-relaxed text-muted-foreground">{p.description}</p>}
-          <WhatsAppButton message={productMessage(p)} className="mt-10 w-full px-6 py-3.5 text-base sm:w-auto" />
+          {colors.length > 0 && (
+            <div className="mt-8">
+              <p className="text-sm text-muted-foreground">
+                Cor: <span className="font-medium text-foreground">{chosenColor?.name ?? "selecione uma cor"}</span>
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Cores">
+                {colors.map((c) => {
+                  const active = chosenColor?.name === c.name;
+                  return (
+                    <button
+                      key={c.name}
+                      type="button"
+                      role="radio"
+                      aria-checked={active}
+                      disabled={!c.available}
+                      onClick={() => setChosen(c.name)}
+                      className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors ${active ? "border-primary text-primary" : "border-border"} ${c.available ? "hover:border-primary" : "cursor-not-allowed opacity-50 line-through"}`}
+                    >
+                      {c.image && <img src={colorImageUrl(c.image)} alt="" className="h-5 w-5 rounded-full object-cover" />}
+                      {c.name}
+                      {!c.available && <span className="text-xs no-underline">(esgotada)</span>}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          {colors.length > 0 && !chosenColor ? (
+            <div className="mt-10">
+              <button type="button" disabled className="w-full cursor-not-allowed rounded-full hairline px-6 py-3.5 text-base text-muted-foreground sm:w-auto">
+                {anyAvailable ? "Selecione uma cor para consultar" : "Todas as cores estão esgotadas"}
+              </button>
+            </div>
+          ) : (
+            <WhatsAppButton message={productMessage(p, chosenColor?.name)} className="mt-10 w-full px-6 py-3.5 text-base sm:w-auto" />
+          )}
         </div>
       </div>
     </div>

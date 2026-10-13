@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Smartphone, BatteryMedium } from "lucide-react";
-import { conditionLabel, formatPrice, productMessage, type ProductWithUrls } from "@/lib/products";
+import { parseColors, conditionLabel, formatPrice, productMessage, type ProductWithUrls } from "@/lib/products";
 import { WhatsAppButton } from "./WhatsAppButton";
 
 export function ProductCard({ p }: { p: ProductWithUrls }) {
@@ -48,7 +48,13 @@ export function ProductCard({ p }: { p: ProductWithUrls }) {
         <p className="mt-auto font-display text-xl font-semibold text-gold">
           {price ?? <span className="text-sm font-medium text-muted-foreground">Consulte disponibilidade</span>}
         </p>
-        <WhatsAppButton message={productMessage(p)} className="w-full" />
+        {parseColors(p.colors).length > 0 ? (
+          <Link to="/produto/$id" params={{ id: p.id }} className="inline-flex w-full items-center justify-center rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-gold">
+            Escolher cor e consultar
+          </Link>
+        ) : (
+          <WhatsAppButton message={productMessage(p)} className="w-full" />
+        )}
       </div>
     </article>
   );
