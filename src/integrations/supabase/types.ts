@@ -26,6 +26,7 @@ export type Database = {
           model: string | null
           name: string
           price: number | null
+          sort_order: number
           status: Database["public"]["Enums"]["product_status"]
           storage: string | null
           updated_at: string
@@ -41,6 +42,7 @@ export type Database = {
           model?: string | null
           name: string
           price?: number | null
+          sort_order?: number
           status?: Database["public"]["Enums"]["product_status"]
           storage?: string | null
           updated_at?: string
@@ -56,6 +58,7 @@ export type Database = {
           model?: string | null
           name?: string
           price?: number | null
+          sort_order?: number
           status?: Database["public"]["Enums"]["product_status"]
           storage?: string | null
           updated_at?: string

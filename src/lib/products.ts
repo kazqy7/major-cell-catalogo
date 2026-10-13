@@ -38,7 +38,11 @@ export const productsQuery = (opts: { includeSold?: boolean } = {}) =>
   queryOptions({
     queryKey: ["products", opts.includeSold ? "all" : "available"],
     queryFn: async () => {
-      let q = supabase.from("products").select("*").order("created_at", { ascending: false });
+      let q = supabase
+        .from("products")
+        .select("*")
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: true });
       if (!opts.includeSold) q = q.eq("status", "disponivel");
       const { data, error } = await q;
       if (error) throw error;
