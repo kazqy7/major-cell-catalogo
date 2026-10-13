@@ -95,7 +95,7 @@ export function groupKey(p: Pick<Product, "name">): string {
   const n = p.name.trim();
   const ip = n.match(/^iPhone\s+(\d+)/i);
   if (ip) return `iPhone ${ip[1]}`;
-  const rd = n.match(/^(Redmi\s+(?:Note\s+\d+|[A-Z]?\d+[A-Z]?))/i);
+  const rd = n.match(/^(Redmi\s+(?:Note\s+\d+|[A-Z]?\d+[A-Z]?)(?:\s+Pro)?)/i);
   if (rd) return rd[1]!;
   return n;
 }
