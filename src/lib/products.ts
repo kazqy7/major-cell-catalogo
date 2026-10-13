@@ -67,7 +67,7 @@ export type ProductColor = { name: string; image: string | null; available: bool
 export function parseColors(raw: unknown): ProductColor[] {
   if (!Array.isArray(raw)) return [];
   return raw
-    .filter((c): c is Record<string, unknown> => !!c && typeof c === "object")
+    .filter((c): c is { name?: unknown; image?: unknown; available?: unknown } => !!c && typeof c === "object")
     .map((c) => ({
       name: typeof c.name === "string" ? c.name.trim() : "",
       image: typeof c.image === "string" && c.image ? c.image : null,
