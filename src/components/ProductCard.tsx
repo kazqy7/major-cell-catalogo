@@ -13,7 +13,7 @@ export function ProductCard({ p }: { p: ProductWithUrls }) {
         <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-primary">{conditionLabel(p.category)}</p>
         <h3 className="mt-2 text-2xl font-semibold leading-tight">{p.name}</h3>
         {p.storage && <p className="mt-1 text-sm text-muted-foreground">{p.storage}{p.ram ? ` · ${p.ram} RAM` : ""}</p>}
-        <div className="relative mx-auto mt-6 flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl">
+        <div className="relative mx-auto mt-6 flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-showcase p-4">
           {p.imageUrls[0] ? (
             <img src={p.imageUrls[0]} alt={p.name} loading="lazy" className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-[1.03]" />
           ) : (

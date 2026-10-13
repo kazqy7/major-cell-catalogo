@@ -56,7 +56,7 @@ function ProductPage() {
       </Link>
       <div className="mt-6 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-3xl bg-card p-6">
+          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-3xl bg-showcase p-8">
             {mainImg ? (
               <img src={mainImg} alt={chosenColor ? `${p.name} ${chosenColor.name}` : p.name} className="h-full w-full object-contain" />
             ) : (
@@ -66,7 +66,7 @@ function ProductPage() {
           {p.imageUrls.length > 1 && (
             <div className="mt-4 flex justify-center gap-3">
               {p.imageUrls.map((u, i) => (
-                <button key={u} onClick={() => { setIdx(i); setChosen(null); }} className={`h-16 w-16 overflow-hidden rounded-xl bg-card p-1 ring-1 ${i === idx && !chosenColor?.image ? "ring-primary" : "ring-border"}`} aria-label={`Foto ${i + 1}`}>
+                <button key={u} onClick={() => { setIdx(i); setChosen(null); }} className={`h-16 w-16 overflow-hidden rounded-xl bg-showcase p-1 ring-1 ${i === idx && !chosenColor?.image ? "ring-primary" : "ring-border"}`} aria-label={`Foto ${i + 1}`}>
                   <img src={u} alt="" className="h-full w-full object-contain" />
                 </button>
               ))}
