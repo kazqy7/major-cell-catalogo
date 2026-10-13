@@ -92,7 +92,13 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
           </label>
           <label className="space-y-1 text-sm">Nome *<input required className={inp} value={f.name} onChange={set("name")} placeholder="Ex.: iPhone 15" /></label>
           <label className="space-y-1 text-sm">Modelo<input className={inp} value={f.model} onChange={set("model")} placeholder="Ex.: Pro Max" /></label>
-          <label className="space-y-1 text-sm">Armazenamento<input className={inp} value={f.storage} onChange={set("storage")} placeholder="Ex.: 256 GB" /></label>
+          <label className="space-y-1 text-sm">Armazenamento
+            <select className={inp} value={f.storage} onChange={set("storage")}>
+              <option value="">Selecione</option>
+              {["64 GB", "128 GB", "256 GB", "512 GB", "1 TB"].map((s) => <option key={s} value={s}>{s}</option>)}
+              {f.storage && !["64 GB", "128 GB", "256 GB", "512 GB", "1 TB"].includes(f.storage) && <option value={f.storage}>{f.storage}</option>}
+            </select>
+          </label>
           <label className="space-y-1 text-sm">Cor<input className={inp} value={f.color} onChange={set("color")} placeholder="Ex.: Titânio natural" /></label>
           <label className="space-y-1 text-sm">Preço (R$) — vazio mostra “Consulte”<input type="number" step="0.01" min="0" className={inp} value={f.price} onChange={set("price")} /></label>
           {f.category === "iphone_seminovo" && (
