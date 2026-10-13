@@ -20,6 +20,7 @@ export type Database = {
           brand: string | null
           category: Database["public"]["Enums"]["product_category"]
           color: string | null
+          colors: Json
           created_at: string
           description: string | null
           id: string
@@ -38,6 +39,7 @@ export type Database = {
           brand?: string | null
           category: Database["public"]["Enums"]["product_category"]
           color?: string | null
+          colors?: Json
           created_at?: string
           description?: string | null
           id?: string
@@ -56,6 +58,7 @@ export type Database = {
           brand?: string | null
           category?: Database["public"]["Enums"]["product_category"]
           color?: string | null
+          colors?: Json
           created_at?: string
           description?: string | null
           id?: string

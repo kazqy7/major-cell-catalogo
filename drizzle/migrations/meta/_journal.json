@@ -36,6 +36,13 @@
       "when": 1791929540138,
       "tag": "0004_drop_public_read_product_images",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791931256458,
+      "tag": "0005_add_product_colors",
+      "breakpoints": true
     }
   ]
 }
