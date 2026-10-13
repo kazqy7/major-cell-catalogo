@@ -8,3 +8,10 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+# Project rules
+
+- Store settings (WhatsApp number, address, hours) live in `src/config/store.ts` — single place for the owner to edit.
+- Product images are stored in a private bucket; read via signed URLs in `src/lib/products.ts` because the workspace blocks public buckets.
+- Admin access is gated by `user_roles` + `has_role()` RLS; the first account ever created becomes admin via a DB trigger, so no credentials live in code.
+- Category pages share one `Catalog` component with a fixed category, so filters behave identically everywhere.
