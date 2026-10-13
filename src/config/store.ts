@@ -5,7 +5,7 @@
  */
 export const STORE = {
   name: "Major Cell",
-  WHATSAPP_NUMBER: "",
+  WHATSAPP_NUMBER: "5538988063088",
   instagram: "",
   address: "",
   hours: "",
