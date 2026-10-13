@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { X, ArrowLeft, ArrowRight, Trash2, Upload, Loader2 } from "lucide-react";
+import { X, ArrowLeft, ArrowRight, Trash2, Upload, Loader2, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { BUCKET, CATEGORIES, type Category, type ProductWithUrls } from "@/lib/products";
+import { BUCKET, CATEGORIES, colorImageUrl, parseColors, type Category, type ProductColor, type ProductWithUrls } from "@/lib/products";
 
 type Img = { path: string; url: string };
 const inp = "h-11 w-full rounded-xl hairline bg-background px-3 text-sm focus:border-primary focus:outline-none";
@@ -22,6 +22,18 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
     status: product?.status ?? "disponivel",
   });
   const [imgs, setImgs] = useState<Img[]>(product ? product.images.map((p, i) => ({ path: p, url: product.imageUrls[i] ?? "" })) : []);
+  const [colors, setColors] = useState<ProductColor[]>(parseColors(product?.colors));
+  const [colorUp, setColorUp] = useState<number | null>(null);
+  const setColor = (i: number, patch: Partial<ProductColor>) => setColors((s) => s.map((c, j) => (j === i ? { ...c, ...patch } : c)));
+  async function uploadColor(i: number, file: File | undefined) {
+    if (!file || !file.type.startsWith("image/")) return;
+    setColorUp(i);
+    const path = `official/${crypto.randomUUID()}.${file.name.split(".").pop() || "jpg"}`;
+    const { error } = await supabase.storage.from(BUCKET).upload(path, file, { contentType: file.type });
+    setColorUp(null);
+    if (error) { toast.error(`Falha ao enviar ${file.name}`); return; }
+    setColor(i, { image: path });
+  }
   const [removed, setRemoved] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -33,7 +45,7 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
     const added: Img[] = [];
     for (const file of Array.from(files)) {
       if (!file.type.startsWith("image/")) continue;
-      const path = `${crypto.randomUUID()}.${file.name.split(".").pop() || "jpg"}`;
+      const path = `official/${crypto.randomUUID()}.${file.name.split(".").pop() || "jpg"}`;
       const { error } = await supabase.storage.from(BUCKET).upload(path, file, { contentType: file.type });
       if (error) { toast.error(`Falha ao enviar ${file.name}`); continue; }
       added.push({ path, url: URL.createObjectURL(file) });
@@ -65,6 +77,7 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
       description: f.description.trim() || null,
       status: f.status as "disponivel" | "vendido",
       images: imgs.map((i) => i.path),
+      colors: colors.map((c) => ({ name: c.name.trim(), image: c.image, available: c.available })).filter((c) => c.name),
     };
     const { error } = product
       ? await supabase.from("products").update(row).eq("id", product.id)
@@ -114,6 +127,29 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
         <label className="block space-y-1 text-sm">Descrição
           <textarea rows={4} className={inp + " h-auto py-2"} value={f.description} onChange={set("description")} />
         </label>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <p className="text-sm">Cores do aparelho <span className="text-muted-foreground">(opcional)</span></p>
+            <button type="button" onClick={() => setColors((s) => [...s, { name: "", image: null, available: false }])} className="inline-flex items-center gap-1 rounded-full hairline px-3 py-1.5 text-xs hover:border-primary hover:text-primary">
+              <Plus className="h-3.5 w-3.5" /> Adicionar cor
+            </button>
+          </div>
+          {colors.length === 0 && <p className="text-xs text-muted-foreground">Sem cores cadastradas: o cliente consulta sem escolher cor.</p>}
+          {colors.map((c, i) => (
+            <div key={i} className="flex flex-wrap items-center gap-2 rounded-xl hairline p-2">
+              <label className="relative flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-dashed border-primary/40 text-muted-foreground hover:text-primary" title="Foto desta cor">
+                {colorUp === i ? <Loader2 className="h-4 w-4 animate-spin" /> : c.image ? <img src={colorImageUrl(c.image)} alt="" className="h-full w-full object-cover" /> : <Upload className="h-4 w-4" />}
+                <input type="file" accept="image/*" className="hidden" onChange={(e) => uploadColor(i, e.target.files?.[0])} />
+              </label>
+              <input className={inp + " min-w-0 flex-1"} value={c.name} onChange={(e) => setColor(i, { name: e.target.value })} placeholder="Nome da cor (ex.: Preto)" aria-label="Nome da cor" />
+              <select className={inp + " w-auto"} value={c.available ? "1" : "0"} onChange={(e) => setColor(i, { available: e.target.value === "1" })} aria-label="Estoque da cor">
+                <option value="0">Esgotada</option><option value="1">Disponível</option>
+              </select>
+              {c.image && <button type="button" onClick={() => setColor(i, { image: null })} className="text-xs text-muted-foreground hover:text-primary">Tirar foto</button>}
+              <button type="button" onClick={() => setColors((s) => s.filter((_, j) => j !== i))} aria-label="Remover cor"><Trash2 className="h-4 w-4 text-destructive" /></button>
+            </div>
+          ))}
+        </div>
         <div>
           <p className="mb-2 text-sm">Fotos (a primeira é a capa)</p>
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
