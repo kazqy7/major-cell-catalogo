@@ -62,10 +62,30 @@ export const productQuery = (id: string) =>
     },
   });
 
-export const productMessage = (p: Pick<Product, "name" | "model" | "storage" | "color" | "price" | "description" | "ram">) => {
+export type ProductColor = { name: string; image: string | null; available: boolean };
+
+export function parseColors(raw: unknown): ProductColor[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((c): c is Record<string, unknown> => !!c && typeof c === "object")
+    .map((c) => ({
+      name: typeof c.name === "string" ? c.name.trim() : "",
+      image: typeof c.image === "string" && c.image ? c.image : null,
+      available: c.available === true,
+    }))
+    .filter((c) => c.name);
+}
+
+export const colorImageUrl = (path: string) => imageUrl(path);
+
+export const productMessage = (
+  p: Pick<Product, "name" | "model" | "storage" | "color" | "price" | "description" | "ram">,
+  chosenColor?: string | null,
+) => {
   const parts = [p.name, p.model, p.storage].filter(Boolean).join(" ");
   const ram = p.ram ? `${p.ram} RAM` : p.description?.match(/\d+\s*GB\s*RAM/i)?.[0];
-  const detail = [parts, p.color, ram].filter(Boolean).join(" · ");
+  const color = chosenColor ? `cor ${chosenColor}` : p.color;
+  const detail = [parts, color, ram].filter(Boolean).join(" · ");
   const price = formatPrice(p.price);
   return `Olá! Tenho interesse no ${detail}${price ? `, anunciado por ${price}` : ""}. Ele está disponível?`;
 };
