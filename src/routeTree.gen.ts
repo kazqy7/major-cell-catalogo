@@ -10,33 +10,128 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CatalogoRouteImport } from './routes/catalogo'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as IphonesNovosRouteImport } from './routes/iphones-novos'
+import { Route as IphonesSeminovosRouteImport } from './routes/iphones-seminovos'
+import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as XiaomiRouteImport } from './routes/xiaomi'
+import { Route as ProdutoIdRouteImport } from './routes/produto.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatalogoRoute = CatalogoRouteImport.update({
+  id: '/catalogo',
+  path: '/catalogo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IphonesNovosRoute = IphonesNovosRouteImport.update({
+  id: '/iphones-novos',
+  path: '/iphones-novos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IphonesSeminovosRoute = IphonesSeminovosRouteImport.update({
+  id: '/iphones-seminovos',
+  path: '/iphones-seminovos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const XiaomiRoute = XiaomiRouteImport.update({
+  id: '/xiaomi',
+  path: '/xiaomi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProdutoIdRoute = ProdutoIdRouteImport.update({
+  id: '/produto/$id',
+  path: '/produto/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/catalogo': typeof CatalogoRoute
+  '/contato': typeof ContatoRoute
+  '/iphones-novos': typeof IphonesNovosRoute
+  '/iphones-seminovos': typeof IphonesSeminovosRoute
+  '/sobre': typeof SobreRoute
+  '/xiaomi': typeof XiaomiRoute
+  '/produto/$id': typeof ProdutoIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/catalogo': typeof CatalogoRoute
+  '/contato': typeof ContatoRoute
+  '/iphones-novos': typeof IphonesNovosRoute
+  '/iphones-seminovos': typeof IphonesSeminovosRoute
+  '/sobre': typeof SobreRoute
+  '/xiaomi': typeof XiaomiRoute
+  '/produto/$id': typeof ProdutoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/catalogo': typeof CatalogoRoute
+  '/contato': typeof ContatoRoute
+  '/iphones-novos': typeof IphonesNovosRoute
+  '/iphones-seminovos': typeof IphonesSeminovosRoute
+  '/sobre': typeof SobreRoute
+  '/xiaomi': typeof XiaomiRoute
+  '/produto/$id': typeof ProdutoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/catalogo'
+    | '/contato'
+    | '/iphones-novos'
+    | '/iphones-seminovos'
+    | '/sobre'
+    | '/xiaomi'
+    | '/produto/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/catalogo'
+    | '/contato'
+    | '/iphones-novos'
+    | '/iphones-seminovos'
+    | '/sobre'
+    | '/xiaomi'
+    | '/produto/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/catalogo'
+    | '/contato'
+    | '/iphones-novos'
+    | '/iphones-seminovos'
+    | '/sobre'
+    | '/xiaomi'
+    | '/produto/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CatalogoRoute: typeof CatalogoRoute
+  ContatoRoute: typeof ContatoRoute
+  IphonesNovosRoute: typeof IphonesNovosRoute
+  IphonesSeminovosRoute: typeof IphonesSeminovosRoute
+  SobreRoute: typeof SobreRoute
+  XiaomiRoute: typeof XiaomiRoute
+  ProdutoIdRoute: typeof ProdutoIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +143,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catalogo': {
+      id: '/catalogo'
+      path: '/catalogo'
+      fullPath: '/catalogo'
+      preLoaderRoute: typeof CatalogoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iphones-novos': {
+      id: '/iphones-novos'
+      path: '/iphones-novos'
+      fullPath: '/iphones-novos'
+      preLoaderRoute: typeof IphonesNovosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iphones-seminovos': {
+      id: '/iphones-seminovos'
+      path: '/iphones-seminovos'
+      fullPath: '/iphones-seminovos'
+      preLoaderRoute: typeof IphonesSeminovosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/xiaomi': {
+      id: '/xiaomi'
+      path: '/xiaomi'
+      fullPath: '/xiaomi'
+      preLoaderRoute: typeof XiaomiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/produto/$id': {
+      id: '/produto/$id'
+      path: '/produto/$id'
+      fullPath: '/produto/$id'
+      preLoaderRoute: typeof ProdutoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CatalogoRoute: CatalogoRoute,
+  ContatoRoute: ContatoRoute,
+  IphonesNovosRoute: IphonesNovosRoute,
+  IphonesSeminovosRoute: IphonesSeminovosRoute,
+  SobreRoute: SobreRoute,
+  XiaomiRoute: XiaomiRoute,
+  ProdutoIdRoute: ProdutoIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
