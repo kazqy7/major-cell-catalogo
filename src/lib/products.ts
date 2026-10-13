@@ -47,7 +47,7 @@ export const productsQuery = (opts: { includeSold?: boolean } = {}) =>
       if (!opts.includeSold) q = q.eq("status", "disponivel");
       const { data, error } = await q;
       if (error) throw error;
-      return signAll(data ?? []);
+      return withUrls(data ?? []);
     },
   });
 
@@ -58,7 +58,7 @@ export const productQuery = (id: string) =>
       const { data, error } = await supabase.from("products").select("*").eq("id", id).maybeSingle();
       if (error) throw error;
       if (!data) return null;
-      return (await signAll([data]))[0];
+      return withUrls([data])[0];
     },
   });
 
