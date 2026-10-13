@@ -49,80 +49,98 @@ function ProductPage() {
   const anyAvailable = colors.some((c) => c.available);
   const price = formatPrice(p.price);
   return (
-    <div className="mx-auto max-w-7xl px-5 py-10">
-      <Link to="/catalogo" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary">
-        <ArrowLeft className="h-4 w-4" /> Voltar ao catálogo
+    <div className="mx-auto max-w-6xl px-5 py-8 md:py-12">
+      <Link to="/catalogo" className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
+        <ArrowLeft className="h-4 w-4" /> Catálogo
       </Link>
-      <div className="mt-8 grid gap-10 lg:grid-cols-2">
-        <div>
-          <div className="aspect-square overflow-hidden rounded-2xl hairline bg-card">
+      <div className="mt-6 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+        <div className="lg:sticky lg:top-24 lg:self-start">
+          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-3xl bg-card p-6">
             {mainImg ? (
-              <img src={mainImg} alt={p.name} className="h-full w-full object-cover" />
+              <img src={mainImg} alt={chosenColor ? `${p.name} ${chosenColor.name}` : p.name} className="h-full w-full object-contain" />
             ) : (
-              <div className="flex h-full items-center justify-center text-muted-foreground"><Smartphone className="h-16 w-16" strokeWidth={1} /></div>
+              <Smartphone className="h-16 w-16 text-muted-foreground" strokeWidth={1} />
             )}
           </div>
           {p.imageUrls.length > 1 && (
-            <div className="mt-4 grid grid-cols-5 gap-3">
+            <div className="mt-4 flex justify-center gap-3">
               {p.imageUrls.map((u, i) => (
-                <button key={u} onClick={() => { setIdx(i); setChosen(null); }} className={`aspect-square overflow-hidden rounded-xl border ${i === idx ? "border-primary" : "border-border"}`} aria-label={`Foto ${i + 1}`}>
-                  <img src={u} alt="" className="h-full w-full object-cover" />
+                <button key={u} onClick={() => { setIdx(i); setChosen(null); }} className={`h-16 w-16 overflow-hidden rounded-xl bg-card p-1 ring-1 ${i === idx && !chosenColor?.image ? "ring-primary" : "ring-border"}`} aria-label={`Foto ${i + 1}`}>
+                  <img src={u} alt="" className="h-full w-full object-contain" />
                 </button>
               ))}
             </div>
           )}
         </div>
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-primary">{categoryLabel(p.category)}</p>
-          <h1 className="mt-3 text-4xl font-semibold">{p.name}</h1>
+          <p className="text-sm font-medium text-primary">{conditionLabel(p.category)} · {categoryLabel(p.category)}</p>
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">{p.name}</h1>
           {p.model && <p className="mt-1 text-lg text-muted-foreground">{p.model}</p>}
-          <p className="mt-6 font-display text-3xl font-semibold text-gold">
+          <p className="mt-5 text-2xl font-medium">
             {price ?? <span className="text-lg text-muted-foreground">Consulte disponibilidade</span>}
           </p>
-          {p.status === "vendido" && <p className="mt-2 text-sm font-semibold text-destructive">Este aparelho já foi vendido.</p>}
-          <div className="mt-8">
-            <Row k="Condição" v={conditionLabel(p.category)} />
-            <Row k="Armazenamento" v={p.storage} />
-            {colors.length === 0 && <Row k="Cor" v={p.color} />}
-            {p.category === "iphone_seminovo" && <Row k="Saúde da bateria" v={p.battery_health != null ? `${p.battery_health}%` : null} />}
-          </div>
-          {p.description && <p className="mt-8 whitespace-pre-line leading-relaxed text-muted-foreground">{p.description}</p>}
+          {p.status === "vendido" && <p className="mt-2 text-sm font-semibold text-destructive">Este aparelho está esgotado.</p>}
+
           {colors.length > 0 && (
-            <div className="mt-8">
-              <p className="text-sm text-muted-foreground">
-                Cor: <span className="font-medium text-foreground">{chosenColor?.name ?? "selecione uma cor"}</span>
-              </p>
-              <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Cores">
+            <section className="mt-10 border-t border-border pt-8">
+              <h2 className="text-xl font-semibold">
+                Cor. <span className="text-muted-foreground">{chosenColor ? chosenColor.name : "Escolha a sua."}</span>
+              </h2>
+              <div className="mt-5 flex flex-wrap gap-x-4 gap-y-5" role="radiogroup" aria-label="Cores">
                 {colors.map((c) => {
                   const active = chosenColor?.name === c.name;
+                  const tone = swatchTone(c.name);
                   return (
                     <button
                       key={c.name}
                       type="button"
                       role="radio"
                       aria-checked={active}
+                      aria-label={c.available ? c.name : `${c.name} — esgotada`}
                       disabled={!c.available}
                       onClick={() => setChosen(c.name)}
-                      className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors ${active ? "border-primary text-primary" : "border-border"} ${c.available ? "hover:border-primary" : "cursor-not-allowed opacity-50 line-through"}`}
+                      className="group flex w-16 flex-col items-center gap-2 disabled:cursor-not-allowed"
                     >
-                      {c.image && <img src={colorImageUrl(c.image)} alt="" className="h-5 w-5 rounded-full object-cover" />}
-                      {c.name}
-                      {!c.available && <span className="text-xs no-underline">(esgotada)</span>}
+                      <span className={`relative flex h-10 w-10 items-center justify-center rounded-full p-[3px] ring-2 transition ${active ? "ring-primary" : "ring-transparent group-enabled:group-hover:ring-border"}`}>
+                        <span
+                          className={`block h-full w-full overflow-hidden rounded-full ring-1 ring-border ${c.available ? "" : "opacity-40"}`}
+                          style={tone ? { backgroundColor: tone } : undefined}
+                        >
+                          {!tone && c.image && <img src={colorImageUrl(c.image)} alt="" className="h-full w-full object-cover" />}
+                          {!tone && !c.image && <span className="block h-full w-full bg-secondary" />}
+                        </span>
+                        {!c.available && <span aria-hidden className="absolute h-[2px] w-11 rotate-45 rounded bg-muted-foreground" />}
+                      </span>
+                      <span className={`text-center text-xs leading-tight ${active ? "text-foreground" : "text-muted-foreground"}`}>
+                        {c.name}
+                        {!c.available && <span className="block text-[10px] text-destructive">Esgotada</span>}
+                      </span>
                     </button>
                   );
                 })}
               </div>
-            </div>
+            </section>
           )}
-          {colors.length > 0 && !chosenColor ? (
-            <div className="mt-10">
-              <button type="button" disabled className="w-full cursor-not-allowed rounded-full hairline px-6 py-3.5 text-base text-muted-foreground sm:w-auto">
+
+          <section className="mt-10 border-t border-border pt-6">
+            <Row k="Condição" v={conditionLabel(p.category)} />
+            <Row k="Armazenamento" v={p.storage} />
+            <Row k="Memória RAM" v={p.ram} />
+            {colors.length === 0 && <Row k="Cor" v={p.color} />}
+            {p.category === "iphone_seminovo" && <Row k="Saúde da bateria" v={p.battery_health != null ? `${p.battery_health}%` : null} />}
+          </section>
+          {p.description && <p className="mt-6 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">{p.description}</p>}
+
+          <div className="mt-10 rounded-3xl bg-card p-6">
+            {colors.length > 0 && !chosenColor ? (
+              <button type="button" disabled className="w-full cursor-not-allowed rounded-full bg-secondary px-6 py-3.5 text-base text-muted-foreground">
                 {anyAvailable ? "Selecione uma cor para consultar" : "Todas as cores estão esgotadas"}
               </button>
-            </div>
-          ) : (
-            <WhatsAppButton message={productMessage(p, chosenColor?.name)} className="mt-10 w-full px-6 py-3.5 text-base sm:w-auto" />
-          )}
+            ) : (
+              <WhatsAppButton message={productMessage(p, chosenColor?.name)} className="w-full px-6 py-3.5 text-base" />
+            )}
+            <p className="mt-3 text-center text-xs text-muted-foreground">Atendimento direto com a Major Cell pelo WhatsApp.</p>
+          </div>
         </div>
       </div>
     </div>
