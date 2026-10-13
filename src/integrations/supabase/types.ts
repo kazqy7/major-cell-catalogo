@@ -17,6 +17,7 @@ export type Database = {
       products: {
         Row: {
           battery_health: number | null
+          brand: string | null
           category: Database["public"]["Enums"]["product_category"]
           color: string | null
           created_at: string
@@ -26,6 +27,7 @@ export type Database = {
           model: string | null
           name: string
           price: number | null
+          ram: string | null
           sort_order: number
           status: Database["public"]["Enums"]["product_status"]
           storage: string | null
@@ -33,6 +35,7 @@ export type Database = {
         }
         Insert: {
           battery_health?: number | null
+          brand?: string | null
           category: Database["public"]["Enums"]["product_category"]
           color?: string | null
           created_at?: string
@@ -42,6 +45,7 @@ export type Database = {
           model?: string | null
           name: string
           price?: number | null
+          ram?: string | null
           sort_order?: number
           status?: Database["public"]["Enums"]["product_status"]
           storage?: string | null
@@ -49,6 +53,7 @@ export type Database = {
         }
         Update: {
           battery_health?: number | null
+          brand?: string | null
           category?: Database["public"]["Enums"]["product_category"]
           color?: string | null
           created_at?: string
@@ -58,6 +63,7 @@ export type Database = {
           model?: string | null
           name?: string
           price?: number | null
+          ram?: string | null
           sort_order?: number
           status?: Database["public"]["Enums"]["product_status"]
           storage?: string | null
