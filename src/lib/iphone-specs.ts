@@ -30,13 +30,14 @@ export function specFor(name: string): IphoneSpec | null {
   return m ? IPHONE_SPECS[m[0].replace(/\s+/g, " ").trim()] ?? null : null;
 }
 
-export type Priority = "camera" | "bateria" | "desempenho" | "tela" | "custo";
+export type Priority = "camera" | "bateria" | "desempenho" | "tela" | "custo" | "equilibrado";
 export const PRIORITIES: { value: Priority; label: string }[] = [
-  { value: "camera", label: "Câmera" },
-  { value: "bateria", label: "Bateria" },
-  { value: "desempenho", label: "Desempenho" },
-  { value: "tela", label: "Tela" },
-  { value: "custo", label: "Custo-benefício" },
+  { value: "custo", label: "Gastar menos" },
+  { value: "camera", label: "Tirar fotos bonitas" },
+  { value: "bateria", label: "Bateria que dure bastante" },
+  { value: "tela", label: "Assistir a vídeos em tela grande" },
+  { value: "desempenho", label: "Jogar e usar vários aplicativos" },
+  { value: "equilibrado", label: "Um pouco de tudo" },
 ];
 
 type Rankable = { id: string; name: string; price: number | null };
@@ -47,7 +48,8 @@ const score = (s: IphoneSpec, pr: Priority, price: number) => {
     case "bateria": return s.videoHours;
     case "desempenho": return s.chipGen;
     case "tela": return s.screenIn * 10 + (s.refresh.includes("120") ? 5 : 0);
-    case "custo": return (s.chipGen + s.cameraTier * 2 + s.videoHours / 3) / (price / 1000);
+    case "custo": return -price;
+    case "equilibrado": return (s.chipGen + s.cameraTier * 2 + s.videoHours / 3) / (price / 1000);
   }
 };
 
@@ -61,10 +63,11 @@ export function recommend<T extends Rankable>(items: T[], budget: number, pr: Pr
 
 export function reason(s: IphoneSpec, pr: Priority): string {
   switch (pr) {
-    case "camera": return `Câmera ${s.cameras.toLowerCase()}.`;
-    case "bateria": return `Até ${s.videoHours} h de reprodução de vídeo, segundo a Apple.`;
-    case "desempenho": return `Chip ${s.chip}.`;
-    case "tela": return `Tela de ${s.screen}, ${s.refresh}.`;
-    case "custo": return `Chip ${s.chip} e até ${s.videoHours} h de vídeo pelo menor preço da faixa.`;
+    case "camera": return s.cameras.toLowerCase().includes("teleobjetiva") ? "Três câmeras, incluindo uma que aproxima objetos distantes sem perder qualidade." : "Câmeras que dão conta muito bem das fotos do dia a dia.";
+    case "bateria": return `Até ${s.videoHours} horas assistindo vídeos longe da tomada, segundo a Apple.`;
+    case "desempenho": return `Um dos mais novos da sua faixa de preço: abre aplicativos e jogos com mais folga.`;
+    case "tela": return s.screenIn >= 6.7 ? "Tela grande, confortável para vídeos e jogos." : "Tela média, mais fácil de segurar com uma mão.";
+    case "custo": return "Entre os que cabem no seu orçamento, é dos que custam menos.";
+    case "equilibrado": return "Bom equilíbrio entre preço, câmera, bateria e velocidade.";
   }
 }
