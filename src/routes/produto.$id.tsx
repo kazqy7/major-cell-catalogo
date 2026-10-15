@@ -6,6 +6,8 @@ import { ArrowLeft, Smartphone } from "lucide-react";
 import { colorImageUrl, parseColors, categoryLabel, conditionLabel, formatPrice, productMessage, productQuery } from "@/lib/products";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { catalogError } from "@/components/CategoryPage";
+import { FavoriteButton, StockBadge } from "@/components/FavoriteButton";
+import { InstallmentSimulator } from "@/components/InstallmentSimulator";
 
 export const Route = createFileRoute("/produto/$id")({
   loader: async ({ context, params }) => {
@@ -49,6 +51,7 @@ function ProductPage() {
   const mainImg = chosenColor?.image ? colorImageUrl(chosenColor.image) : p.imageUrls[idx];
   const anyAvailable = colors.some((c) => c.available);
   const price = formatPrice(p.price);
+  const sold = p.status !== "disponivel";
   return (
     <div className="mx-auto max-w-6xl px-5 py-8 md:py-12">
       <Link to="/catalogo" className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
@@ -74,13 +77,18 @@ function ProductPage() {
           )}
         </div>
         <div>
-          <p className="text-sm font-medium text-primary">{conditionLabel(p.category)} · {categoryLabel(p.category)}</p>
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-sm font-medium text-primary">{conditionLabel(p.category)} · {categoryLabel(p.category)}</p>
+            <FavoriteButton id={p.id} name={p.name} className="hairline" />
+          </div>
           <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">{p.name}</h1>
           {p.model && <p className="mt-1 text-lg text-muted-foreground">{p.model}</p>}
           <p className="mt-5 text-2xl font-medium">
             {price ?? <span className="text-lg text-muted-foreground">Consulte disponibilidade</span>}
           </p>
-          {p.status === "vendido" && <p className="mt-2 text-sm font-semibold text-destructive">Este aparelho está esgotado.</p>}
+          <div className="mt-3"><StockBadge status={p.status} /></div>
+          {sold && <p className="mt-2 text-sm font-semibold text-destructive">Este aparelho está esgotado.</p>}
+          {!sold && <InstallmentSimulator price={p.price} />}
 
           {colors.length > 0 && (
             <section className="mt-10 border-t border-border pt-8">
@@ -133,7 +141,11 @@ function ProductPage() {
           {p.description && <p className="mt-6 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">{p.description}</p>}
 
           <div className="mt-10 rounded-3xl bg-card p-6">
-            {colors.length > 0 && !chosenColor ? (
+            {sold ? (
+              <WhatsAppButton variant="outline" message={`Olá! Vi que o ${p.name}${p.storage ? " " + p.storage : ""} está esgotado. Vocês terão novamente?`} className="w-full px-6 py-3.5 text-base">
+                Avisar quando chegar
+              </WhatsAppButton>
+            ) : colors.length > 0 && !chosenColor ? (
               <button type="button" disabled className="w-full cursor-not-allowed rounded-full bg-secondary px-6 py-3.5 text-base text-muted-foreground">
                 {anyAvailable ? "Selecione uma cor para consultar" : "Todas as cores estão esgotadas"}
               </button>

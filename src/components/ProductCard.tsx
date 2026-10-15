@@ -2,25 +2,26 @@ import { Link } from "@tanstack/react-router";
 import { Smartphone, ChevronRight } from "lucide-react";
 import { conditionLabel, formatPrice, parseColors, productMessage, type ProductWithUrls } from "@/lib/products";
 import { whatsappLink } from "@/config/store";
+import { FavoriteButton, StockBadge } from "./FavoriteButton";
 
 export function ProductCard({ p }: { p: ProductWithUrls }) {
+  const sold = p.status !== "disponivel";
   const price = formatPrice(p.price);
   const hasColors = parseColors(p.colors).length > 0;
-  const wa = whatsappLink(productMessage(p));
+  const wa = sold ? null : whatsappLink(productMessage(p));
   return (
-    <article className="group flex flex-col rounded-3xl bg-card p-6 text-center transition-transform duration-500 hover:scale-[1.01]">
+    <article className="group relative flex flex-col rounded-3xl bg-card p-6 text-center transition-transform duration-500 hover:scale-[1.01]">
+      <FavoriteButton id={p.id} name={p.name} className="absolute right-4 top-4 z-10" />
       <Link to="/produto/$id" params={{ id: p.id }} className="block">
         <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-primary">{conditionLabel(p.category)}</p>
         <h3 className="mt-2 text-2xl font-semibold leading-tight">{p.name}</h3>
         {p.storage && <p className="mt-1 text-sm text-muted-foreground">{p.storage}{p.ram ? ` · ${p.ram} RAM` : ""}</p>}
+        <div className="mt-2"><StockBadge status={p.status} /></div>
         <div className="relative mx-auto mt-6 flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-showcase p-4">
           {p.imageUrls[0] ? (
-            <img src={p.imageUrls[0]} alt={p.name} loading="lazy" className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-[1.03]" />
+            <img src={p.imageUrls[0]} alt={p.name} loading="lazy" className={`h-full w-full object-contain transition-transform duration-700 group-hover:scale-[1.03] ${sold ? "opacity-50" : ""}`} />
           ) : (
             <Smartphone className="h-14 w-14 text-muted-foreground" strokeWidth={1} />
-          )}
-          {p.status === "vendido" && (
-            <span className="absolute right-2 top-2 rounded-full bg-destructive px-3 py-1 text-xs font-semibold text-destructive-foreground">Esgotado</span>
           )}
         </div>
       </Link>

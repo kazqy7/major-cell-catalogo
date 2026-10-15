@@ -16,6 +16,7 @@ import { Route as CatalogoRouteImport } from './routes/catalogo'
 import { Route as CompararRouteImport } from './routes/comparar'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as EntrarRouteImport } from './routes/entrar'
+import { Route as FavoritosRouteImport } from './routes/favoritos'
 import { Route as IphonesNovosRouteImport } from './routes/iphones-novos'
 import { Route as IphonesSeminovosRouteImport } from './routes/iphones-seminovos'
 import { Route as SobreRouteImport } from './routes/sobre'
@@ -57,6 +58,11 @@ const ContatoRoute = ContatoRouteImport.update({
 const EntrarRoute = EntrarRouteImport.update({
   id: '/entrar',
   path: '/entrar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritosRoute = FavoritosRouteImport.update({
+  id: '/favoritos',
+  path: '/favoritos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IphonesNovosRoute = IphonesNovosRouteImport.update({
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
   '/entrar': typeof EntrarRoute
+  '/favoritos': typeof FavoritosRoute
   '/iphones-novos': typeof IphonesNovosRoute
   '/iphones-seminovos': typeof IphonesSeminovosRoute
   '/sobre': typeof SobreRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
   '/entrar': typeof EntrarRoute
+  '/favoritos': typeof FavoritosRoute
   '/iphones-novos': typeof IphonesNovosRoute
   '/iphones-seminovos': typeof IphonesSeminovosRoute
   '/sobre': typeof SobreRoute
@@ -137,6 +145,7 @@ export interface FileRoutesById {
   '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
   '/entrar': typeof EntrarRoute
+  '/favoritos': typeof FavoritosRoute
   '/iphones-novos': typeof IphonesNovosRoute
   '/iphones-seminovos': typeof IphonesSeminovosRoute
   '/sobre': typeof SobreRoute
@@ -155,6 +164,7 @@ export interface FileRouteTypes {
     | '/comparar'
     | '/contato'
     | '/entrar'
+    | '/favoritos'
     | '/iphones-novos'
     | '/iphones-seminovos'
     | '/sobre'
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/comparar'
     | '/contato'
     | '/entrar'
+    | '/favoritos'
     | '/iphones-novos'
     | '/iphones-seminovos'
     | '/sobre'
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/comparar'
     | '/contato'
     | '/entrar'
+    | '/favoritos'
     | '/iphones-novos'
     | '/iphones-seminovos'
     | '/sobre'
@@ -204,6 +216,7 @@ export interface RootRouteChildren {
   CompararRoute: typeof CompararRoute
   ContatoRoute: typeof ContatoRoute
   EntrarRoute: typeof EntrarRoute
+  FavoritosRoute: typeof FavoritosRoute
   IphonesNovosRoute: typeof IphonesNovosRoute
   IphonesSeminovosRoute: typeof IphonesSeminovosRoute
   SobreRoute: typeof SobreRoute
@@ -262,6 +275,13 @@ declare module '@tanstack/react-router' {
       path: '/entrar'
       fullPath: '/entrar'
       preLoaderRoute: typeof EntrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favoritos': {
+      id: '/favoritos'
+      path: '/favoritos'
+      fullPath: '/favoritos'
+      preLoaderRoute: typeof FavoritosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/iphones-novos': {
@@ -324,6 +344,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompararRoute: CompararRoute,
   ContatoRoute: ContatoRoute,
   EntrarRoute: EntrarRoute,
+  FavoritosRoute: FavoritosRoute,
   IphonesNovosRoute: IphonesNovosRoute,
   IphonesSeminovosRoute: IphonesSeminovosRoute,
   SobreRoute: SobreRoute,

@@ -10,6 +10,7 @@ import { CATEGORIES, productsQuery } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
 import { catalogError } from "@/components/CategoryPage";
 import { STORE } from "@/config/store";
+import { Reviews } from "@/components/Reviews";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -112,6 +113,8 @@ function Home() {
           ))}
         </div>
       </section>
+
+      <Reviews />
 
       <section className="mx-auto max-w-7xl px-5 pb-20">
         <div className="flex flex-col items-center gap-4 rounded-3xl bg-card p-8 text-center">
