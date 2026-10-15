@@ -12,6 +12,7 @@ const NAV = [
   { to: "/comparar", label: "Comparar" },
   { to: "/troca", label: "Troque seu iPhone" },
   { to: "/assistencia", label: "Assistência Técnica" },
+  { to: "/favoritos", label: "Meus favoritos" },
   { to: "/sobre", label: "Sobre a loja" },
   { to: "/contato", label: "Contato" },
 ] as const;
