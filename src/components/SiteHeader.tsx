@@ -10,6 +10,7 @@ const NAV = [
   { to: "/iphones-seminovos", label: "iPhones seminovos" },
   { to: "/xiaomi", label: "Xiaomi" },
   { to: "/comparar", label: "Comparar" },
+  { to: "/troca", label: "Troque seu iPhone" },
   { to: "/sobre", label: "Sobre a loja" },
   { to: "/contato", label: "Contato" },
 ] as const;
