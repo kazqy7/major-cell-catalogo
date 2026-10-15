@@ -31,9 +31,9 @@ describe("parcelas", () => {
     expect(INSTALLMENTS.monthlyRatePercent).toBe(2.03);
     expect(installmentOptions()).toHaveLength(21);
     const r = simulate(1000, 10)!;
-    // Tabela Price: 1000 * 0.0203 / (1 - 1.0203^-10) ≈ 111,42
-    expect(r.installment).toBe(111.42);
-    expect(r.total).toBe(1114.2);
+    // Tabela Price: 1000 * 0.0203 / (1 - 1.0203^-10) ≈ 111,50
+    expect(r.installment).toBe(111.5);
+    expect(r.total).toBe(1115);
     expect(simulate(1000, 22)).toBeNull();
   });
   it("sem juros confirmado divide o preço", () => {
