@@ -8,7 +8,7 @@ const DESC = "Compare iPhones lado a lado e receba uma recomendação conforme s
 
 export const Route = createFileRoute("/comparar")({
   validateSearch: (s: Record<string, unknown>): { ids?: string } =>
-    typeof s.ids === "string" && s.ids ? { ids: s.ids } : {},
+    typeof s["ids"] === "string" && s["ids"] ? { ids: s["ids"] } : {},
   head: () => ({
     meta: [
       { title: TITLE },
