@@ -178,6 +178,7 @@ function Assistencia() {
             <label className="block text-sm">
               Descrição adicional (opcional)
               <textarea
+                id="repair-details"
                 className={input}
                 rows={4}
                 maxLength={600}
