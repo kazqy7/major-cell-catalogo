@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CatalogoRouteImport } from './routes/catalogo'
+import { Route as CompararRouteImport } from './routes/comparar'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as IphonesNovosRouteImport } from './routes/iphones-novos'
@@ -34,6 +35,11 @@ const AdminRoute = AdminRouteImport.update({
 const CatalogoRoute = CatalogoRouteImport.update({
   id: '/catalogo',
   path: '/catalogo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompararRoute = CompararRouteImport.update({
+  id: '/comparar',
+  path: '/comparar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContatoRoute = ContatoRouteImport.update({
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/catalogo': typeof CatalogoRoute
+  '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
   '/entrar': typeof EntrarRoute
   '/iphones-novos': typeof IphonesNovosRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/catalogo': typeof CatalogoRoute
+  '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
   '/entrar': typeof EntrarRoute
   '/iphones-novos': typeof IphonesNovosRoute
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/catalogo': typeof CatalogoRoute
+  '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
   '/entrar': typeof EntrarRoute
   '/iphones-novos': typeof IphonesNovosRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/catalogo'
+    | '/comparar'
     | '/contato'
     | '/entrar'
     | '/iphones-novos'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/catalogo'
+    | '/comparar'
     | '/contato'
     | '/entrar'
     | '/iphones-novos'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/catalogo'
+    | '/comparar'
     | '/contato'
     | '/entrar'
     | '/iphones-novos'
@@ -164,6 +176,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   CatalogoRoute: typeof CatalogoRoute
+  CompararRoute: typeof CompararRoute
   ContatoRoute: typeof ContatoRoute
   EntrarRoute: typeof EntrarRoute
   IphonesNovosRoute: typeof IphonesNovosRoute
@@ -195,6 +208,13 @@ declare module '@tanstack/react-router' {
       path: '/catalogo'
       fullPath: '/catalogo'
       preLoaderRoute: typeof CatalogoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comparar': {
+      id: '/comparar'
+      path: '/comparar'
+      fullPath: '/comparar'
+      preLoaderRoute: typeof CompararRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contato': {
@@ -260,6 +280,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   CatalogoRoute: CatalogoRoute,
+  CompararRoute: CompararRoute,
   ContatoRoute: ContatoRoute,
   EntrarRoute: EntrarRoute,
   IphonesNovosRoute: IphonesNovosRoute,

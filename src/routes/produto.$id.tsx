@@ -141,6 +141,11 @@ function ProductPage() {
               <WhatsAppButton message={productMessage(p, chosenColor?.name)} className="w-full px-6 py-3.5 text-base" />
             )}
             <p className="mt-3 text-center text-xs text-muted-foreground">Atendimento direto com a Major Cell pelo WhatsApp.</p>
+            {p.category !== "xiaomi" && (
+              <Link to="/comparar" search={{ ids: p.id }} className="mt-4 block text-center text-sm text-primary hover:underline">
+                Comparar com outro iPhone
+              </Link>
+            )}
           </div>
         </div>
       </div>
