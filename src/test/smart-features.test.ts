@@ -26,10 +26,15 @@ describe("filtros", () => {
 });
 
 describe("parcelas", () => {
-  it("sem condições configuradas não simula nada", () => {
-    expect(INSTALLMENTS.maxInstallments).toBe(0);
-    expect(installmentOptions()).toEqual([]);
-    expect(simulate(4799.99, 10)).toBeNull();
+  it("taxa de referência 2,03% a.m. e até 21 parcelas", () => {
+    expect(INSTALLMENTS.maxInstallments).toBe(21);
+    expect(INSTALLMENTS.monthlyRatePercent).toBe(2.03);
+    expect(installmentOptions()).toHaveLength(21);
+    const r = simulate(1000, 10)!;
+    // Tabela Price: 1000 * 0.0203 / (1 - 1.0203^-10) ≈ 111,42
+    expect(r.installment).toBe(111.42);
+    expect(r.total).toBe(1114.2);
+    expect(simulate(1000, 22)).toBeNull();
   });
   it("sem juros confirmado divide o preço", () => {
     expect(simulate(1000, 10, { maxInstallments: 10, monthlyRatePercent: 0 })).toEqual({ installment: 100, total: 1000 });

@@ -12,13 +12,12 @@ export const STORE = {
 };
 
 /**
- * Parcelamento — preencha SOMENTE com as condições reais confirmadas pela loja.
- * maxInstallments: maior número de parcelas (0 = não configurado, o simulador fica oculto com aviso).
- * monthlyRatePercent: juros ao mês em % (0 = sem juros confirmado; null = ainda não informado).
+ * Parcelamento — taxa de REFERÊNCIA estimada (2,03% a.m.), apenas para simulações aproximadas.
+ * NÃO representa a taxa real da maquininha/operadora. Máximo de 21 parcelas (Tabela Price).
  */
 export const INSTALLMENTS = {
-  maxInstallments: 0,
-  monthlyRatePercent: null as number | null,
+  maxInstallments: 21,
+  monthlyRatePercent: 2.03 as number | null,
 };
 
 /**
