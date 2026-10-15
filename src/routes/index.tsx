@@ -46,7 +46,7 @@ function Home() {
       <section className="px-5 pt-16 text-center md:pt-24">
         <p className="text-sm font-medium text-primary">Major Cell</p>
         <h1 className="mx-auto mt-3 max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
-          Encontre seu próximo <span className="text-gold">celular</span>.
+          Encontre seu próximo <span className="text-primary">celular</span>.
         </h1>
         <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground md:text-xl">
           iPhones e Xiaomi com preço na vitrine e atendimento direto pelo WhatsApp.
