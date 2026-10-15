@@ -25,12 +25,17 @@ export function InstallmentSimulator({ price }: { price: number | null }) {
             </select>
           </label>
           {res && (
-            <p className="mt-3 text-sm" aria-live="polite">
-              {n}x de <strong>{formatPrice(res.installment)}</strong>
-              <span className="text-muted-foreground"> · total {formatPrice(res.total)}</span>
-            </p>
+            <div className="mt-3 text-sm" aria-live="polite">
+              <p>
+                {n}x de <strong>{formatPrice(res.installment)}</strong>
+                <span className="text-muted-foreground"> · total estimado {formatPrice(res.total)}</span>
+              </p>
+              <p className="text-muted-foreground">Acréscimo estimado de juros: {formatPrice(Math.round((res.total - price) * 100) / 100)}</p>
+            </div>
           )}
-          <p className="mt-2 text-xs text-muted-foreground">Valores estimados. Condições sujeitas à confirmação da loja pelo WhatsApp.</p>
+          <p className="mt-2 rounded-lg bg-secondary/60 p-2 text-xs text-muted-foreground">
+            Valores meramente estimativos, calculados com base em uma taxa de referência de 2,03% ao mês. As taxas reais podem variar conforme a maquininha, a operadora e a quantidade de parcelas. Consulte as condições finais pelo WhatsApp.
+          </p>
         </>
       )}
     </section>
