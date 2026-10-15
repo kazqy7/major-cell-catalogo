@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowRight, Smartphone, Scale, RefreshCw, Sparkles, MessageCircle } from "lucide-react";
+import { ArrowRight, Smartphone, Scale, RefreshCw, Sparkles, MessageCircle, Wrench } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import catNovo from "@/assets/cat-novo.jpg";
 import catSemi from "@/assets/cat-seminovo.jpg";
@@ -40,6 +40,7 @@ function Home() {
     ...(hasSemi ? [{ to: "/iphones-seminovos", label: "Seminovos", icon: Sparkles }] : []),
     { to: "/comparar", label: "Comparar iPhones", icon: Scale },
     { to: "/troca", label: "Trocar iPhone usado", icon: RefreshCw },
+    { to: "/assistencia", label: "Assistência Técnica", icon: Wrench },
   ] as const;
   return (
     <>
