@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AssistenciaRouteImport } from './routes/assistencia'
 import { Route as CatalogoRouteImport } from './routes/catalogo'
 import { Route as CompararRouteImport } from './routes/comparar'
 import { Route as ContatoRouteImport } from './routes/contato'
@@ -31,6 +32,11 @@ const IndexRoute = IndexRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistenciaRoute = AssistenciaRouteImport.update({
+  id: '/assistencia',
+  path: '/assistencia',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CatalogoRoute = CatalogoRouteImport.update({
@@ -93,6 +99,7 @@ const ApiPublicProductImagePathRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/assistencia': typeof AssistenciaRoute
   '/catalogo': typeof CatalogoRoute
   '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
@@ -108,6 +115,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/assistencia': typeof AssistenciaRoute
   '/catalogo': typeof CatalogoRoute
   '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
@@ -124,6 +132,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/assistencia': typeof AssistenciaRoute
   '/catalogo': typeof CatalogoRoute
   '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/assistencia'
     | '/catalogo'
     | '/comparar'
     | '/contato'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/assistencia'
     | '/catalogo'
     | '/comparar'
     | '/contato'
@@ -171,6 +182,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/assistencia'
     | '/catalogo'
     | '/comparar'
     | '/contato'
@@ -187,6 +199,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  AssistenciaRoute: typeof AssistenciaRoute
   CatalogoRoute: typeof CatalogoRoute
   CompararRoute: typeof CompararRoute
   ContatoRoute: typeof ContatoRoute
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistencia': {
+      id: '/assistencia'
+      path: '/assistencia'
+      fullPath: '/assistencia'
+      preLoaderRoute: typeof AssistenciaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/catalogo': {
@@ -299,6 +319,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  AssistenciaRoute: AssistenciaRoute,
   CatalogoRoute: CatalogoRoute,
   CompararRoute: CompararRoute,
   ContatoRoute: ContatoRoute,
