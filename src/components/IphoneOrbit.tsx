@@ -90,7 +90,7 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
         className="relative h-[300px] touch-pan-y select-none overflow-hidden outline-none sm:h-[400px] lg:h-[440px]"
         style={{ perspective: narrow ? "800px" : "1400px" }}
       >
-        <div className="absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
+        <div className="pointer-events-none absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
           {GENERATIONS.map((item, i) => {
             const d = i - active;
             const theta = (d * STEP * Math.PI) / 180;
