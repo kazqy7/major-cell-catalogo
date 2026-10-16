@@ -75,7 +75,7 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
       battery_health: f.category === "iphone_seminovo" ? battery : null,
       price: f.price ? Number(f.price) : null,
       description: f.description.trim() || null,
-      status: f.status as "disponivel" | "vendido",
+      status: f.status as "disponivel" | "vendido" | "em_breve",
       images: imgs.map((i) => i.path),
       colors: colors.map((c) => ({ name: c.name.trim(), image: c.image, available: c.available })).filter((c) => c.name),
     };
@@ -104,7 +104,7 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
           </label>
           <label className="space-y-1 text-sm">Disponibilidade
             <select className={inp} value={f.status} onChange={set("status")}>
-              <option value="disponivel">Disponível</option><option value="vendido">Esgotado / vendido</option>
+              <option value="disponivel">Disponível</option><option value="vendido">Esgotado / vendido</option><option value="em_breve">Em breve (lançamento)</option>
             </select>
           </label>
           <label className="space-y-1 text-sm">Nome *<input required className={inp} value={f.name} onChange={set("name")} placeholder="Ex.: iPhone 15" /></label>

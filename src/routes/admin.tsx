@@ -122,6 +122,7 @@ function Dashboard({ email }: { email: string }) {
           <option value="">Toda disponibilidade</option>
           <option value="disponivel">Disponíveis</option>
           <option value="vendido">Vendidos</option>
+          <option value="em_breve">Em breve</option>
         </select>
       </div>
 
@@ -149,7 +150,7 @@ function Dashboard({ email }: { email: string }) {
                 </div>
                 <p className="w-32 text-sm font-semibold text-primary">{formatPrice(p.price) ?? "—"}</p>
                 <button onClick={() => toggle(p)} className={`rounded-full px-3 py-1 text-xs font-semibold ${p.status === "vendido" ? "bg-destructive/20 text-destructive" : "bg-success/15 text-success"}`}>
-                  {p.status === "vendido" ? "Vendido" : "Disponível"}
+                  {p.status === "vendido" ? "Vendido" : p.status === "em_breve" ? "Em breve" : "Disponível"}
                 </button>
                 <button onClick={() => setEditing(p)} className="rounded-full p-2 hairline hover:text-primary" aria-label="Editar"><Pencil className="h-4 w-4" /></button>
                 <button onClick={() => remove(p)} className="rounded-full p-2 hairline hover:text-destructive" aria-label="Excluir"><Trash2 className="h-4 w-4" /></button>

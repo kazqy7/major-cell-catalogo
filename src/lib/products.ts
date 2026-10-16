@@ -35,6 +35,25 @@ function withUrls(products: Product[]): ProductWithUrls[] {
   }));
 }
 
+export const isComingSoon = (p: Pick<Product, "status">) => p.status === "em_breve";
+
+/** WhatsApp text for a launch that the store has not priced or stocked yet. */
+export const comingSoonMessage = (p: Pick<Product, "name">, color?: string | null) =>
+  `Olá! Gostaria de saber sobre o lançamento ${p.name}${color ? ` na cor ${color}` : ""}. Vocês terão esse modelo? Qual será o preço?`;
+
+/** Coming-soon launches: shown separately, never counted as stock. */
+export const comingSoonQuery = () =>
+  queryOptions({
+    queryKey: ["products", "em_breve"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("products").select("*").eq("status", "em_breve")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return withUrls(data ?? []);
+    },
+  });
+
 export const productsQuery = (opts: { includeSold?: boolean } = {}) =>
   queryOptions({
     queryKey: ["products", opts.includeSold ? "all" : "available"],
