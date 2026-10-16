@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CategoryPage, catalogError } from "@/components/CategoryPage";
-import { productsQuery } from "@/lib/products";
+import { comingSoonQuery, productsQuery } from "@/lib/products";
 
 export const Route = createFileRoute("/iphones-seminovos")({
   head: () => ({
@@ -11,7 +11,7 @@ export const Route = createFileRoute("/iphones-seminovos")({
       { property: "og:description", content: "iPhones seminovos selecionados e revisados, com saúde de bateria informada." },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery()),
+  loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(productsQuery()), context.queryClient.ensureQueryData(comingSoonQuery())]),
   errorComponent: catalogError,
   component: () => <CategoryPage eyebrow="Catálogo" title="iPhones seminovos" subtitle="iPhones seminovos selecionados e revisados, com saúde de bateria informada." category="iphone_seminovo" />,
 });

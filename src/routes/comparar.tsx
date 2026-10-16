@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { productsQuery } from "@/lib/products";
+import { comingSoonQuery, productsQuery } from "@/lib/products";
 import { catalogError } from "@/components/CategoryPage";
 import { CompareTable } from "@/components/CompareTable";
 
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/comparar")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery()),
+  loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(productsQuery()), context.queryClient.ensureQueryData(comingSoonQuery())]),
   errorComponent: catalogError,
   component: CompareTable,
 });
