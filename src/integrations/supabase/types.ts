@@ -27,6 +27,9 @@ export type Database = {
           images: string[]
           model: string | null
           name: string
+          offer_active: boolean
+          offer_ends_at: string | null
+          offer_price: number | null
           photo_colors: Json
           price: number | null
           ram: string | null
@@ -47,6 +50,9 @@ export type Database = {
           images?: string[]
           model?: string | null
           name: string
+          offer_active?: boolean
+          offer_ends_at?: string | null
+          offer_price?: number | null
           photo_colors?: Json
           price?: number | null
           ram?: string | null
@@ -67,6 +73,9 @@ export type Database = {
           images?: string[]
           model?: string | null
           name?: string
+          offer_active?: boolean
+          offer_ends_at?: string | null
+          offer_price?: number | null
           photo_colors?: Json
           price?: number | null
           ram?: string | null

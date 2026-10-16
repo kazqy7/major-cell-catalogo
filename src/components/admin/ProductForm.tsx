@@ -20,6 +20,9 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
     price: product?.price?.toString() ?? "",
     description: product?.description ?? "",
     status: product?.status ?? "disponivel",
+    offer_active: product?.offer_active ? "1" : "0",
+    offer_price: product?.offer_price?.toString() ?? "",
+    offer_ends_at: product?.offer_ends_at ? new Date(product.offer_ends_at).toISOString().slice(0, 10) : "",
   });
   const [imgs, setImgs] = useState<Img[]>(product ? product.images.map((p, i) => ({ path: p, url: product.imageUrls[i] ?? "" })) : []);
   const [colors, setColors] = useState<ProductColor[]>(parseColors(product?.colors));
@@ -63,8 +66,14 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
     e.preventDefault();
     const battery = f.battery_health ? Number(f.battery_health) : null;
     if (battery != null && (battery < 0 || battery > 100)) { toast.error("Saúde da bateria deve estar entre 0 e 100."); return; }
+    const offerOn = f.offer_active === "1";
+    if (offerOn && !f.offer_price) { toast.error("Informe o preço promocional para ativar a oferta."); return; }
     setSaving(true);
     const row = {
+      offer_active: offerOn,
+      offer_price: f.offer_price ? Number(f.offer_price) : null,
+      // End of the chosen day, Brasília time.
+      offer_ends_at: f.offer_ends_at ? new Date(`${f.offer_ends_at}T23:59:59-03:00`).toISOString() : null,
       category: f.category,
       name: f.name.trim(),
       brand: f.brand.trim() || null,
@@ -127,6 +136,16 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
         <label className="block space-y-1 text-sm">Descrição
           <textarea rows={4} className={inp + " h-auto py-2"} value={f.description} onChange={set("description")} />
         </label>
+        <fieldset className="grid gap-3 rounded-xl hairline p-3 sm:grid-cols-3">
+          <legend className="px-1 text-sm text-primary">Oferta (página Ofertas)</legend>
+          <label className="space-y-1 text-sm">Situação
+            <select className={inp} value={f.offer_active} onChange={set("offer_active")}>
+              <option value="0">Desativada</option><option value="1">Ativa</option>
+            </select>
+          </label>
+          <label className="space-y-1 text-sm">Preço promocional (R$)<input type="number" step="0.01" min="0" className={inp} value={f.offer_price} onChange={set("offer_price")} /></label>
+          <label className="space-y-1 text-sm">Término (opcional)<input type="date" className={inp} value={f.offer_ends_at} onChange={set("offer_ends_at")} /></label>
+        </fieldset>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <p className="text-sm">Cores do aparelho <span className="text-muted-foreground">(opcional)</span></p>
