@@ -63,6 +63,7 @@ function List() {
               {old && <p className="text-sm text-muted-foreground line-through">{old}</p>}
               <p className="text-2xl font-semibold text-primary">{formatPrice(p.offer_price)}</p>
               {p.offer_ends_at && <p className="mt-1 text-xs text-muted-foreground">Válida até {new Date(p.offer_ends_at).toLocaleDateString("pt-BR")}</p>}
+              {p.status === "disponivel" && <p className="mt-1 text-xs text-muted-foreground">Enquanto durar o estoque</p>}
             </div>
             <WhatsAppButton className="mt-5" message={offerMessage(p)}>Consultar oferta no WhatsApp</WhatsAppButton>
           </article>
