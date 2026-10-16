@@ -112,16 +112,47 @@ export function parsePhotoColors(raw: unknown): PhotoColor[] {
     .filter((c) => c.name && c.images.length > 0);
 }
 
+/** Shared template for the WhatsApp consultation message of a device. */
+export const waDeviceMessage = (d: {
+  name: string;
+  seminovo?: boolean;
+  storage?: string | null;
+  color?: string | null;
+  price?: number | null;
+}) => {
+  const lines: (string | null)[] = [
+    "Olá! Tudo bem? Gostaria de saber mais sobre este aparelho da Major Cell:",
+    "",
+    `📱 ${d.name}${d.seminovo ? " (Seminovo)" : ""}`,
+    d.storage ? `💾 Armazenamento: ${d.storage}` : null,
+    d.color ? `🎨 Cor: ${d.color}` : null,
+    d.price != null ? `💰 Preço: ${formatPrice(d.price)}` : null,
+    "",
+    "Tenho interesse em comprar e gostaria de conhecer as condições de pagamento e a disponibilidade.",
+    "",
+    "Pode me ajudar a encontrar a melhor opção para fechar negócio?",
+    "",
+    "Aguardo seu retorno!",
+  ];
+  return lines.filter((l): l is string => l !== null).join("\n");
+};
+
 export const productMessage = (
-  p: Pick<Product, "name" | "model" | "storage" | "color" | "price" | "description" | "ram">,
+  p: Pick<Product, "name" | "model" | "storage" | "color" | "price" | "description" | "ram"> &
+    Partial<Pick<Product, "category" | "offer_active" | "offer_price" | "offer_ends_at">>,
   chosenColor?: string | null,
 ) => {
-  const parts = [p.name, p.model, p.storage].filter(Boolean).join(" ");
-  const ram = p.ram ? `${p.ram} RAM` : p.description?.match(/\d+\s*GB\s*RAM/i)?.[0];
-  const color = chosenColor ? `cor ${chosenColor}` : p.color;
-  const detail = [parts, color, ram].filter(Boolean).join(" · ");
-  const price = formatPrice(p.price);
-  return `Olá! Tenho interesse no ${detail}${price ? `, anunciado por ${price}` : ""}. Ele está disponível?`;
+  const offerLive =
+    p.offer_active === true &&
+    p.offer_price != null &&
+    (!p.offer_ends_at || new Date(p.offer_ends_at).getTime() > Date.now());
+  return waDeviceMessage({
+    name: p.name,
+    seminovo: p.category === "iphone_seminovo",
+    storage: p.storage,
+    color: chosenColor ?? p.color,
+    price: offerLive ? p.offer_price : p.price,
+  });
 };
 
 /** Generation (iPhone) or family (Redmi/Xiaomi) used to group the catalog. */
