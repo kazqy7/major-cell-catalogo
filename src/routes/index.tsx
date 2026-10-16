@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, Smartphone, Scale, RefreshCw, Sparkles, MessageCircle, Wrench } from "lucide-react";
 import hero from "@/assets/hero.jpg";
+import heroPhone from "@/assets/hero-iphone17promax-deepblue.png.asset.json";
 import catSemi from "@/assets/cat-seminovo.jpg";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CATEGORIES, comingSoonQuery, productsQuery } from "@/lib/products";
@@ -71,14 +72,15 @@ function Home() {
               </WhatsAppButton>
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
+          <div className="relative mx-auto w-full max-w-sm py-4 lg:max-w-none">
             <img
-              src={LAUNCH_IMG}
-              alt="iPhone 18 Pro na cor burgundy, foto oficial da Apple"
-              width={1024}
-              height={1024}
+              src={heroPhone.url}
+              alt="iPhone 17 Pro Max azul-profundo, foto oficial da Apple"
+              width={704}
+              height={900}
               fetchPriority="high"
-              className="relative mx-auto w-full max-w-sm object-contain animate-in fade-in duration-1000 lg:max-w-lg [mask-image:radial-gradient(75%_75%_at_50%_50%,black_80%,transparent_100%)]"
+              onError={(e) => { e.currentTarget.style.display = "none"; }}
+              className="relative mx-auto h-auto w-full max-w-[16rem] object-contain animate-in fade-in duration-700 drop-shadow-[0_30px_40px_rgba(0,0,0,0.6)] sm:max-w-xs lg:max-w-sm"
             />
           </div>
         </div>
