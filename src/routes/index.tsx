@@ -3,6 +3,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, Smartphone, Scale, RefreshCw, Sparkles, MessageCircle, Wrench } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import heroPhone from "@/assets/hero-iphone17promax-deepblue.png.asset.json";
+// hero photo: official Apple image, white background removed only
 import catSemi from "@/assets/cat-seminovo.jpg";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CATEGORIES, comingSoonQuery, productsQuery } from "@/lib/products";
