@@ -182,7 +182,7 @@ function ProductPage() {
                   );
                 })}
               </div>
-              <p className="mt-4 text-xs text-muted-foreground">Cores oficiais do modelo. Confirme a disponibilidade da cor pelo WhatsApp.</p>
+              <p className="mt-4 text-xs text-muted-foreground">{p.category === "xiaomi" ? "Cores ilustrativas das versões oficiais. Confirme a disponibilidade da cor pelo WhatsApp." : "Cores oficiais do modelo. Confirme a disponibilidade da cor pelo WhatsApp."}</p>
             </section>
           )}
 
