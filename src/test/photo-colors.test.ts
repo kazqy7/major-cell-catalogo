@@ -9,9 +9,9 @@ describe("photo colors", () => {
       { name: "", images: ["official/c.jpg"] },
     ]);
     expect(r.map((c) => c.name)).toEqual(["Rosa"]);
-    expect(r[0].images).toHaveLength(2);
+    expect(r[0]!.images).toHaveLength(2);
   });
   it("ignores invalid hex values", () => {
-    expect(parsePhotoColors([{ name: "X", hex: "red", images: ["official/a.jpg"] }])[0].hex).toBeNull();
+    expect(parsePhotoColors([{ name: "X", hex: "red", images: ["official/a.jpg"] }])[0]!.hex).toBeNull();
   });
 });
