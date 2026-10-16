@@ -51,15 +51,16 @@ function Home() {
   ] as const;
   return (
     <>
-      <section className="mx-auto max-w-7xl px-5 pt-14 md:pt-20">
+      <section className="relative mx-auto max-w-7xl px-5 pt-14 md:pt-20">
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_75%_40%,color-mix(in_oklab,var(--primary)_18%,transparent),transparent_70%)]" />
         <div className="grid items-center gap-10 text-center lg:grid-cols-2 lg:gap-6 lg:text-left">
           <div>
-            <p className="text-sm font-medium text-primary">Major Cell</p>
-            <h1 className="mx-auto mt-3 max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl lg:mx-0">
-              Encontre seu próximo <span className="text-primary">celular</span>.
+            <p className="text-xs font-medium uppercase tracking-[0.3em] text-primary">Major Cell</p>
+            <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:mx-0">
+              Seu próximo iPhone. <span className="text-primary">Uma experiência superior.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground md:text-xl lg:mx-0">
-              iPhones e Xiaomi com preço na vitrine e atendimento direto pelo WhatsApp.
+              Tecnologia, confiança e atendimento personalizado para você escolher seu próximo aparelho.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
               <Link to="/iphones-novos" className="rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground">
@@ -70,14 +71,15 @@ function Home() {
               </WhatsAppButton>
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div aria-hidden className="absolute inset-8 rounded-full bg-primary/10 blur-3xl" />
+          <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
+            <div aria-hidden className="absolute inset-[15%] rounded-full bg-primary/20 blur-3xl" />
             <img
-              src={official("official/g-17pm-cosmicorange-1.jpg")}
-              alt="iPhone 17 Pro Max na cor laranja cósmico"
+              src={LAUNCH_IMG}
+              alt="iPhone 18 Pro na cor burgundy, foto oficial da Apple"
               width={1024}
               height={1024}
-              className="relative mx-auto w-full max-w-sm rounded-3xl object-contain lg:max-w-md"
+              fetchPriority="high"
+              className="relative mx-auto w-full max-w-sm object-contain animate-in fade-in duration-1000 lg:max-w-lg [mask-image:radial-gradient(closest-side,black_70%,transparent)]"
             />
           </div>
         </div>
