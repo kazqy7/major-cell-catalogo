@@ -6,7 +6,7 @@ import catNovo from "@/assets/cat-novo.jpg";
 import catSemi from "@/assets/cat-seminovo.jpg";
 import catXiaomi from "@/assets/cat-xiaomi.jpg";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { CATEGORIES, productsQuery } from "@/lib/products";
+import { CATEGORIES, comingSoonQuery, productsQuery } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
 import { catalogError } from "@/components/CategoryPage";
 import { STORE } from "@/config/store";
