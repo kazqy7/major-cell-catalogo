@@ -54,16 +54,16 @@ function Home() {
     <>
       <section className="relative mx-auto max-w-7xl px-5 pt-14 md:pt-20">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(45%_55%_at_78%_45%,color-mix(in_oklab,var(--primary)_7%,transparent),transparent_75%)]" />
-        <div className="grid items-center gap-10 text-center lg:grid-cols-2 lg:gap-6 lg:text-left">
+        <div className="grid items-center gap-8 text-center">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.3em] text-primary">Major Cell</p>
-            <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:mx-0">
+            <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl ">
               Seu próximo iPhone. <span className="text-primary">Uma experiência superior.</span>
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground md:text-xl lg:mx-0">
+            <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground md:text-xl ">
               Tecnologia, confiança e atendimento personalizado para você escolher seu próximo aparelho.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link to="/iphones-novos" className="rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground">
                 Ver iPhones
               </Link>
