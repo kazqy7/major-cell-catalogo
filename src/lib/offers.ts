@@ -1,4 +1,4 @@
-import { formatPrice, type Product } from "@/lib/products";
+import { waDeviceMessage, type Product } from "@/lib/products";
 
 type OfferFields = Pick<Product, "offer_active" | "offer_price" | "offer_ends_at" | "status">;
 
@@ -9,8 +9,8 @@ export function isOfferLive(p: OfferFields, now: Date = new Date()): boolean {
   return true;
 }
 
-export function offerMessage(p: Pick<Product, "name" | "model" | "storage" | "ram" | "offer_price">): string {
-  const detail = [[p.name, p.model, p.storage].filter(Boolean).join(" "), p.ram ? `${p.ram} RAM` : null].filter(Boolean).join(" · ");
-  const price = formatPrice(p.offer_price);
-  return `Olá! Vi a oferta do ${detail}${price ? ` por ${price}` : ""} no site da Major Cell. Ela ainda está válida?`;
+export function offerMessage(
+  p: Pick<Product, "name" | "model" | "storage" | "ram" | "offer_price">,
+): string {
+  return waDeviceMessage({ name: p.name, storage: p.storage, price: p.offer_price });
 }
