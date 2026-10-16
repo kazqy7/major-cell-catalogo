@@ -3,21 +3,29 @@ import { INSTALLMENTS } from "@/config/store";
 export type InstallmentConfig = {
   /** Maior número de parcelas confirmado pela loja. 0 = não configurado. */
   maxInstallments: number;
-  /** Juros ao mês em % (ex.: 2.99). 0 = sem juros confirmado. null = não informado. */
-  monthlyRatePercent: number | null;
+  /** Taxas da maquininha em % por número de parcelas (índice 0 = 1x). null = não informado. */
+  rates: (number | null)[];
 };
 
 export const isConfigured = (c: InstallmentConfig = INSTALLMENTS) =>
-  c.maxInstallments >= 1 && c.monthlyRatePercent != null && c.monthlyRatePercent >= 0;
+  c.maxInstallments >= 1 && c.rates.some((r) => r != null && r >= 0);
 
 export const installmentOptions = (c: InstallmentConfig = INSTALLMENTS) =>
-  isConfigured(c) ? Array.from({ length: Math.floor(c.maxInstallments) }, (_, i) => i + 1) : [];
+  isConfigured(c)
+    ? Array.from({ length: Math.floor(c.maxInstallments) }, (_, i) => i + 1).filter(
+        (n) => c.rates[n - 1] != null,
+      )
+    : [];
 
-/** Valor da parcela e total. Sem configuração válida, retorna null (nada é presumido). */
+/**
+ * Valor da parcela e total com repasse da taxa da maquininha ao cliente:
+ * total = preço ÷ (1 − taxa); parcela = total ÷ n. Sem configuração válida, retorna null.
+ */
 export function simulate(price: number | null, n: number, c: InstallmentConfig = INSTALLMENTS) {
   if (price == null || price <= 0 || !isConfigured(c) || n < 1 || n > c.maxInstallments) return null;
-  const r = (c.monthlyRatePercent as number) / 100;
-  const raw = r === 0 ? price / n : (price * r) / (1 - Math.pow(1 + r, -n));
-  const installment = Math.round(raw * 100) / 100;
-  return { installment, total: Math.round(installment * n * 100) / 100 };
+  const rate = c.rates[n - 1];
+  if (rate == null || rate < 0 || rate >= 100) return null;
+  const total = Math.round((price / (1 - rate / 100)) * 100) / 100;
+  const installment = Math.round((total / n) * 100) / 100;
+  return { installment, total };
 }

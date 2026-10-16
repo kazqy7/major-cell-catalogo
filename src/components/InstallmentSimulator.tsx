@@ -34,7 +34,7 @@ export function InstallmentSimulator({ price }: { price: number | null }) {
             </div>
           )}
           <p className="mt-2 rounded-lg bg-secondary/60 p-2 text-xs text-muted-foreground">
-            Valores meramente estimativos, calculados com base em uma taxa de referência de 2,03% ao mês. As taxas reais podem variar conforme a maquininha, a operadora e a quantidade de parcelas. Consulte as condições finais pelo WhatsApp.
+            Valores estimados com as taxas da maquininha Mastercard, já com o acréscimo repassado ao cliente. As condições finais podem variar; confirme pelo WhatsApp.
           </p>
         </>
       )}
