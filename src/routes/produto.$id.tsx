@@ -190,7 +190,7 @@ function ProductPage() {
             <Row k="Condição" v={conditionLabel(p.category)} />
             <Row k="Armazenamento" v={p.storage} />
             <Row k="Memória RAM" v={p.ram} />
-            {colors.length === 0 && <Row k="Cor" v={p.color} />}
+            {colors.length === 0 && !usePhotoColors && <Row k="Cor" v={p.color} />}
             {p.category === "iphone_seminovo" && <Row k="Saúde da bateria" v={p.battery_health != null ? `${p.battery_health}%` : null} />}
           </section>
           {p.description && <p className="mt-6 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">{p.description}</p>}
