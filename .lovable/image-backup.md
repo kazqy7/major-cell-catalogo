@@ -19,3 +19,6 @@ Arquivos antigos continuam no armazenamento; para voltar, recoloque o caminho no
 - Redmi Note 15: official/redmi-note-15.jpg
 - Redmi Note 15 Pro NFC: official/redmi-note-15-pro-nfc.jpg
 - Redmi Note 15 Pro 5G: official/redmi-note-15-pro-5g.jpg
+
+## Out/2026 — galeria por cor
+Antes da galeria, cada iPhone tinha apenas a foto "official/mfr-<modelo>.jpg" (ex.: official/mfr-iphone-16.jpg). Esses arquivos continuam no armazenamento.
