@@ -5,8 +5,8 @@ export function SiteFooter() {
   return (
     <footer className="mt-24 border-t border-border">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-3">
-        <div className="space-y-3">
-          <Logo />
+        <div className="space-y-4">
+          <Logo className="h-7 w-auto" />
           <p className="max-w-xs text-sm text-muted-foreground">
             iPhones novos, seminovos selecionados e Xiaomi, com atendimento de confiança.
           </p>
