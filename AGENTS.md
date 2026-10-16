@@ -15,3 +15,4 @@
 - Product images are stored in a private bucket; read via signed URLs in `src/lib/products.ts` because the workspace blocks public buckets.
 - Admin access is gated by `user_roles` + `has_role()` RLS; the first account ever created becomes admin via a DB trigger, so no credentials live in code.
 - Category pages share one `Catalog` component with a fixed category, so filters behave identically everywhere.
+- products.photo_colors (jsonb [{name,hex,images}]) holds official per-color gallery photos and is visual only; stock-bound colors stay in products.colors. Why: the owner has not confirmed stock per color, so photo colors must never block or permit purchase.
