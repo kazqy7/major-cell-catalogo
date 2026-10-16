@@ -151,7 +151,7 @@ export const productMessage = (
     seminovo: p.category === "iphone_seminovo",
     storage: p.storage,
     color: chosenColor ?? p.color,
-    price: offerLive ? p.offer_price : p.price,
+    price: offerLive && p.offer_price != null ? p.offer_price : p.price,
   });
 };
 
