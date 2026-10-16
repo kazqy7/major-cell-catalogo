@@ -19,8 +19,9 @@ import i2022 from "@/assets/evo/2022.png.asset.json";
 import i2023 from "@/assets/evo/2023.png.asset.json";
 import i2024 from "@/assets/evo/2024.png.asset.json";
 import i2025 from "@/assets/evo/2025.png.asset.json";
-import i2026pro from "@/assets/evo/2026pro.jpg.asset.json";
-import i2026duo from "@/assets/evo/2026duo.png.asset.json";
+import i2026pro from "@/assets/evo/2026pro-new.png.asset.json";
+import i2026duo from "@/assets/evo/2026duo-new.png.asset.json";
+import i2025air from "@/assets/evo/2025air.png.asset.json";
 
 // Chronological iPhone generations. Images: Wikimedia Commons (2007–2020, CC licences) and official Apple photos (2021+).
 // `match` = catalog product name to link to, when the store carries that line.
@@ -43,6 +44,7 @@ export const GENERATIONS = [
   { name: "iPhone 15", year: 2023, img: i2023.url, match: "iPhone 15", text: "Dynamic Island na linha inicial e conector USB-C." },
   { name: "iPhone 16", year: 2024, img: i2024.url, match: "iPhone 16", text: "Botão Controle da Câmera e chip preparado para Apple Intelligence." },
   { name: "iPhone 17 Pro Max", year: 2025, img: i2025.url, match: "iPhone 17 Pro Max", text: "Novo design em alumínio e o sistema de câmeras Pro mais avançado." },
+  { name: "iPhone Air", year: 2025, img: i2025air.url, text: "O iPhone mais fino já feito, com uma única câmera traseira." },
   { name: "iPhone 18 Pro", year: 2026, img: i2026pro.url, match: "iPhone 18 Pro", text: "A nova geração Pro anunciada pela Apple em setembro de 2026." },
   { name: "iPhone Duo", year: 2026, img: i2026duo.url, match: "iPhone Duo", text: "O primeiro iPhone dobrável, apresentado pela Apple em 2026." },
 ] as const;
