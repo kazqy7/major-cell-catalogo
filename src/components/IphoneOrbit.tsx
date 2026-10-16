@@ -54,7 +54,7 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
   }, []);
 
   const go = (d: number) => setActive((a) => Math.min(last, Math.max(0, a + d)));
-  const g = GENERATIONS[active];
+  const g = GENERATIONS[active] ?? GENERATIONS[last]!;
   const product = "match" in g ? products.find((p) => p.name === g.match) : undefined;
 
   const R = narrow ? 260 : 560; // orbit radius (px)
