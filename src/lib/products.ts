@@ -78,6 +78,21 @@ export function parseColors(raw: unknown): ProductColor[] {
 
 export const colorImageUrl = (path: string) => imageUrl(path);
 
+/** Official photo colors: visual only, never tied to stock. */
+export type PhotoColor = { name: string; hex: string | null; images: string[] };
+
+export function parsePhotoColors(raw: unknown): PhotoColor[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((c): c is { name?: unknown; hex?: unknown; images?: unknown } => !!c && typeof c === "object")
+    .map((c) => ({
+      name: typeof c.name === "string" ? c.name.trim() : "",
+      hex: typeof c.hex === "string" && /^#[0-9a-f]{6}$/i.test(c.hex) ? c.hex : null,
+      images: Array.isArray(c.images) ? c.images.filter((i): i is string => typeof i === "string" && !!i).map(imageUrl) : [],
+    }))
+    .filter((c) => c.name && c.images.length > 0);
+}
+
 export const productMessage = (
   p: Pick<Product, "name" | "model" | "storage" | "color" | "price" | "description" | "ram">,
   chosenColor?: string | null,
