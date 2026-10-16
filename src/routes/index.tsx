@@ -52,7 +52,7 @@ function Home() {
   return (
     <>
       <section className="relative mx-auto max-w-7xl px-5 pt-14 md:pt-20">
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_75%_40%,color-mix(in_oklab,var(--primary)_18%,transparent),transparent_70%)]" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(45%_55%_at_78%_45%,color-mix(in_oklab,var(--primary)_7%,transparent),transparent_75%)]" />
         <div className="grid items-center gap-10 text-center lg:grid-cols-2 lg:gap-6 lg:text-left">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.3em] text-primary">Major Cell</p>
@@ -72,14 +72,13 @@ function Home() {
             </div>
           </div>
           <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
-            <div aria-hidden className="absolute inset-[15%] rounded-full bg-primary/20 blur-3xl" />
             <img
               src={LAUNCH_IMG}
               alt="iPhone 18 Pro na cor burgundy, foto oficial da Apple"
               width={1024}
               height={1024}
               fetchPriority="high"
-              className="relative mx-auto w-full max-w-sm object-contain animate-in fade-in duration-1000 lg:max-w-lg [mask-image:radial-gradient(closest-side,black_70%,transparent)]"
+              className="relative mx-auto w-full max-w-sm object-contain animate-in fade-in duration-1000 lg:max-w-lg [mask-image:radial-gradient(75%_75%_at_50%_50%,black_80%,transparent_100%)]"
             />
           </div>
         </div>
