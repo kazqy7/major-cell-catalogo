@@ -26,26 +26,32 @@ describe("filtros", () => {
 });
 
 describe("parcelas", () => {
-  it("taxa de referência 2,03% a.m. e até 21 parcelas", () => {
+  it("usa as taxas reais da maquininha Mastercard até 21x", () => {
     expect(INSTALLMENTS.maxInstallments).toBe(21);
-    expect(INSTALLMENTS.monthlyRatePercent).toBe(2.03);
+    expect(INSTALLMENTS.rates).toHaveLength(21);
+    expect(INSTALLMENTS.rates[0]).toBe(3.09);
+    expect(INSTALLMENTS.rates[20]).toBe(18.41);
     expect(installmentOptions()).toHaveLength(21);
-    const r = simulate(1000, 10)!;
-    // Tabela Price: 1000 * 0.0203 / (1 - 1.0203^-10) ≈ 111,50
-    expect(r.installment).toBe(111.5);
-    expect(r.total).toBe(1115);
     expect(simulate(1000, 22)).toBeNull();
   });
-  it("sem juros confirmado divide o preço", () => {
-    expect(simulate(1000, 10, { maxInstallments: 10, monthlyRatePercent: 0 })).toEqual({ installment: 100, total: 1000 });
+  it("repassa a taxa ao cliente: total = preço ÷ (1 − taxa)", () => {
+    // 1x: 1000 / (1 − 0,0309) ≈ 1031,88
+    const a = simulate(1000, 1)!;
+    expect(a.total).toBe(1031.88);
+    expect(a.installment).toBe(1031.88);
+    // 12x: 1000 / (1 − 0,118) ≈ 1133,79; parcela ≈ 94,48
+    const b = simulate(1000, 12)!;
+    expect(b.total).toBe(1133.79);
+    expect(b.installment).toBe(94.48);
   });
-  it("com juros aplica a taxa configurada", () => {
-    const r = simulate(1000, 2, { maxInstallments: 12, monthlyRatePercent: 10 })!;
-    expect(r.installment).toBe(576.19);
-    expect(r.total).toBe(1152.38);
+  it("aplica a taxa configurada para outras tabelas", () => {
+    const r = simulate(1000, 2, { maxInstallments: 12, rates: [5, 10] })!;
+    expect(r.total).toBe(1111.11);
+    expect(r.installment).toBe(555.56);
   });
-  it("não permite parcelas acima do máximo", () => {
-    expect(simulate(1000, 13, { maxInstallments: 12, monthlyRatePercent: 0 })).toBeNull();
+  it("não permite parcelas acima do máximo ou sem taxa", () => {
+    expect(simulate(1000, 13, { maxInstallments: 12, rates: Array(12).fill(5) })).toBeNull();
+    expect(simulate(1000, 3, { maxInstallments: 12, rates: [5, null, 5] })).toBeNull();
   });
 });
 
