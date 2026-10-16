@@ -51,7 +51,7 @@ export function ProductCard({ p }: { p: ProductWithUrls }) {
               <Link to="/produto/$id" params={{ id: p.id }} className="text-xs text-muted-foreground hover:text-primary">+{extra}</Link>
             )}
           </div>
-          <p className="h-4 text-[11px] text-muted-foreground" aria-live="polite">{sel != null ? photoColors[sel].name : ""}</p>
+          <p className="h-4 text-[11px] text-muted-foreground" aria-live="polite">{sel != null ? photoColors[sel]?.name : ""}</p>
         </div>
       )}
       <p className={`${shown.length ? "mt-3" : "mt-6"} text-lg font-medium`}>
