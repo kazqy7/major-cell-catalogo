@@ -11,9 +11,11 @@ describe("ofertas", () => {
   it("término futuro aparece", () => expect(isOfferLive({ ...base, offer_ends_at: "2026-10-20T00:00:00Z" }, now)).toBe(true));
   it("sem preço promocional não aparece", () => expect(isOfferLive({ ...base, offer_price: null }, now)).toBe(false));
   it("vendido não aparece", () => expect(isOfferLive({ ...base, status: "vendido" }, now)).toBe(false));
-  it("mensagem inclui aparelho e preço", () => {
+  it("mensagem da oferta segue o modelo oficial com o preço promocional", () => {
     const m = offerMessage({ name: "iPhone 15", model: null, storage: "128 GB", ram: null, offer_price: 4999 });
-    expect(m).toContain("iPhone 15 128 GB");
-    expect(m).toContain("R$");
+    expect(m).toContain("📱 iPhone 15");
+    expect(m).toContain("💾 Armazenamento: 128 GB");
+    expect(m).toContain("💰 Preço: R$\u00a04.999,00");
+    expect(m).toContain("Aguardo seu retorno!");
   });
 });
