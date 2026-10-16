@@ -77,6 +77,33 @@ export type Database = {
         }
         Relationships: []
       }
+      store_reviews: {
+        Row: {
+          comment: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          ip_hash: string | null
+          rating: number
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          ip_hash?: string | null
+          rating: number
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          ip_hash?: string | null
+          rating?: number
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
