@@ -51,23 +51,37 @@ function Home() {
   ] as const;
   return (
     <>
-      <section className="px-5 pt-16 text-center md:pt-24">
-        <p className="text-sm font-medium text-primary">Major Cell</p>
-        <h1 className="mx-auto mt-3 max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
-          Encontre seu próximo <span className="text-primary">celular</span>.
-        </h1>
-        <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground md:text-xl">
-          iPhones e Xiaomi com preço na vitrine e atendimento direto pelo WhatsApp.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link to="/iphones-novos" className="rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground">
-            Ver iPhones
-          </Link>
-          <WhatsAppButton variant="outline" className="px-6 py-3" message="Olá, Major Cell! Gostaria de atendimento.">
-            Falar pelo WhatsApp
-          </WhatsAppButton>
+      <section className="mx-auto max-w-7xl px-5 pt-14 md:pt-20">
+        <div className="grid items-center gap-10 text-center lg:grid-cols-2 lg:gap-6 lg:text-left">
+          <div>
+            <p className="text-sm font-medium text-primary">Major Cell</p>
+            <h1 className="mx-auto mt-3 max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl lg:mx-0">
+              Encontre seu próximo <span className="text-primary">celular</span>.
+            </h1>
+            <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground md:text-xl lg:mx-0">
+              iPhones e Xiaomi com preço na vitrine e atendimento direto pelo WhatsApp.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+              <Link to="/iphones-novos" className="rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground">
+                Ver iPhones
+              </Link>
+              <WhatsAppButton variant="outline" className="px-6 py-3" message="Olá, Major Cell! Gostaria de atendimento.">
+                Falar pelo WhatsApp
+              </WhatsAppButton>
+            </div>
+          </div>
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div aria-hidden className="absolute inset-8 rounded-full bg-primary/10 blur-3xl" />
+            <img
+              src={official("official/g-17pm-cosmicorange-1.jpg")}
+              alt="iPhone 17 Pro Max na cor laranja cósmico"
+              width={1024}
+              height={1024}
+              className="relative mx-auto w-full max-w-sm rounded-3xl object-contain lg:max-w-md"
+            />
+          </div>
         </div>
-        <nav aria-label="Atalhos" className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-3 sm:flex sm:justify-center">
+        <nav aria-label="Atalhos" className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-3 sm:flex sm:justify-center">
           {shortcuts.map(({ to, label, icon: Icon }) => (
             <Link key={to} to={to} className="flex items-center justify-center gap-2 rounded-2xl hairline px-4 py-3 text-sm text-foreground transition-colors hover:border-primary hover:text-primary">
               <Icon className="h-4 w-4 text-primary" strokeWidth={1.5} /> {label}
