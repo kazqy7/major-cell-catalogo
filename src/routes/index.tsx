@@ -108,7 +108,7 @@ function Home() {
             ...CATEGORIES.map((c) => ({ key: c.value, to: c.slug, hash: undefined as string | undefined, label: c.label, blurb: c.blurb, img: IMGS[c.value], cover: c.value === "iphone_seminovo", cta: "Ver aparelhos" })),
             ...(launches.length > 0 ? [{ key: "lancamentos", to: "/iphones-novos", hash: "lancamentos", label: "Lançamentos", blurb: "iPhone 18 Pro, 18 Pro Max e iPhone Duo. Em breve na loja.", img: LAUNCH_IMG, cover: false, cta: "Ver lançamentos" }] : []),
           ].map((c) => (
-            <Link key={c.key} to={c.to} hash={c.hash} className="group flex flex-col overflow-hidden rounded-3xl bg-card">
+            <Link key={c.key} to={c.to} {...(c.hash ? { hash: c.hash } : {})} className="group flex flex-col overflow-hidden rounded-3xl bg-card">
               <div className="aspect-square overflow-hidden bg-showcase">
                 <img src={c.img} alt={c.label} loading="lazy" className={`h-full w-full transition-transform duration-700 group-hover:scale-105 ${c.cover ? "object-cover" : "object-contain p-4"}`} />
               </div>
