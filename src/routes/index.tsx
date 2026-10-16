@@ -2,8 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, Smartphone, Scale, RefreshCw, Sparkles, MessageCircle, Wrench } from "lucide-react";
 import hero from "@/assets/hero.jpg";
-// Hero photo: official Apple image; only the white background was removed (real alpha channel).
-import heroPhone from "@/assets/hero-iphone17promax-cutout.png.asset.json";
+import { IphoneOrbit } from "@/components/IphoneOrbit";
 import catSemi from "@/assets/cat-seminovo.jpg";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CATEGORIES, comingSoonQuery, productsQuery } from "@/lib/products";
@@ -73,16 +72,8 @@ function Home() {
               </WhatsAppButton>
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-sm py-4 lg:max-w-none">
-            <img
-              src={heroPhone.url}
-              alt="iPhone 17 Pro Max azul-profundo, foto oficial da Apple"
-              width={437}
-              height={900}
-              fetchPriority="high"
-              onError={(e) => { e.currentTarget.style.display = "none"; }}
-              className="relative mx-auto h-[300px] w-auto bg-transparent object-contain animate-in fade-in duration-700 drop-shadow-[0_24px_32px_rgba(0,0,0,0.7)] sm:h-[380px] lg:h-[460px]"
-            />
+          <div className="relative w-full">
+            <IphoneOrbit products={[...data, ...launches]} />
           </div>
         </div>
         <nav aria-label="Atalhos" className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-3 sm:flex sm:justify-center">
