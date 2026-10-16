@@ -32,6 +32,7 @@ const IMGS = { iphone_novo: catNovo, iphone_seminovo: catSemi, xiaomi: catXiaomi
 
 function Home() {
   const { data } = useSuspenseQuery(productsQuery());
+  const { data: launches } = useSuspenseQuery(comingSoonQuery());
   const iphones = data.filter((p) => p.category !== "xiaomi");
   const hasSemi = data.some((p) => p.category === "iphone_seminovo");
   // Newest 3 iPhones + newest Xiaomi in stock (catalog is ordered oldest → newest).
@@ -112,6 +113,17 @@ function Home() {
             </Link>
           ))}
         </div>
+
+        {launches.length > 0 && (
+          <div className="mt-16">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Em breve</p>
+            <h3 className="mt-2 text-2xl font-semibold md:text-3xl">Lançamentos iPhone</h3>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">Apresentados pela Apple em setembro de 2026. Ainda sem estoque na Major Cell — consulte preço e previsão pelo WhatsApp.</p>
+            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {launches.map((p) => <ProductCard key={p.id} p={p} />)}
+            </div>
+          </div>
+        )}
       </section>
 
       <Reviews />
