@@ -2,8 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, Smartphone, Scale, RefreshCw, Sparkles, MessageCircle, Wrench } from "lucide-react";
 import hero from "@/assets/hero.jpg";
-// Hero photo: official Apple image; only the white background was removed (real alpha channel).
-import heroPhone from "@/assets/hero-iphone17promax-cutout.png.asset.json";
+import { IphoneOrbit } from "@/components/IphoneOrbit";
 import catSemi from "@/assets/cat-seminovo.jpg";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CATEGORIES, comingSoonQuery, productsQuery } from "@/lib/products";
@@ -55,16 +54,16 @@ function Home() {
     <>
       <section className="relative mx-auto max-w-7xl px-5 pt-14 md:pt-20">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(45%_55%_at_78%_45%,color-mix(in_oklab,var(--primary)_7%,transparent),transparent_75%)]" />
-        <div className="grid items-center gap-10 text-center lg:grid-cols-2 lg:gap-6 lg:text-left">
+        <div className="grid items-center gap-8 text-center">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.3em] text-primary">Major Cell</p>
-            <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:mx-0">
+            <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl ">
               Seu próximo iPhone. <span className="text-primary">Uma experiência superior.</span>
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground md:text-xl lg:mx-0">
+            <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground md:text-xl ">
               Tecnologia, confiança e atendimento personalizado para você escolher seu próximo aparelho.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link to="/iphones-novos" className="rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground">
                 Ver iPhones
               </Link>
@@ -73,16 +72,8 @@ function Home() {
               </WhatsAppButton>
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-sm py-4 lg:max-w-none">
-            <img
-              src={heroPhone.url}
-              alt="iPhone 17 Pro Max azul-profundo, foto oficial da Apple"
-              width={437}
-              height={900}
-              fetchPriority="high"
-              onError={(e) => { e.currentTarget.style.display = "none"; }}
-              className="relative mx-auto h-[300px] w-auto bg-transparent object-contain animate-in fade-in duration-700 drop-shadow-[0_24px_32px_rgba(0,0,0,0.7)] sm:h-[380px] lg:h-[460px]"
-            />
+          <div className="relative w-full">
+            <IphoneOrbit products={[...data, ...launches]} />
           </div>
         </div>
         <nav aria-label="Atalhos" className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-3 sm:flex sm:justify-center">
