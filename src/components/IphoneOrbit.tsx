@@ -3,6 +3,11 @@ import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import i2007 from "@/assets/evo/2007.png.asset.json";
 import i2008 from "@/assets/evo/2008.png.asset.json";
+import i2009 from "@/assets/evo/2009.png.asset.json";
+import i2010 from "@/assets/evo/2010.png.asset.json";
+import i2013 from "@/assets/evo/2013.png.asset.json";
+import i2017b from "@/assets/evo/2017-8.png.asset.json";
+import i2018 from "@/assets/evo/2018.png.asset.json";
 import i2012 from "@/assets/evo/2012.png.asset.json";
 import i2015 from "@/assets/evo/2015.png.asset.json";
 import i2016 from "@/assets/evo/2016.png.asset.json";
@@ -22,10 +27,15 @@ import i2026duo from "@/assets/evo/2026duo.png.asset.json";
 export const GENERATIONS = [
   { name: "iPhone", year: 2007, img: i2007.url, text: "O primeiro iPhone: tela sensível ao toque e um único botão redefiniram o celular." },
   { name: "iPhone 3G", year: 2008, img: i2008.url, text: "Chegada da internet 3G, do GPS e da App Store." },
+  { name: "iPhone 3GS", year: 2009, img: i2009.url, text: "Mais rápido, com gravação de vídeo e controle por voz." },
+  { name: "iPhone 4", year: 2010, img: i2010.url, text: "Vidro e aço, tela Retina e a primeira câmera frontal para FaceTime." },
   { name: "iPhone 5", year: 2012, img: i2012.url, text: "Tela maior de 4 polegadas, corpo de alumínio e o conector Lightning." },
+  { name: "iPhone 5s", year: 2013, img: i2013.url, text: "Estreia do Touch ID, o leitor de digital no botão de início." },
   { name: "iPhone 6s", year: 2015, img: i2015.url, text: "Linhas arredondadas e o 3D Touch, que sentia a pressão do toque." },
   { name: "iPhone 7", year: 2016, img: i2016.url, text: "Resistência à água e o fim da entrada de fone de ouvido." },
+  { name: "iPhone 8", year: 2017, img: i2017b.url, text: "Traseira de vidro e o primeiro iPhone com carregamento sem fio." },
   { name: "iPhone X", year: 2017, img: i2017.url, text: "Tela de ponta a ponta, Face ID e o adeus ao botão de início." },
+  { name: "iPhone XS", year: 2018, img: i2018.url, text: "Evolução do X com chip mais rápido e suporte a dois chips (eSIM)." },
   { name: "iPhone 11", year: 2019, img: i2019.url, text: "Câmera dupla com ultra-angular e o modo Noite." },
   { name: "iPhone 12", year: 2020, img: i2020.url, text: "Laterais retas, 5G e o carregamento magnético MagSafe." },
   { name: "iPhone 13", year: 2021, img: i2021.url, match: "iPhone 13", text: "Bateria maior e modo Cinema para vídeos com desfoque." },
@@ -44,6 +54,7 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
   const [active, setActive] = useState(last - 2);
   const [narrow, setNarrow] = useState(false);
   const startX = useRef<number | null>(null);
+  const swiped = useRef(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 640px)");
@@ -73,7 +84,8 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
           if (startX.current == null) return;
           const dx = e.clientX - startX.current;
           startX.current = null;
-          if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+          swiped.current = Math.abs(dx) > 40;
+          if (swiped.current) go(dx < 0 ? 1 : -1);
         }}
         className="relative h-[300px] touch-pan-y select-none overflow-hidden outline-none sm:h-[400px] lg:h-[440px]"
         style={{ perspective: narrow ? "800px" : "1400px" }}
@@ -90,9 +102,9 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
                 key={item.name}
                 type="button"
                 tabIndex={-1}
-                aria-hidden={d !== 0}
-                onClick={() => setActive(i)}
-                className="absolute left-1/2 top-1/2 flex h-[240px] w-[180px] items-center justify-center sm:h-[330px] sm:w-[250px] lg:h-[360px] lg:w-[280px]"
+                aria-label={`${item.name}, ${item.year}`}
+                onClick={() => { if (swiped.current) { swiped.current = false; return; } setActive(i); }}
+                className="group absolute left-1/2 top-1/2 flex cursor-pointer h-[240px] w-[180px] items-center justify-center sm:h-[330px] sm:w-[250px] lg:h-[360px] lg:w-[280px]"
                 style={{
                   transform: `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px) rotateY(${-d * STEP * 0.8}deg)`,
                   opacity: hidden ? 0 : d === 0 ? 1 : Math.max(0.35, 0.85 - Math.abs(d) * 0.13),
@@ -108,7 +120,7 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
                   loading={Math.abs(i - (last - 2)) <= 3 ? "eager" : "lazy"}
                   draggable={false}
                   style={item.img.endsWith(".jpg") ? { maskImage: "radial-gradient(closest-side, #000 70%, transparent)", WebkitMaskImage: "radial-gradient(closest-side, #000 70%, transparent)" } : undefined}
-                  className="max-h-full max-w-full object-contain drop-shadow-[0_24px_28px_rgba(0,0,0,0.75)]"
+                  className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.03] drop-shadow-[0_24px_28px_rgba(0,0,0,0.75)]"
                 />
               </button>
             );
