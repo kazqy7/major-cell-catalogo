@@ -1,9 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { swatchTone } from "@/lib/color-swatch";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { ArrowLeft, Smartphone } from "lucide-react";
-import { colorImageUrl, parseColors, categoryLabel, conditionLabel, formatPrice, productMessage, productQuery } from "@/lib/products";
+import { useEffect, useState } from "react";
+import { ArrowLeft, ChevronLeft, ChevronRight, Smartphone, X } from "lucide-react";
+import { colorImageUrl, parseColors, parsePhotoColors, categoryLabel, conditionLabel, formatPrice, productMessage, productQuery } from "@/lib/products";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { catalogError } from "@/components/CategoryPage";
 import { FavoriteButton, StockBadge } from "@/components/FavoriteButton";
@@ -45,10 +45,31 @@ function ProductPage() {
   const { data: p } = useSuspenseQuery(productQuery(id));
   const [idx, setIdx] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
-  if (!p) return null;
-  const colors = parseColors(p.colors);
+  const [photoColorName, setPhotoColorName] = useState<string | null>(null);
+  const [zoom, setZoom] = useState(false);
+  const photoColors = p ? parsePhotoColors(p.photo_colors) : [];
+  const colors = p ? parseColors(p.colors) : [];
   const chosenColor = colors.find((c) => c.name === chosen && c.available);
-  const mainImg = chosenColor?.image ? colorImageUrl(chosenColor.image) : p.imageUrls[idx];
+  const usePhotoColors = colors.length === 0 && photoColors.length > 0;
+  const photoColor = usePhotoColors ? photoColors.find((c) => c.name === photoColorName) ?? photoColors[0] : undefined;
+  const gallery = chosenColor?.image ? [colorImageUrl(chosenColor.image)] : photoColor ? photoColor.images : p?.imageUrls ?? [];
+  const safeIdx = Math.min(idx, Math.max(gallery.length - 1, 0));
+  const go = (d: number) => setIdx((safeIdx + d + gallery.length) % gallery.length);
+
+  useEffect(() => {
+    if (!zoom) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setZoom(false);
+      if (e.key === "ArrowRight") go(1);
+      if (e.key === "ArrowLeft") go(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
+  if (!p) return null;
+  const mainImg = gallery[safeIdx];
+  const colorName = chosenColor?.name ?? photoColor?.name;
   const anyAvailable = colors.some((c) => c.available);
   const price = formatPrice(p.price);
   const sold = p.status !== "disponivel";
@@ -59,18 +80,26 @@ function ProductPage() {
       </Link>
       <div className="mt-6 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-3xl bg-showcase p-8">
+          <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-3xl bg-showcase p-8">
             {mainImg ? (
-              <img src={mainImg} alt={chosenColor ? `${p.name} ${chosenColor.name}` : p.name} className="h-full w-full object-contain" />
+              <button type="button" onClick={() => setZoom(true)} className="h-full w-full cursor-zoom-in" aria-label="Ampliar foto">
+                <img src={mainImg} alt={colorName ? `${p.name} ${colorName}` : p.name} className="h-full w-full object-contain" />
+              </button>
             ) : (
               <Smartphone className="h-16 w-16 text-muted-foreground" strokeWidth={1} />
             )}
+            {gallery.length > 1 && (
+              <>
+                <button type="button" onClick={() => go(-1)} aria-label="Foto anterior" className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-background/70 p-2 text-foreground backdrop-blur hover:bg-background"><ChevronLeft className="h-5 w-5" /></button>
+                <button type="button" onClick={() => go(1)} aria-label="Próxima foto" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-background/70 p-2 text-foreground backdrop-blur hover:bg-background"><ChevronRight className="h-5 w-5" /></button>
+              </>
+            )}
           </div>
-          {p.imageUrls.length > 1 && (
-            <div className="mt-4 flex justify-center gap-3">
-              {p.imageUrls.map((u, i) => (
-                <button key={u} onClick={() => { setIdx(i); setChosen(null); }} className={`h-16 w-16 overflow-hidden rounded-xl bg-showcase p-1 ring-1 ${i === idx && !chosenColor?.image ? "ring-primary" : "ring-border"}`} aria-label={`Foto ${i + 1}`}>
-                  <img src={u} alt="" className="h-full w-full object-contain" />
+          {gallery.length > 1 && (
+            <div className="mt-4 flex flex-wrap justify-center gap-3">
+              {gallery.map((u, i) => (
+                <button key={u} onClick={() => setIdx(i)} className={`h-16 w-16 overflow-hidden rounded-xl bg-showcase p-1 ring-1 ${i === safeIdx ? "ring-2 ring-primary" : "ring-border"}`} aria-label={`Foto ${i + 1}`}>
+                  <img src={u} alt="" loading="lazy" className="h-full w-full object-contain" />
                 </button>
               ))}
             </div>
