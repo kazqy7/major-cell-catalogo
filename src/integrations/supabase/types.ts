@@ -111,7 +111,7 @@ export type Database = {
     Enums: {
       app_role: "admin"
       product_category: "iphone_novo" | "iphone_seminovo" | "xiaomi"
-      product_status: "disponivel" | "vendido"
+      product_status: "disponivel" | "vendido" | "em_breve"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -241,7 +241,7 @@ export const Constants = {
     Enums: {
       app_role: ["admin"],
       product_category: ["iphone_novo", "iphone_seminovo", "xiaomi"],
-      product_status: ["disponivel", "vendido"],
+      product_status: ["disponivel", "vendido", "em_breve"],
     },
   },
 } as const

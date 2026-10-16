@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { PageHeader } from "@/components/PageHeader";
 import { catalogError } from "@/components/CategoryPage";
 import { whatsappLink } from "@/config/store";
-import { productsQuery } from "@/lib/products";
+import { comingSoonQuery, productsQuery } from "@/lib/products";
 import { CONDITIONS, WORKS, tradeInMessage, validateTradeIn, type TradeIn } from "@/lib/trade-in";
 
 const TITLE = "Troque seu iPhone usado | Major Cell";
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/troca")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery()),
+  loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(productsQuery()), context.queryClient.ensureQueryData(comingSoonQuery())]),
   errorComponent: catalogError,
   component: TradeInPage,
 });

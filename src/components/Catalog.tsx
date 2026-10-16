@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Search, SlidersHorizontal, PackageOpen } from "lucide-react";
 import { useMemo, useState } from "react";
-import { CATEGORIES, groupKey, productsQuery, type Category, type ProductWithUrls } from "@/lib/products";
+import { CATEGORIES, groupKey, productsQuery, comingSoonQuery, type Category, type ProductWithUrls } from "@/lib/products";
 import { applyFilters, brandOf, emptyFilters, type Filters } from "@/lib/catalog-filters";
 import { ProductCard } from "./ProductCard";
 
@@ -10,6 +10,8 @@ const sel =
 
 export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefined }) {
   const { data } = useSuspenseQuery(productsQuery());
+  const { data: soonAll } = useSuspenseQuery(comingSoonQuery());
+  const soon = soonAll.filter((p) => !fixedCategory || p.category === fixedCategory);
   const [f, setF] = useState<Filters>(() => emptyFilters(fixedCategory ?? ""));
   const set = (k: keyof Filters) => (e: { target: { value: string } }) => setF((o) => ({ ...o, [k]: e.target.value }));
 
@@ -101,6 +103,17 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
             </section>
           ))}
         </div>
+      )}
+
+      {soon.length > 0 && (
+        <section className="border-t border-border pt-12">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Em breve</p>
+          <h2 className="mt-2 text-2xl font-semibold md:text-3xl">Lançamentos</h2>
+          <p className="mt-2 text-sm text-muted-foreground">Modelos anunciados oficialmente, ainda sem estoque na loja. Consulte preço e previsão pelo WhatsApp.</p>
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {soon.map((p) => <ProductCard key={p.id} p={p} />)}
+          </div>
+        </section>
       )}
     </div>
   );
