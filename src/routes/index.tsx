@@ -2,9 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, Smartphone, Scale, RefreshCw, Sparkles, MessageCircle, Wrench } from "lucide-react";
 import hero from "@/assets/hero.jpg";
-import catNovo from "@/assets/cat-novo.jpg";
 import catSemi from "@/assets/cat-seminovo.jpg";
-import catXiaomi from "@/assets/cat-xiaomi.jpg";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CATEGORIES, comingSoonQuery, productsQuery } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
@@ -28,7 +26,14 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const IMGS = { iphone_novo: catNovo, iphone_seminovo: catSemi, xiaomi: catXiaomi } as const;
+const official = (path: string) => `/api/public/product-image/${encodeURIComponent(path)}`;
+// Category photos: official manufacturer images. Seminovos keeps its existing photo until a real one is supplied.
+const IMGS = {
+  iphone_novo: official("official/g-17pm-cosmicorange-1.jpg"),
+  iphone_seminovo: catSemi,
+  xiaomi: official("official/mfr-redmi-note-15-pro-5g.jpg"),
+} as const;
+const LAUNCH_IMG = official("official/g-iphone18pro-burgundy.jpg");
 
 function Home() {
   const { data } = useSuspenseQuery(productsQuery());
@@ -98,16 +103,21 @@ function Home() {
             <h2 className="mt-2 text-3xl font-semibold md:text-4xl">Escolha por onde começar</h2>
           </div>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {CATEGORIES.map((c) => (
-            <Link key={c.value} to={c.slug} className="group relative block overflow-hidden rounded-3xl">
-              <img src={IMGS[c.value]} alt={c.label} loading="lazy" width={800} height={1008} className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ...CATEGORIES.map((c) => ({ key: c.value, to: c.slug, hash: undefined as string | undefined, label: c.label, blurb: c.blurb, img: IMGS[c.value], cover: c.value === "iphone_seminovo", cta: "Ver aparelhos" })),
+            ...(launches.length > 0 ? [{ key: "lancamentos", to: "/iphones-novos", hash: "lancamentos", label: "Lançamentos", blurb: "iPhone 18 Pro, 18 Pro Max e iPhone Duo. Em breve na loja.", img: LAUNCH_IMG, cover: false, cta: "Ver lançamentos" }] : []),
+          ].map((c) => (
+            <Link key={c.key} to={c.to} {...(c.hash ? { hash: c.hash } : {})} className="group flex flex-col overflow-hidden rounded-3xl bg-card">
+              <div className="aspect-square overflow-hidden bg-showcase">
+                <img src={c.img} alt={c.label} loading="lazy" className={`h-full w-full transition-transform duration-700 group-hover:scale-105 ${c.cover ? "object-cover" : "object-contain p-4"}`} />
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                {c.key === "lancamentos" && <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Em breve</p>}
                 <h3 className="text-2xl font-semibold">{c.label}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{c.blurb}</p>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                  Ver aparelhos <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <span className="mt-auto inline-flex items-center gap-2 pt-4 text-sm font-semibold text-primary">
+                  {c.cta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </div>
             </Link>
