@@ -12,12 +12,16 @@ export const STORE = {
 };
 
 /**
- * Parcelamento — taxa de REFERÊNCIA estimada (2,03% a.m.), apenas para simulações aproximadas.
- * NÃO representa a taxa real da maquininha/operadora. Máximo de 21 parcelas (Tabela Price).
+ * Parcelamento — taxas REAIS da maquininha Mastercard (repasse ao cliente).
+ * Índice = número de parcelas (1 = crédito à vista). Valores em % sobre o total.
+ * Método: total = preço ÷ (1 − taxa); parcela = total ÷ n. Fonte única das taxas.
  */
 export const INSTALLMENTS = {
   maxInstallments: 21,
-  monthlyRatePercent: 2.03 as number | null,
+  rates: [
+    3.09, 4.31, 5.04, 5.78, 6.51, 7.25, 8.13, 8.86, 9.6, 10.33, 11.07, 11.8,
+    12.53, 13.27, 14.0, 14.74, 15.47, 16.21, 16.94, 17.68, 18.41,
+  ] as (number | null)[],
 };
 
 /**
