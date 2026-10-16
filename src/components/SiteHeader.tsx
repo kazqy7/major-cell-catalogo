@@ -6,6 +6,7 @@ import { WhatsAppButton } from "./WhatsAppButton";
 
 const NAV = [
   { to: "/", label: "Início" },
+  { to: "/ofertas", label: "Ofertas" },
   { to: "/iphones-novos", label: "iPhones novos" },
   { to: "/iphones-seminovos", label: "iPhones seminovos" },
   { to: "/xiaomi", label: "Xiaomi" },

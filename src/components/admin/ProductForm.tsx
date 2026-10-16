@@ -20,6 +20,9 @@ export function ProductForm({ product, onClose, onSaved }: { product: ProductWit
     price: product?.price?.toString() ?? "",
     description: product?.description ?? "",
     status: product?.status ?? "disponivel",
+    offer_active: product?.offer_active ? "1" : "0",
+    offer_price: product?.offer_price?.toString() ?? "",
+    offer_ends_at: product?.offer_ends_at ? new Date(product.offer_ends_at).toISOString().slice(0, 10) : "",
   });
   const [imgs, setImgs] = useState<Img[]>(product ? product.images.map((p, i) => ({ path: p, url: product.imageUrls[i] ?? "" })) : []);
   const [colors, setColors] = useState<ProductColor[]>(parseColors(product?.colors));
