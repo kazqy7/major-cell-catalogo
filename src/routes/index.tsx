@@ -1,4 +1,3 @@
-import { HScroll } from "@/components/HScroll";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, Smartphone, Scale, RefreshCw, Sparkles, MessageCircle, Wrench } from "lucide-react";
@@ -86,9 +85,9 @@ function Home() {
             </div>
             <Link to="/catalogo" className="hidden items-center gap-1 text-sm text-primary hover:underline sm:inline-flex">Ver tudo <ArrowRight className="h-4 w-4" /></Link>
           </div>
-          <HScroll label="Destaques" itemClass="w-[78%] sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-3.75rem)/4)]">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featured.map((p) => <ProductCard key={p.id} p={p} />)}
-          </HScroll>
+          </div>
           <Link to="/catalogo" className="mt-6 flex items-center justify-center gap-1 text-sm text-primary sm:hidden">Ver todos os aparelhos <ArrowRight className="h-4 w-4" /></Link>
         </section>
       )}
@@ -104,7 +103,7 @@ function Home() {
             <h2 className="mt-2 text-3xl font-semibold md:text-4xl">Escolha por onde começar</h2>
           </div>
         </div>
-        <HScroll label="Categorias" itemClass="w-[72%] sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {[
             ...CATEGORIES.map((c) => ({ key: c.value, to: c.slug, hash: undefined as string | undefined, label: c.label, blurb: c.blurb, img: IMGS[c.value], cover: c.value === "iphone_seminovo", cta: "Ver aparelhos" })),
             ...(launches.length > 0 ? [{ key: "lancamentos", to: "/iphones-novos", hash: "lancamentos", label: "Lançamentos", blurb: "iPhone 18 Pro, 18 Pro Max e iPhone Duo. Em breve na loja.", img: LAUNCH_IMG, cover: false, cta: "Ver lançamentos" }] : []),
@@ -123,16 +122,16 @@ function Home() {
               </div>
             </Link>
           ))}
-        </HScroll>
+        </div>
 
         {launches.length > 0 && (
           <div className="mt-16">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Em breve</p>
             <h3 className="mt-2 text-2xl font-semibold md:text-3xl">Lançamentos iPhone</h3>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">Apresentados pela Apple em setembro de 2026. Ainda sem estoque na Major Cell — consulte preço e previsão pelo WhatsApp.</p>
-            <div className="mt-6"><HScroll label="Lançamentos iPhone">
+            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {launches.map((p) => <ProductCard key={p.id} p={p} />)}
-            </HScroll></div>
+            </div>
           </div>
         )}
       </section>
