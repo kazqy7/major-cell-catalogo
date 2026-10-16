@@ -160,6 +160,32 @@ function ProductPage() {
             </section>
           )}
 
+          {usePhotoColors && photoColor && (
+            <section className="mt-10 border-t border-border pt-8">
+              <h2 className="text-xl font-semibold">
+                Cor. <span className="text-muted-foreground">{photoColor.name}</span>
+              </h2>
+              <div className="mt-5 flex flex-wrap gap-x-4 gap-y-5" role="radiogroup" aria-label="Cores oficiais do modelo">
+                {photoColors.map((c) => {
+                  const active = c.name === photoColor.name;
+                  return (
+                    <button key={c.name} type="button" role="radio" aria-checked={active} aria-label={c.name}
+                      onClick={() => { setPhotoColorName(c.name); setIdx(0); }}
+                      className="group flex w-16 flex-col items-center gap-2">
+                      <span className={`flex h-10 w-10 items-center justify-center rounded-full p-[3px] ring-2 transition ${active ? "ring-primary" : "ring-transparent group-hover:ring-border"}`}>
+                        <span className="block h-full w-full overflow-hidden rounded-full ring-1 ring-border" style={c.hex ? { backgroundColor: c.hex } : undefined}>
+                          {!c.hex && <img src={c.images[0]} alt="" className="h-full w-full object-cover" />}
+                        </span>
+                      </span>
+                      <span className={`text-center text-xs leading-tight ${active ? "text-foreground" : "text-muted-foreground"}`}>{c.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="mt-4 text-xs text-muted-foreground">Cores oficiais do modelo. Confirme a disponibilidade da cor pelo WhatsApp.</p>
+            </section>
+          )}
+
           <section className="mt-10 border-t border-border pt-6">
             <Row k="Condição" v={conditionLabel(p.category)} />
             <Row k="Armazenamento" v={p.storage} />
@@ -179,7 +205,7 @@ function ProductPage() {
                 {anyAvailable ? "Selecione uma cor para consultar" : "Todas as cores estão esgotadas"}
               </button>
             ) : (
-              <WhatsAppButton message={productMessage(p, chosenColor?.name)} className="w-full px-6 py-3.5 text-base" />
+              <WhatsAppButton message={productMessage(p, chosenColor?.name ?? photoColor?.name)} className="w-full px-6 py-3.5 text-base" />
             )}
             <p className="mt-3 text-center text-xs text-muted-foreground">Atendimento direto com a Major Cell pelo WhatsApp.</p>
             {p.category !== "xiaomi" && (
@@ -190,6 +216,21 @@ function ProductPage() {
           </div>
         </div>
       </div>
+      {zoom && mainImg && (
+        <div role="dialog" aria-modal="true" aria-label="Foto ampliada" className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 p-4 backdrop-blur" onClick={() => setZoom(false)}>
+          <button type="button" onClick={() => setZoom(false)} aria-label="Fechar" className="absolute right-4 top-4 rounded-full bg-secondary p-2 text-foreground"><X className="h-5 w-5" /></button>
+          <div className="flex max-h-full w-full max-w-4xl items-center justify-center rounded-3xl bg-showcase p-6" onClick={(e) => e.stopPropagation()}>
+            <img src={mainImg} alt={colorName ? `${p.name} ${colorName}` : p.name} className="max-h-[80vh] w-full object-contain" />
+          </div>
+          {gallery.length > 1 && (
+            <>
+              <button type="button" onClick={(e) => { e.stopPropagation(); go(-1); }} aria-label="Foto anterior" className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-secondary p-3 text-foreground"><ChevronLeft className="h-6 w-6" /></button>
+              <button type="button" onClick={(e) => { e.stopPropagation(); go(1); }} aria-label="Próxima foto" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-secondary p-3 text-foreground"><ChevronRight className="h-6 w-6" /></button>
+              <p className="absolute bottom-5 left-1/2 -translate-x-1/2 text-sm text-muted-foreground">{safeIdx + 1} / {gallery.length}</p>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
