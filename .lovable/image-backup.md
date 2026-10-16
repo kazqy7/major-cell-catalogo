@@ -1,0 +1,21 @@
+# Fotos anteriores dos produtos (backup, out/2026)
+Arquivos antigos continuam no armazenamento; para voltar, recoloque o caminho no campo images.
+- iPhone 13: official/iphone-13.jpg
+- iPhone 13 Pro Max: official/iphone-13-pro-max.jpg
+- iPhone 14: official/iphone-14.jpg
+- iPhone 14 Pro Max: official/iphone-14-pro-max.jpg
+- iPhone 15: official/iphone-15.jpg
+- iPhone 15 Pro Max: official/iphone-15-pro-max.jpg
+- iPhone 16: official/iphone-16.jpg
+- iPhone 16 Pro Max: official/iphone-16-pro-max.jpg
+- iPhone 17: official/iphone-17.jpg
+- iPhone 17 Pro: official/iphone-17-pro.jpg
+- iPhone 17 Pro Max: official/iphone-17-pro-max.jpeg
+- Redmi A5 64GB: official/redmi-a5-64gb.jpg
+- Redmi A5 128GB: official/redmi-a5-128gb.jpg
+- Redmi A7 Pro 64GB: official/redmi-a7-pro-64gb.jpg
+- Redmi A7 Pro 128GB: official/redmi-a7-pro-128gb.jpg
+- Redmi 15C: official/redmi-15c.jpeg
+- Redmi Note 15: official/redmi-note-15.jpg
+- Redmi Note 15 Pro NFC: official/redmi-note-15-pro-nfc.jpg
+- Redmi Note 15 Pro 5G: official/redmi-note-15-pro-5g.jpg
