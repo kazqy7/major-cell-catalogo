@@ -72,6 +72,15 @@ function Home() {
               </WhatsAppButton>
             </div>
           </div>
+          <div className="mt-6 md:mt-10">
+            <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+              A evolução de um <span className="text-primary">ícone.</span>
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-base text-muted-foreground md:text-lg">
+              Conheça a história do iPhone, do primeiro modelo às gerações mais recentes.
+            </p>
+            <p className="mt-4 text-xs font-medium uppercase tracking-[0.25em] text-primary/80">Explore cada geração abaixo ↓</p>
+          </div>
           <div className="relative w-full">
             <IphoneOrbit products={[...data, ...launches]} />
           </div>
