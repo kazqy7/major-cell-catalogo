@@ -54,7 +54,7 @@ export function ProductCard({ p }: { p: ProductWithUrls }) {
           <p className="h-4 text-[11px] text-muted-foreground" aria-live="polite">{sel != null ? photoColors[sel].name : ""}</p>
         </div>
       )}
-      <p className="mt-3 text-lg font-medium">
+      <p className={`${shown.length ? "mt-3" : "mt-6"} text-lg font-medium`}>
         {price ?? <span className="text-sm text-muted-foreground">Consulte disponibilidade</span>}
       </p>
       <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 whitespace-nowrap text-sm">
