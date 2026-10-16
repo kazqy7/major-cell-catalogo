@@ -106,7 +106,7 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
       )}
 
       {soon.length > 0 && (
-        <section className="border-t border-border pt-12">
+        <section id="lancamentos" className="scroll-mt-24 border-t border-border pt-12">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Em breve</p>
           <h2 className="mt-2 text-2xl font-semibold md:text-3xl">Lançamentos</h2>
           <p className="mt-2 text-sm text-muted-foreground">Modelos anunciados oficialmente, ainda sem estoque na loja. Consulte preço e previsão pelo WhatsApp.</p>
