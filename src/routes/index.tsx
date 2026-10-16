@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, Smartphone, Scale, RefreshCw, Sparkles, MessageCircle, Wrench } from "lucide-react";
 import hero from "@/assets/hero.jpg";
+import heroPhone from "@/assets/hero-iphone17promax-deepblue.png.asset.json";
+// hero photo: official Apple image, white background removed only
 import catSemi from "@/assets/cat-seminovo.jpg";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CATEGORIES, comingSoonQuery, productsQuery } from "@/lib/products";
@@ -52,7 +54,7 @@ function Home() {
   return (
     <>
       <section className="relative mx-auto max-w-7xl px-5 pt-14 md:pt-20">
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_75%_40%,color-mix(in_oklab,var(--primary)_18%,transparent),transparent_70%)]" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(45%_55%_at_78%_45%,color-mix(in_oklab,var(--primary)_7%,transparent),transparent_75%)]" />
         <div className="grid items-center gap-10 text-center lg:grid-cols-2 lg:gap-6 lg:text-left">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.3em] text-primary">Major Cell</p>
@@ -71,15 +73,15 @@ function Home() {
               </WhatsAppButton>
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
-            <div aria-hidden className="absolute inset-[15%] rounded-full bg-primary/20 blur-3xl" />
+          <div className="relative mx-auto w-full max-w-sm py-4 lg:max-w-none">
             <img
-              src={LAUNCH_IMG}
-              alt="iPhone 18 Pro na cor burgundy, foto oficial da Apple"
-              width={1024}
-              height={1024}
+              src={heroPhone.url}
+              alt="iPhone 17 Pro Max azul-profundo, foto oficial da Apple"
+              width={704}
+              height={900}
               fetchPriority="high"
-              className="relative mx-auto w-full max-w-sm object-contain animate-in fade-in duration-1000 lg:max-w-lg [mask-image:radial-gradient(closest-side,black_70%,transparent)]"
+              onError={(e) => { e.currentTarget.style.display = "none"; }}
+              className="relative mx-auto h-auto w-full max-w-[16rem] object-contain animate-in fade-in duration-700 drop-shadow-[0_30px_40px_rgba(0,0,0,0.6)] sm:max-w-xs lg:max-w-sm"
             />
           </div>
         </div>
