@@ -6,7 +6,7 @@ import logoAsset from "@/assets/major-cell-logo.png.asset.json";
  * de desenho. A altura é fixa e a largura acompanha a proporção original
  * (1200x681), então a marca nunca fica esticada, esmagada ou cortada.
  */
-export function Logo({ className = "h-8 w-auto sm:h-10" }: { className?: string }) {
+export function Logo({ className = "h-9 w-auto sm:h-12" }: { className?: string }) {
   return (
     <Link
       to="/"
