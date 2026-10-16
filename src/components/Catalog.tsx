@@ -3,7 +3,6 @@ import { Search, SlidersHorizontal, PackageOpen } from "lucide-react";
 import { useMemo, useState } from "react";
 import { CATEGORIES, groupKey, productsQuery, comingSoonQuery, type Category, type ProductWithUrls } from "@/lib/products";
 import { applyFilters, brandOf, emptyFilters, type Filters } from "@/lib/catalog-filters";
-import { HScroll } from "./HScroll";
 import { ProductCard } from "./ProductCard";
 
 const sel =
@@ -98,9 +97,9 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
           {groups(list).map(([g, items]) => (
             <section key={g}>
               <h2 className="mb-6 text-2xl font-semibold md:text-3xl">{g}</h2>
-              <HScroll label={g}>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((p) => <ProductCard key={p.id} p={p} />)}
-              </HScroll>
+              </div>
             </section>
           ))}
         </div>
@@ -111,9 +110,9 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Em breve</p>
           <h2 className="mt-2 text-2xl font-semibold md:text-3xl">Lançamentos</h2>
           <p className="mt-2 text-sm text-muted-foreground">Modelos anunciados oficialmente, ainda sem estoque na loja. Consulte preço e previsão pelo WhatsApp.</p>
-          <div className="mt-6"><HScroll label="Lançamentos">
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {soon.map((p) => <ProductCard key={p.id} p={p} />)}
-          </HScroll></div>
+          </div>
         </section>
       )}
     </div>
