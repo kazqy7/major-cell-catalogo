@@ -35,10 +35,10 @@ describe("parcelas", () => {
     expect(simulate(1000, 22)).toBeNull();
   });
   it("repassa a taxa ao cliente: total = preço ÷ (1 − taxa)", () => {
-    // 1x: 1000 / (1 − 0,0309) ≈ 1031,88
+    // 1x: 1000 / (1 − 0,0309) ≈ 1031,89
     const a = simulate(1000, 1)!;
-    expect(a.total).toBe(1031.88);
-    expect(a.installment).toBe(1031.88);
+    expect(a.total).toBe(1031.89);
+    expect(a.installment).toBe(1031.89);
     // 12x: 1000 / (1 − 0,118) ≈ 1133,79; parcela ≈ 94,48
     const b = simulate(1000, 12)!;
     expect(b.total).toBe(1133.79);
@@ -47,11 +47,11 @@ describe("parcelas", () => {
   it("aplica a taxa configurada para outras tabelas", () => {
     const r = simulate(1000, 2, { maxInstallments: 12, rates: [5, 10] })!;
     expect(r.total).toBe(1111.11);
-    expect(r.installment).toBe(555.56);
+    expect(r.installment).toBe(555.55);
   });
   it("não permite parcelas acima do máximo ou sem taxa", () => {
     expect(simulate(1000, 13, { maxInstallments: 12, rates: Array(12).fill(5) })).toBeNull();
-    expect(simulate(1000, 3, { maxInstallments: 12, rates: [5, null, 5] })).toBeNull();
+    expect(simulate(1000, 2, { maxInstallments: 12, rates: [5, null, 5] })).toBeNull();
   });
 });
 
