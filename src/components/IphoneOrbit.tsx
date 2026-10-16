@@ -57,8 +57,8 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
   const g = GENERATIONS[active];
   const product = "match" in g ? products.find((p) => p.name === g.match) : undefined;
 
-  const R = narrow ? 260 : 520; // orbit radius (px)
-  const STEP = narrow ? 32 : 22; // degrees between phones
+  const R = narrow ? 260 : 560; // orbit radius (px)
+  const STEP = narrow ? 32 : 30; // degrees between phones
 
   return (
     <div className="relative">
@@ -84,7 +84,7 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
             const theta = (d * STEP * Math.PI) / 180;
             const x = R * Math.sin(theta);
             const z = R * (Math.cos(theta) - 1);
-            const hidden = Math.abs(d) > (narrow ? 2 : 4);
+            const hidden = Math.abs(d) > (narrow ? 2 : 3);
             return (
               <button
                 key={item.name}
@@ -107,6 +107,7 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
                   alt={d === 0 ? `${item.name} (${item.year})` : ""}
                   loading={Math.abs(i - (last - 2)) <= 3 ? "eager" : "lazy"}
                   draggable={false}
+                  style={item.img.endsWith(".jpg") ? { maskImage: "radial-gradient(closest-side, #000 70%, transparent)", WebkitMaskImage: "radial-gradient(closest-side, #000 70%, transparent)" } : undefined}
                   className="max-h-full max-w-full object-contain drop-shadow-[0_24px_28px_rgba(0,0,0,0.75)]"
                 />
               </button>
