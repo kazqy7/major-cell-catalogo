@@ -3,7 +3,10 @@ import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
 export const getRouter = () => {
-  const queryClient = new QueryClient();
+  // Reuse catalog data for 60s between pages instead of re-querying on every navigation.
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { staleTime: 60_000, refetchOnWindowFocus: false } },
+  });
 
   const router = createRouter({
     routeTree,

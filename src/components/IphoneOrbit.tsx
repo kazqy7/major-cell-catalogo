@@ -57,6 +57,8 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
   const [narrow, setNarrow] = useState(false);
   const startX = useRef<number | null>(null);
   const swiped = useRef(false);
+  // Only download photos near the visible phone; keep already-loaded ones mounted.
+  const seen = useRef(new Set<number>());
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 640px)");
@@ -116,14 +118,16 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
                   transition: "transform 700ms cubic-bezier(.22,.8,.26,1), opacity 700ms, filter 700ms",
                 }}
               >
+                {(Math.abs(d) <= 4 || seen.current.has(i)) && (seen.current.add(i), true) && (
                 <img
                   src={item.img}
                   alt={d === 0 ? `${item.name} (${item.year})` : ""}
-                  loading={Math.abs(i - (last - 2)) <= 3 ? "eager" : "lazy"}
+                  decoding="async"
                   draggable={false}
                   style={item.img.endsWith(".jpg") ? { maskImage: "radial-gradient(closest-side, #000 70%, transparent)", WebkitMaskImage: "radial-gradient(closest-side, #000 70%, transparent)" } : undefined}
-                  className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.03] drop-shadow-[0_24px_28px_rgba(0,0,0,0.75)]"
+                  className="max-h-full max-w-full object-contain drop-shadow-[0_18px_20px_rgba(0,0,0,0.7)]"
                 />
+                )}
               </button>
             );
           })}
