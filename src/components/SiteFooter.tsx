@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
 import { StoreFooterInfo } from "./StoreVisit";
+import { POLICIES } from "@/config/store";
 
 export function SiteFooter() {
   return (
@@ -31,7 +32,12 @@ export function SiteFooter() {
           <Link to="/admin" className="block text-muted-foreground/60 hover:text-foreground">Área administrativa</Link>
         </div>
       </div>
-      <p className="pb-8 text-center text-sm text-muted-foreground">
+      {(POLICIES.company.legalName || POLICIES.company.cnpj) && (
+        <p className="text-center text-sm text-muted-foreground">
+          {[POLICIES.company.legalName, POLICIES.company.cnpj && `CNPJ ${POLICIES.company.cnpj}`].filter(Boolean).join(" · ")}
+        </p>
+      )}
+      <p className="pb-8 pt-2 text-center text-sm text-muted-foreground">
         © {new Date().getFullYear()} Major Cell. Todos os direitos reservados.
       </p>
     </footer>

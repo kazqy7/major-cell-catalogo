@@ -9,6 +9,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { CategoryShowcase, ColorLineup, colorOptions, modelOptions, type ShowcaseCategory } from "@/components/CategoryShowcase";
 import { catalogError } from "@/components/CategoryPage";
 import { StoreVisit } from "@/components/StoreVisit";
+import { TrustStrip } from "@/components/TrustStrip";
 import { Reviews } from "@/components/Reviews";
 
 export const Route = createFileRoute("/")({
@@ -138,6 +139,8 @@ function Home() {
           )}
         </div>
       </section>
+
+      <TrustStrip />
 
       <section className="mx-auto max-w-7xl px-5 pt-20 text-center">
         <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">A evolução de um ícone</h2>

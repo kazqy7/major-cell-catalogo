@@ -26,6 +26,27 @@ export const STORE = {
 };
 
 /**
+ * Garantia, pagamento e dados da empresa. Campo vazio não aparece no site.
+ * warranty: por categoria de produto. payments: na ordem em que aparecem.
+ * company: razão social e CNPJ (a lei pede que lojas que vendem pela internet mostrem).
+ */
+export const POLICIES = {
+  warranty: {
+    iphone_novo: "1 ano de garantia Apple",
+    iphone_seminovo: "90 dias de garantia",
+    xiaomi: "6 meses de garantia",
+  },
+  /** Android seminovo: 3 meses (ainda não há categoria própria no catálogo). */
+  androidSemiWarranty: "3 meses",
+  /** Meses de garantia por categoria, para o Google. 0 = não informar. */
+  warrantyMonths: { iphone_novo: 12, iphone_seminovo: 3, xiaomi: 6 },
+  payments: ["Cartão", "Pix", "Dinheiro"],
+  /** Texto junto do Pix. Ex.: "com desconto" ou "com 5% de desconto". Vazio não aparece. */
+  pixNote: "com desconto",
+  company: { legalName: "", cnpj: "" },
+};
+
+/**
  * Horário de funcionamento. days: 0 = domingo … 6 = sábado. Horas no formato "09:00".
  * Dias que não aparecem aqui contam como fechados. Vazio esconde o horário e o selo "Aberto agora".
  * Exemplo: { days: [1, 2, 3, 4, 5], open: "09:00", close: "18:00" }

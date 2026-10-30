@@ -11,6 +11,7 @@ import { InstallmentSimulator } from "@/components/InstallmentSimulator";
 import { SwapImage } from "@/components/SwapImage";
 import { preloadImages, preloadWhenIdle } from "@/lib/preload";
 import { absUrl, DEFAULT_SHARE_IMAGE, ldScript, productJsonLd } from "@/lib/seo";
+import { paymentLine, warrantyFor } from "@/lib/policies";
 
 export const Route = createFileRoute("/produto/$id")({
   loader: async ({ context, params }) => {
@@ -226,6 +227,8 @@ function ProductPage() {
             <Row k="Memória RAM" v={p.ram} />
             {colors.length === 0 && !usePhotoColors && <Row k="Cor" v={p.color} />}
             {p.category === "iphone_seminovo" && <Row k="Saúde da bateria" v={p.battery_health != null ? `${p.battery_health}%` : null} />}
+            <Row k="Garantia" v={warrantyFor(p.category) || null} />
+            <Row k="Pagamento" v={paymentLine() || null} />
           </section>
           {p.description && <p className="mt-6 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">{p.description}</p>}
 

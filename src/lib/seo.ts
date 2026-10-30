@@ -1,4 +1,4 @@
-import { ADDRESS, HOURS, STORE } from "@/config/store";
+import { ADDRESS, HOURS, POLICIES, STORE } from "@/config/store";
 import type { ProductWithUrls } from "@/lib/products";
 
 /**
@@ -50,6 +50,9 @@ export function storeJsonLd() {
       })),
     }),
     ...(STORE.instagram && { sameAs: [`https://www.instagram.com/${STORE.instagram}`] }),
+    ...(POLICIES.payments.length > 0 && { paymentAccepted: POLICIES.payments.join(", ") }),
+    ...(POLICIES.company.legalName && { legalName: POLICIES.company.legalName }),
+    ...(POLICIES.company.cnpj && { taxID: POLICIES.company.cnpj }),
   };
 }
 
@@ -73,6 +76,12 @@ export function productJsonLd(p: Pick<ProductWithUrls, "id" | "name" | "storage"
         availability: `https://schema.org/${availability}`,
         itemCondition: `https://schema.org/${p.category === "iphone_seminovo" ? "UsedCondition" : "NewCondition"}`,
         seller: { "@id": `${STORE.siteUrl}/#loja` },
+        ...(POLICIES.warrantyMonths[p.category] > 0 && {
+          warranty: {
+            "@type": "WarrantyPromise",
+            durationOfWarranty: { "@type": "QuantitativeValue", value: POLICIES.warrantyMonths[p.category], unitCode: "MON" },
+          },
+        }),
       },
     }),
   };
