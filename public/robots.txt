@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /entrar
+Disallow: /redefinir-senha
 Disallow: /favoritos
 
 Sitemap: https://major-cell-catalogo.lovable.app/sitemap.xml

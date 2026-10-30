@@ -126,6 +126,15 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  // Se o link de "Esqueci minha senha" cair em outra página (por exemplo, na inicial),
+  // leva para a tela de nova senha mantendo o código do link.
+  useEffect(() => {
+    const { pathname, search, hash } = window.location;
+    if (pathname !== "/redefinir-senha" && /type=recovery/.test(hash + search)) {
+      window.location.replace(`/redefinir-senha${search}${hash}`);
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
