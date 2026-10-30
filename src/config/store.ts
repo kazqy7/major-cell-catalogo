@@ -90,6 +90,14 @@ export const REVIEWS: { name: string; text: string; rating: number; date?: strin
   { name: "Igor Matheus", text: "Atendimento muito bom, e os melhores preços da região", rating: 5 },
   { name: "Cristhian Eduardo Leite", text: "Ótimo atendimento, além de produtos de qualidade e com preço acessível!", rating: 5 },
   { name: "Marcelo Ramos da Paixão", text: "Melhor atendimento da cidade,variáveis produtos.", rating: 5 },
+  { name: "Ramon Lima", text: "Top comprei telefone iPhone com eles ótimo preço e entrega rápida ! Recomendo", rating: 5 },
+  { name: "Andrey Nobre", text: "Comprei meu iPhone com eles, atendimento excelente, super recomendo.", rating: 5 },
+  {
+    name: "Hernane Lucas Leite Fernandes",
+    text: "Melhor assistência de moc\nexcelente atendimento\nAparelhos novos com ótimos preços e condições de pagamento",
+    rating: 5,
+  },
+  { name: "Maria Eduarda Costa Carvalho", text: "Loja confiável, atendimento top e qualidade garantida. Recomendo!", rating: 5 },
 ];
 
 /**

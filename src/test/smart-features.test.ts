@@ -63,6 +63,10 @@ describe("avaliações", () => {
       "Igor Matheus",
       "Cristhian Eduardo Leite",
       "Marcelo Ramos da Paixão",
+      "Ramon Lima",
+      "Andrey Nobre",
+      "Hernane Lucas Leite Fernandes",
+      "Maria Eduarda Costa Carvalho",
     ]));
 });
 
