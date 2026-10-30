@@ -1,4 +1,4 @@
-import { ADDRESS, HOURS, POLICIES, STORE, STORE_PLACE } from "@/config/store";
+import { ADDRESS, GOOGLE_REVIEWS, HOURS, POLICIES, STORE, STORE_PLACE } from "@/config/store";
 import type { ProductWithUrls } from "@/lib/products";
 
 /**
@@ -51,7 +51,7 @@ export function storeJsonLd() {
         closes: h.close,
       })),
     }),
-    ...(STORE.instagram && { sameAs: [`https://www.instagram.com/${STORE.instagram}`] }),
+    sameAs: [STORE.instagram && `https://www.instagram.com/${STORE.instagram}`, GOOGLE_REVIEWS.url].filter(Boolean),
     ...(POLICIES.payments.length > 0 && { paymentAccepted: POLICIES.payments.join(", ") }),
     ...(POLICIES.company.legalName && { legalName: POLICIES.company.legalName }),
     ...(POLICIES.company.cnpj && { taxID: POLICIES.company.cnpj }),

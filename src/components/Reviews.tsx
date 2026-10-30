@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Star, Shuffle } from "lucide-react";
+import { ArrowUpRight, Star, Shuffle } from "lucide-react";
 import { toast } from "sonner";
 import { queryOptions, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { GOOGLE_REVIEWS } from "@/config/store";
 import { listReviews, submitReview } from "@/lib/reviews.functions";
 import { randomName, shownName, summarize } from "@/lib/reviews";
 
@@ -17,6 +18,24 @@ function Stars({ value, size = "h-4 w-4" }: { value: number; size?: string }) {
   );
 }
 
+/** Nota real da loja no Google, com link para as avaliações no Maps. */
+function GoogleRating() {
+  const { rating, count, url } = GOOGLE_REVIEWS;
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-4 inline-flex flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl hairline px-4 py-3 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+    >
+      <span className="text-2xl font-semibold text-foreground">{rating.toLocaleString("pt-BR", { minimumFractionDigits: 1 })}</span>
+      <Stars value={rating} />
+      <span>{count} avaliações no Google</span>
+      <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+    </a>
+  );
+}
+
 export function Reviews() {
   const { data = [], isLoading } = useQuery(reviewsQuery());
   const [open, setOpen] = useState(false);
@@ -26,7 +45,8 @@ export function Reviews() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 id="avaliacoes" className="text-3xl font-semibold md:text-4xl">Avaliações de clientes</h2>
-          {count > 0 && (
+          {GOOGLE_REVIEWS.url && <GoogleRating />}
+          {!GOOGLE_REVIEWS.url && count > 0 && (
             <div className="mt-3 flex items-center gap-3 text-sm text-muted-foreground">
               <span className="text-2xl font-semibold text-foreground">{average.toLocaleString("pt-BR", { minimumFractionDigits: 1 })}</span>
               <Stars value={average} />
@@ -38,7 +58,7 @@ export function Reviews() {
           Avaliar a loja
         </button>
       </div>
-      {isLoading ? null : count === 0 ? (
+      {isLoading || (count === 0 && GOOGLE_REVIEWS.url) ? null : count === 0 ? (
         <div className="mt-6 rounded-3xl bg-card p-8 text-center">
           <p className="text-muted-foreground">Seja o primeiro a avaliar a Major Cell.</p>
         </div>

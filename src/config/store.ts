@@ -78,6 +78,16 @@ export const INSTALLMENTS = {
  */
 export const REVIEWS: { name: string; text: string; rating: number; date?: string }[] = [];
 
+/**
+ * Nota da loja no Google Maps. Atualize rating e count à mão quando mudarem.
+ * url vazia esconde o botão.
+ */
+export const GOOGLE_REVIEWS = {
+  rating: 4.9,
+  count: 40,
+  url: "https://maps.app.goo.gl/a5cDpqGReYNN73W76",
+};
+
 export function whatsappLink(message: string): string | null {
   const n = STORE.WHATSAPP_NUMBER.replace(/\D/g, "");
   if (!n) return null;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { STORE } from "@/config/store";
+import { GOOGLE_REVIEWS, STORE } from "@/config/store";
 import { faqJsonLd, storeFaq } from "@/lib/faq";
 import { hourLines } from "@/lib/hours";
 import { storeJsonLd } from "@/lib/seo";
@@ -26,5 +26,9 @@ describe("perguntas frequentes da loja", () => {
   it("marca a cidade atendida na ficha da loja", () => {
     expect(storeJsonLd().areaServed.name).toBe("Montes Claros");
     expect(storeJsonLd().description).toContain("Montes Claros, MG");
+  });
+
+  it("liga a ficha da loja ao perfil do Google e ao Instagram", () => {
+    expect(storeJsonLd().sameAs).toEqual([`https://www.instagram.com/${STORE.instagram}`, GOOGLE_REVIEWS.url]);
   });
 });
