@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { MessageCircle } from "lucide-react";
+import { ArrowDown, MessageCircle } from "lucide-react";
 import { REPAIR_SERVICES, type RepairServiceKey } from "@/lib/repair";
 import { cn } from "@/lib/utils";
 import META from "../../public/assistencia/explodida/parts.json";
@@ -131,9 +131,18 @@ export function RepairExplode({ onPick, selected }: { onPick: (service: string) 
     <section
       ref={ref}
       aria-label="Peças que consertamos"
-      className={cn("relative", reduced ? "py-16" : "h-[480svh] md:h-[560svh]")}
+      className={cn("relative", reduced ? "py-16" : "h-[280svh] md:h-[340svh]")}
     >
       <div className={cn("mx-auto flex max-w-6xl flex-col items-center gap-4 overflow-hidden px-5 md:flex-row md:gap-12", !reduced && "sticky top-14 h-[calc(100svh-3.5rem)] justify-center")}>
+        {/* Atalho para quem quer escolher o serviço sem ver a animação inteira */}
+        {!reduced && outro < 0.5 && (
+          <a
+            href="#servicos"
+            className="absolute right-5 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-secondary px-4 py-2 text-sm font-medium text-foreground transition-colors hover:text-primary focus-visible:text-primary"
+          >
+            Pular para os serviços <ArrowDown className="h-4 w-4" aria-hidden="true" />
+          </a>
+        )}
         {/* O aparelho: cada peça é um recorte da vista explodida, no lugar exato do desenho original */}
         <div className="flex h-[50svh] w-full items-center justify-center md:h-[84svh] md:w-[55%]" aria-hidden="true">
           <svg viewBox={`0 0 ${META.width} ${META.height}`} className="h-full w-auto overflow-visible">

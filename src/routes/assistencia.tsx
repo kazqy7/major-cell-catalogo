@@ -90,7 +90,7 @@ function Assistencia() {
 
       <RepairExplode onPick={requestQuote} selected={f.service} />
 
-      <section className="mx-auto max-w-6xl px-5 py-16">
+      <section id="servicos" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-16">
         <h2 className="text-center text-3xl font-semibold">Serviços para consulta</h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-base text-muted-foreground">
           Cada serviço depende da avaliação do aparelho. Valores e prazos são informados no atendimento.
