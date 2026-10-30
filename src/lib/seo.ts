@@ -1,4 +1,4 @@
-import { ADDRESS, HOURS, POLICIES, STORE } from "@/config/store";
+import { ADDRESS, HOURS, POLICIES, STORE, STORE_PLACE } from "@/config/store";
 import type { ProductWithUrls } from "@/lib/products";
 
 /**
@@ -27,7 +27,9 @@ export function storeJsonLd() {
     "@type": "MobilePhoneStore",
     "@id": `${STORE.siteUrl}/#loja`,
     name: STORE.name,
+    description: `Loja de celulares em ${STORE_PLACE}: iPhones novos e seminovos, Xiaomi e assistência técnica.`,
     url: STORE.siteUrl,
+    areaServed: { "@type": "City", name: ADDRESS.city },
     image: DEFAULT_SHARE_IMAGE,
     logo: absUrl("/favicon.png"),
     telephone: phoneDisplay(),

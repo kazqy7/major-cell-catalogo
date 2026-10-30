@@ -25,6 +25,9 @@ export const STORE = {
   address: ADDRESS.street ? `${ADDRESS.street} - ${ADDRESS.neighborhood}, ${ADDRESS.city} - ${ADDRESS.state}` : "",
 };
 
+/** Cidade da loja, usada nos títulos e descrições para buscas locais. */
+export const STORE_PLACE = `${ADDRESS.city}, ${ADDRESS.state}`;
+
 /**
  * Garantia, pagamento e dados da empresa. Campo vazio não aparece no site.
  * warranty: por categoria de produto. payments: na ordem em que aparecem.

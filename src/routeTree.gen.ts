@@ -19,6 +19,7 @@ import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as FavoritosRouteImport } from './routes/favoritos'
 import { Route as IphonesNovosRouteImport } from './routes/iphones-novos'
 import { Route as IphonesSeminovosRouteImport } from './routes/iphones-seminovos'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as OfertasRouteImport } from './routes/ofertas'
 import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -78,6 +79,11 @@ const IphonesSeminovosRoute = IphonesSeminovosRouteImport.update({
   path: '/iphones-seminovos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OfertasRoute = OfertasRouteImport.update({
   id: '/ofertas',
   path: '/ofertas',
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/favoritos': typeof FavoritosRoute
   '/iphones-novos': typeof IphonesNovosRoute
   '/iphones-seminovos': typeof IphonesSeminovosRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/ofertas': typeof OfertasRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/favoritos': typeof FavoritosRoute
   '/iphones-novos': typeof IphonesNovosRoute
   '/iphones-seminovos': typeof IphonesSeminovosRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/ofertas': typeof OfertasRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/favoritos': typeof FavoritosRoute
   '/iphones-novos': typeof IphonesNovosRoute
   '/iphones-seminovos': typeof IphonesSeminovosRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/ofertas': typeof OfertasRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -194,6 +203,7 @@ export interface FileRouteTypes {
     | '/favoritos'
     | '/iphones-novos'
     | '/iphones-seminovos'
+    | '/llms.txt'
     | '/ofertas'
     | '/redefinir-senha'
     | '/sitemap.xml'
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
     | '/favoritos'
     | '/iphones-novos'
     | '/iphones-seminovos'
+    | '/llms.txt'
     | '/ofertas'
     | '/redefinir-senha'
     | '/sitemap.xml'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/favoritos'
     | '/iphones-novos'
     | '/iphones-seminovos'
+    | '/llms.txt'
     | '/ofertas'
     | '/redefinir-senha'
     | '/sitemap.xml'
@@ -255,6 +267,7 @@ export interface RootRouteChildren {
   FavoritosRoute: typeof FavoritosRoute
   IphonesNovosRoute: typeof IphonesNovosRoute
   IphonesSeminovosRoute: typeof IphonesSeminovosRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
   OfertasRoute: typeof OfertasRoute
   RedefinirSenhaRoute: typeof RedefinirSenhaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -337,6 +350,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IphonesSeminovosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ofertas': {
       id: '/ofertas'
       path: '/ofertas'
@@ -407,6 +427,7 @@ const rootRouteChildren: RootRouteChildren = {
   FavoritosRoute: FavoritosRoute,
   IphonesNovosRoute: IphonesNovosRoute,
   IphonesSeminovosRoute: IphonesSeminovosRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
   OfertasRoute: OfertasRoute,
   RedefinirSenhaRoute: RedefinirSenhaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

@@ -16,6 +16,7 @@ import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 import { Toaster } from "@/components/ui/sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { STORE_PLACE } from "@/config/store";
 import { DEFAULT_SHARE_IMAGE, ldScript, storeJsonLd } from "@/lib/seo";
 
 function NotFoundComponent() {
@@ -83,8 +84,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Major Cell — iPhones e Xiaomi" },
-      { name: "description", content: "iPhones novos, seminovos selecionados e Xiaomi com atendimento de confiança." },
+      { title: `Major Cell — Loja de celulares em ${STORE_PLACE}` },
+      { name: "description", content: `Loja de celulares em ${STORE_PLACE}: iPhones novos, seminovos selecionados, Xiaomi e assistência técnica.` },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Major Cell" },
       { property: "og:locale", content: "pt_BR" },

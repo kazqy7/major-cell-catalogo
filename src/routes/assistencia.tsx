@@ -4,6 +4,7 @@ import { Eye, MessageCircle } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { RepairExplode, hasRepairPart, showRepairPart } from "@/components/RepairExplode";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { STORE_PLACE } from "@/config/store";
 import { cn } from "@/lib/utils";
 import {
   REPAIR_SERVICES,
@@ -16,11 +17,11 @@ import {
 export const Route = createFileRoute("/assistencia")({
   head: () => ({
     meta: [
-      { title: "Assistência Técnica | Major Cell" },
+      { title: `Assistência Técnica em ${STORE_PLACE} | Major Cell` },
       {
         name: "description",
         content:
-          "Solicite pelo WhatsApp uma avaliação para reparo do seu celular na Major Cell: tela, bateria, placa, conector, câmera, botões, áudio e diagnóstico.",
+          `Assistência técnica de celulares em ${STORE_PLACE}. Solicite pelo WhatsApp uma avaliação para tela, bateria, placa, conector, câmera, botões, áudio e diagnóstico.`,
       },
       { property: "og:title", content: "Assistência Técnica | Major Cell" },
       {

@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/PageHeader";
+import { STORE_PLACE } from "@/config/store";
 
 export const Route = createFileRoute("/sobre")({
   head: () => ({
     meta: [
       { title: "Sobre a loja | Major Cell" },
-      { name: "description", content: "Conheça a Major Cell: iPhones novos, seminovos selecionados e Xiaomi com atendimento de confiança." },
+      { name: "description", content: `Conheça a Major Cell, loja de celulares em ${STORE_PLACE}: iPhones novos, seminovos selecionados e Xiaomi com atendimento de confiança.` },
       { property: "og:title", content: "Sobre a loja | Major Cell" },
       { property: "og:description", content: "Conheça a Major Cell e nosso compromisso com procedência e confiança." },
     ],

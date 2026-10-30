@@ -2,12 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/PageHeader";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { StoreVisit } from "@/components/StoreVisit";
+import { STORE_PLACE } from "@/config/store";
 
 export const Route = createFileRoute("/contato")({
   head: () => ({
     meta: [
-      { title: "Contato | Major Cell" },
-      { name: "description", content: "Fale com a Major Cell pelo WhatsApp e consulte os aparelhos disponíveis." },
+      { title: `Contato | Major Cell, ${STORE_PLACE}` },
+      { name: "description", content: `Endereço, horário e WhatsApp da Major Cell, loja de celulares em ${STORE_PLACE}.` },
       { property: "og:title", content: "Contato | Major Cell" },
       { property: "og:description", content: "Fale com a Major Cell pelo WhatsApp." },
     ],

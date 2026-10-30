@@ -11,17 +11,22 @@ import { catalogError } from "@/components/CategoryPage";
 import { StoreVisit } from "@/components/StoreVisit";
 import { TrustStrip } from "@/components/TrustStrip";
 import { Reviews } from "@/components/Reviews";
+import { StoreFaq } from "@/components/StoreFaq";
+import { STORE_PLACE } from "@/config/store";
+import { faqJsonLd } from "@/lib/faq";
+import { ldScript } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Major Cell — Seu próximo smartphone está aqui" },
-      { name: "description", content: "iPhones novos, seminovos selecionados e Xiaomi. Encontre seu próximo aparelho com atendimento de confiança na Major Cell." },
-      { property: "og:title", content: "Major Cell — Seu próximo smartphone está aqui" },
-      { property: "og:description", content: "iPhones novos, seminovos selecionados e Xiaomi com atendimento de confiança." },
+      { title: `Major Cell — Loja de celulares em ${STORE_PLACE}` },
+      { name: "description", content: `Loja de celulares em ${STORE_PLACE}: iPhones novos, seminovos selecionados, Xiaomi e assistência técnica, com atendimento pelo WhatsApp.` },
+      { property: "og:title", content: `Major Cell — Loja de celulares em ${STORE_PLACE}` },
+      { property: "og:description", content: `iPhones novos, seminovos selecionados, Xiaomi e assistência técnica em ${STORE_PLACE}.` },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
+    scripts: [ldScript(faqJsonLd())],
   }),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(productsQuery()), context.queryClient.ensureQueryData(comingSoonQuery())]),
   errorComponent: catalogError,
@@ -104,7 +109,7 @@ function Home() {
               Seu próximo iPhone está aqui.
             </h1>
             <p className="mx-auto mt-5 max-w-lg text-lg text-muted-foreground md:text-xl lg:mx-0">
-              iPhones novos, seminovos revisados e Xiaomi, com atendimento direto pelo WhatsApp.
+              iPhones novos, seminovos revisados e Xiaomi em {STORE_PLACE}, com atendimento direto pelo WhatsApp.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
               <Link to="/catalogo" className="rounded-full bg-gold px-7 py-3.5 text-base font-semibold text-primary-foreground">
@@ -198,6 +203,8 @@ function Home() {
       <Reviews />
 
       <StoreVisit />
+
+      <StoreFaq />
 
       <section className="mx-auto max-w-7xl px-5 pb-20">
         <div className="flex flex-col items-center gap-4 rounded-3xl bg-card p-8 text-center">

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
 import { StoreFooterInfo } from "./StoreVisit";
-import { POLICIES } from "@/config/store";
+import { POLICIES, STORE_PLACE } from "@/config/store";
 
 export function SiteFooter() {
   return (
@@ -10,7 +10,7 @@ export function SiteFooter() {
         <div className="space-y-4">
           <Logo className="h-12 w-auto" />
           <p className="max-w-xs text-base text-muted-foreground">
-            iPhones novos, seminovos selecionados e Xiaomi, com atendimento de confiança.
+            iPhones novos, seminovos selecionados e Xiaomi em {STORE_PLACE}, com atendimento de confiança.
           </p>
           <StoreFooterInfo />
         </div>
