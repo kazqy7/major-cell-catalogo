@@ -128,12 +128,13 @@ export function RepairExplode({ onPick, selected }: { onPick: (service: string) 
   const fy = FRAME.cy + (META.height / 2 - FRAME.cy) * away;
 
   return (
+    <>
     <section
       ref={ref}
       aria-label="Peças que consertamos"
       className={cn("relative", reduced ? "py-16" : "h-[280svh] md:h-[340svh]")}
     >
-      <div className={cn("mx-auto flex max-w-6xl flex-col items-center gap-4 overflow-hidden px-5 md:flex-row md:gap-12", !reduced && "sticky top-14 h-[calc(100svh-3.5rem)] justify-center")}>
+      <div className={cn("mx-auto flex max-w-6xl flex-col items-center gap-4 px-5 md:flex-row md:gap-12", !reduced && "sticky top-14 h-[calc(100svh-3.5rem)] justify-center")}>
         {/* Atalho para quem quer escolher o serviço sem ver a animação inteira */}
         {!reduced && outro < 0.5 && (
           <a
@@ -144,7 +145,7 @@ export function RepairExplode({ onPick, selected }: { onPick: (service: string) 
           </a>
         )}
         {/* O aparelho: cada peça é um recorte da vista explodida, no lugar exato do desenho original */}
-        <div className="flex h-[50svh] w-full items-center justify-center md:h-[84svh] md:w-[55%]" aria-hidden="true">
+        <div className="flex h-[40svh] w-full items-center justify-center overflow-hidden md:h-[84svh] md:w-[55%]" aria-hidden="true">
           <svg viewBox={`0 0 ${META.width} ${META.height}`} className="h-full w-auto overflow-visible">
             <g transform={`translate(${META.width / 2} ${META.height / 2}) scale(${zoom}) translate(${-fx} ${-fy})`}>
               {PARTS.map((part) => {
@@ -190,17 +191,17 @@ export function RepairExplode({ onPick, selected }: { onPick: (service: string) 
 
         {/* Os serviços: um acende a cada peça */}
         <div className="w-full md:w-1/2">
-          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Por dentro do seu celular</h2>
-          <ol className="mt-6 space-y-2">
+          <h2 className="text-2xl font-semibold tracking-tight md:text-5xl">Por dentro do seu celular</h2>
+          <ol className="mt-4 space-y-2 md:mt-6">
             {SERVICES.map((s, i) => {
               const on = reduced || i === active;
               return (
                 <li
                   key={s.key}
                   className={cn(
-                    "rounded-2xl px-5 py-4 transition-[opacity,background-color] duration-300",
-                    on ? "bg-card opacity-100" : s.key === picked ? "opacity-100" : "opacity-40",
-                    !reduced && !on && s.key !== picked && "hidden md:block",
+                    "rounded-2xl px-5 transition-[opacity,background-color] duration-300",
+                    on ? "bg-card py-4 opacity-100" : s.key === picked ? "py-2 opacity-100" : "py-2 opacity-40",
+                    !reduced && !on && s.key !== picked && (outro > 0.5 ? "hidden" : "hidden md:block"),
                   )}
                 >
                   <h3 className="text-lg font-semibold md:text-xl">
@@ -225,18 +226,33 @@ export function RepairExplode({ onPick, selected }: { onPick: (service: string) 
               );
             })}
           </ol>
-          <div className="mt-6 transition-opacity duration-300" style={{ opacity: outro }} aria-hidden={outro < 0.5}>
-            <p className="text-lg">Também consertamos celulares de outras marcas, como Xiaomi e Samsung.</p>
-            <a
-              href="#orcamento"
-              tabIndex={outro < 0.5 ? -1 : 0}
-              className="mt-4 inline-flex rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground"
-            >
-              Solicitar orçamento
-            </a>
+          {/* No computador o fechamento aparece dentro da cena; no celular ele vem logo depois, para nunca ficar cortado. */}
+          <div className={cn("mt-6 transition-opacity duration-300", !reduced && "hidden md:block")} style={{ opacity: outro }} aria-hidden={outro < 0.5}>
+            <OtherBrands tabIndex={outro < 0.5 ? -1 : 0} />
           </div>
         </div>
       </div>
     </section>
+    {!reduced && (
+      <div className="mx-auto max-w-6xl px-5 pt-8 md:hidden">
+        <OtherBrands />
+      </div>
+    )}
+    </>
+  );
+}
+
+function OtherBrands({ tabIndex }: { tabIndex?: number }) {
+  return (
+    <>
+      <p className="text-lg">Também consertamos celulares de outras marcas, como Xiaomi e Samsung.</p>
+      <a
+        href="#orcamento"
+        tabIndex={tabIndex}
+        className="mt-4 inline-flex rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground"
+      >
+        Solicitar orçamento
+      </a>
+    </>
   );
 }
