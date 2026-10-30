@@ -15,6 +15,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Toaster } from "@/components/ui/sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { DEFAULT_SHARE_IMAGE, ldScript, storeJsonLd } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -84,8 +85,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Major Cell — iPhones e Xiaomi" },
       { name: "description", content: "iPhones novos, seminovos selecionados e Xiaomi com atendimento de confiança." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Major Cell" },
+      { property: "og:locale", content: "pt_BR" },
+      { property: "og:image", content: DEFAULT_SHARE_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    // Ficha da loja para o Google: endereço, horário, telefone e Instagram (src/lib/seo.ts).
+    scripts: [ldScript(storeJsonLd())],
     links: [
       {
         rel: "stylesheet",

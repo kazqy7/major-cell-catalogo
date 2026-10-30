@@ -18,18 +18,27 @@ const NAV = [
   { to: "/contato", label: "Contato" },
 ] as const;
 
+// No computador o menu mostra só o essencial; o restante fica no menu do celular e no rodapé.
+const NAV_DESKTOP = [
+  { to: "/iphones-novos", label: "iPhones novos" },
+  { to: "/iphones-seminovos", label: "Seminovos" },
+  { to: "/xiaomi", label: "Xiaomi" },
+  { to: "/ofertas", label: "Ofertas" },
+  { to: "/assistencia", label: "Assistência" },
+] as const;
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/70 backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-40 bg-background">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 px-5">
         <Logo />
         <nav className="hidden items-center gap-7 lg:flex">
-          {NAV.map((n) => (
+          {NAV_DESKTOP.map((n) => (
             <Link
               key={n.to}
               to={n.to}
-              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+              className="whitespace-nowrap text-sm text-muted-foreground transition-colors hover:text-foreground"
               activeProps={{ className: "text-primary" }}
               activeOptions={{ exact: true }}
             >
@@ -51,13 +60,13 @@ export function SiteHeader() {
         </button>
       </div>
       {open && (
-        <nav className="border-t border-border px-5 pb-6 lg:hidden">
+        <nav className="bg-card px-5 pb-6 pt-2 lg:hidden">
           {NAV.map((n) => (
             <Link
               key={n.to}
               to={n.to}
               onClick={() => setOpen(false)}
-              className="block border-b border-border/50 py-3.5 text-base text-foreground"
+              className="block py-3.5 text-lg text-foreground"
               activeProps={{ className: "text-primary" }}
               activeOptions={{ exact: true }}
             >

@@ -1,19 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-import {
-  Smartphone,
-  BatteryCharging,
-  Cpu,
-  PlugZap,
-  Camera,
-  Search,
-  ToggleRight,
-  Volume2,
-  Wrench,
-  MessageCircle,
-  type LucideIcon,
-} from "lucide-react";
+import { Eye, MessageCircle } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
+import { RepairExplode, hasRepairPart, showRepairPart } from "@/components/RepairExplode";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { cn } from "@/lib/utils";
 import {
@@ -22,7 +11,6 @@ import {
   repairLink,
   validateRepair,
   type RepairForm,
-  type RepairServiceKey,
 } from "@/lib/repair";
 
 export const Route = createFileRoute("/assistencia")({
@@ -45,18 +33,6 @@ export const Route = createFileRoute("/assistencia")({
   }),
   component: Assistencia,
 });
-
-const ICONS: Record<RepairServiceKey, LucideIcon> = {
-  tela: Smartphone,
-  bateria: BatteryCharging,
-  placa: Cpu,
-  conector: PlugZap,
-  camera: Camera,
-  diagnostico: Search,
-  botoes: ToggleRight,
-  audio: Volume2,
-  outros: Wrench,
-};
 
 const FIELDS: { k: keyof RepairForm; label: string; ph: string }[] = [
   { k: "name", label: "Seu nome", ph: "Como podemos te chamar" },
@@ -100,7 +76,6 @@ function Assistencia() {
   return (
     <>
       <PageHeader
-        eyebrow="Assistência técnica"
         title="Assistência Técnica Major Cell"
         subtitle="Seu celular precisa de reparo? Entre em contato com a Major Cell e solicite uma avaliação para o seu aparelho."
       />
@@ -113,14 +88,15 @@ function Assistencia() {
         </WhatsAppButton>
       </div>
 
+      <RepairExplode onPick={requestQuote} selected={f.service} />
+
       <section className="mx-auto max-w-6xl px-5 py-16">
         <h2 className="text-center text-3xl font-semibold">Serviços para consulta</h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-sm text-muted-foreground">
+        <p className="mx-auto mt-3 max-w-xl text-center text-base text-muted-foreground">
           Cada serviço depende da avaliação do aparelho. Valores e prazos são informados no atendimento.
         </p>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {REPAIR_SERVICES.map(({ key, name, problems }) => {
-            const Icon = ICONS[key];
             const selected = f.service === name;
             return (
               <div
@@ -130,9 +106,8 @@ function Assistencia() {
                   selected && "border-primary",
                 )}
               >
-                <Icon className="h-6 w-6 shrink-0 text-primary" strokeWidth={1.5} />
-                <h3 className="mt-4 text-base font-medium">{name}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{problems}</p>
+                <h3 className="text-xl font-semibold">{name}</h3>
+                <p className="mt-2 flex-1 text-base leading-relaxed text-muted-foreground">{problems}</p>
                 <button
                   type="button"
                   onClick={() => requestQuote(name)}
@@ -145,6 +120,15 @@ function Assistencia() {
                 >
                   <MessageCircle className="h-4 w-4" /> Solicitar orçamento
                 </button>
+                {hasRepairPart(key) && (
+                  <button
+                    type="button"
+                    onClick={() => showRepairPart(key)}
+                    className="mt-2 inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm text-muted-foreground transition-colors hover:text-primary focus-visible:text-primary"
+                  >
+                    <Eye className="h-4 w-4" aria-hidden="true" /> Ver a peça no iPhone
+                  </button>
+                )}
               </div>
             );
           })}
@@ -154,7 +138,7 @@ function Assistencia() {
       <section id="orcamento" ref={formRef} className="mx-auto max-w-2xl scroll-mt-24 px-5 pb-20">
         <form onSubmit={submit} noValidate className="rounded-3xl hairline bg-card p-6 md:p-8">
           <h2 className="text-2xl font-semibold">Solicitar orçamento</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="mt-2 text-base text-muted-foreground">
             Preencha e envie pelo WhatsApp. Nada fica salvo no site.
           </p>
           <div className="mt-6 grid gap-4">

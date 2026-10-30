@@ -12,7 +12,7 @@ export const Route = createFileRoute("/sobre")({
   }),
   component: () => (
     <>
-      <PageHeader eyebrow="Sobre a loja" title="Tecnologia com confiança" subtitle="A Major Cell reúne iPhones novos, seminovos cuidadosamente selecionados e smartphones Xiaomi, sempre com atendimento próximo e transparente." />
+      <PageHeader title="Tecnologia com confiança" subtitle="A Major Cell reúne iPhones novos, seminovos cuidadosamente selecionados e smartphones Xiaomi, sempre com atendimento próximo e transparente." />
       <div className="mx-auto grid max-w-7xl gap-6 px-5 py-16 md:grid-cols-3">
         {[
           ["Seleção criteriosa", "Cada seminovo passa por avaliação de estado, funcionamento e saúde da bateria antes de entrar no catálogo."],
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/sobre")({
         ].map(([t, d]) => (
           <div key={t} className="rounded-2xl hairline bg-card p-7">
             <h2 className="text-xl font-semibold text-gold">{t}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{d}</p>
+            <p className="mt-3 text-base leading-relaxed text-muted-foreground">{d}</p>
           </div>
         ))}
       </div>

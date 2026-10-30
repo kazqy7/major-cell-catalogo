@@ -50,7 +50,7 @@ function Login() {
 
   return (
     <div className="mx-auto flex max-w-md flex-col px-5 py-20">
-      <p className="text-xs uppercase tracking-[0.3em] text-primary">Área administrativa</p>
+      <p className="text-sm font-medium text-primary">Área administrativa</p>
       <h1 className="mt-3 text-3xl font-semibold">{mode === "in" ? "Entrar" : "Criar conta"}</h1>
       <form onSubmit={submit} className="mt-8 space-y-4 rounded-2xl hairline bg-card p-6">
         <input className={inp} type="email" required placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />

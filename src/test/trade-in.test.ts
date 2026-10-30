@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { tradeInMessage, validateTradeIn, type TradeIn } from "@/lib/trade-in";
+import { stepErrors, tradeInMessage, validateTradeIn, type TradeIn } from "@/lib/trade-in";
 
 const ok: TradeIn = { name: "Ana", model: "iPhone 12", storage: "128 GB", condition: "Bom", battery: "85", works: "Tudo funciona", notes: "", wanted: "iPhone 16 128 GB", wantedLink: "https://x/produto/1", contact: "" };
 
@@ -11,6 +11,14 @@ describe("trade-in", () => {
   });
   it("rejects battery above 100", () => {
     expect(validateTradeIn({ ...ok, battery: "120" }).battery).toBeDefined();
+  });
+  it("each step only checks its own fields", () => {
+    const empty = { ...ok, name: "", model: "", storage: "", condition: "", works: "" };
+    expect(Object.keys(stepErrors(empty, 0)).sort()).toEqual(["model", "storage"]);
+    expect(Object.keys(stepErrors(empty, 1)).sort()).toEqual(["condition", "works"]);
+    expect(stepErrors(empty, 2)).toEqual({});
+    expect(Object.keys(stepErrors(empty, 3))).toEqual(["name"]);
+    expect(stepErrors(ok, 1)).toEqual({});
   });
   it("message has the filled data and product link", () => {
     const m = tradeInMessage(ok);

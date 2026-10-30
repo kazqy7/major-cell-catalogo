@@ -13,5 +13,5 @@ export const Route = createFileRoute("/iphones-novos")({
   }),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(productsQuery()), context.queryClient.ensureQueryData(comingSoonQuery())]),
   errorComponent: catalogError,
-  component: () => <CategoryPage eyebrow="Catálogo" title="iPhones novos" subtitle="iPhones novos, lacrados e com procedência na Major Cell." category="iphone_novo" />,
+  component: () => <CategoryPage title="iPhones novos" subtitle="iPhones novos, lacrados e com procedência na Major Cell." category="iphone_novo" />,
 });

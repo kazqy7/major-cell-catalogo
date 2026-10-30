@@ -3,13 +3,37 @@
  * WHATSAPP_NUMBER: somente dígitos, com código do país e DDD (ex.: "5511999999999").
  * Enquanto estiver vazio, os botões de WhatsApp mostram um aviso em vez de abrir a conversa.
  */
+/**
+ * Endereço da loja em partes: é assim que o Google lê (ficha da loja).
+ * Deixe street vazio para esconder o mapa e a seção "Visite a loja".
+ */
+export const ADDRESS = {
+  street: "Av. Castelar Prates, 289",
+  neighborhood: "Major Prates",
+  city: "Montes Claros",
+  state: "MG",
+};
+
 export const STORE = {
   name: "Major Cell",
   WHATSAPP_NUMBER: "5538988063088",
-  instagram: "",
-  address: "",
-  hours: "",
+  /** Endereço do site no ar, sem barra no fim. Troque aqui se a loja passar a usar um domínio próprio. */
+  siteUrl: "https://major-cell-catalogo.lovable.app",
+  /** Só o nome de usuário, sem @. Ex.: "majorcell". Vazio esconde o botão do Instagram. */
+  instagram: "_major_cell_",
+  /** Endereço completo numa linha, montado a partir de ADDRESS. */
+  address: ADDRESS.street ? `${ADDRESS.street} - ${ADDRESS.neighborhood}, ${ADDRESS.city} - ${ADDRESS.state}` : "",
 };
+
+/**
+ * Horário de funcionamento. days: 0 = domingo … 6 = sábado. Horas no formato "09:00".
+ * Dias que não aparecem aqui contam como fechados. Vazio esconde o horário e o selo "Aberto agora".
+ * Exemplo: { days: [1, 2, 3, 4, 5], open: "09:00", close: "18:00" }
+ */
+export const HOURS: { days: number[]; open: string; close: string }[] = [
+  { days: [1, 2, 3, 4, 5], open: "08:30", close: "18:30" },
+  { days: [6], open: "08:30", close: "12:30" },
+];
 
 /**
  * Parcelamento — taxas REAIS da maquininha Mastercard (repasse ao cliente).

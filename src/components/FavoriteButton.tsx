@@ -19,7 +19,7 @@ export function FavoriteButton({ id, name, className }: { id: string; name: stri
 
 export function StockBadge({ status }: { status: string }) {
   if (status === "em_breve")
-    return <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-[11px] font-semibold tracking-[0.14em] text-primary">EM BREVE</span>;
+    return <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-primary">Em breve</span>;
   const sold = status !== "disponivel";
   return (
     <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium", sold ? "bg-destructive/15 text-destructive" : "bg-primary/10 text-primary")}>

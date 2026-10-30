@@ -145,9 +145,9 @@ export function IphoneOrbit({ products }: { products: Item[] }) {
       </button>
 
       <div className="mt-2 min-h-[120px] text-center" aria-live="polite">
-        <p className="text-xs font-medium uppercase tracking-[0.25em] text-primary">{g.year}</p>
+        <p className="text-sm font-medium text-primary">{g.year}</p>
         <h2 className="mt-1 text-2xl font-semibold tracking-tight">{g.name}</h2>
-        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">{g.text}</p>
+        <p className="mx-auto mt-2 max-w-md text-base text-muted-foreground">{g.text}</p>
         {product && (
           <Link to="/produto/$id" params={{ id: product.id }} className="mt-3 inline-block text-sm text-primary underline-offset-4 hover:underline">
             Ver no catálogo

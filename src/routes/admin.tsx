@@ -86,7 +86,7 @@ function Dashboard({ email }: { email: string }) {
     <div className="mx-auto max-w-7xl px-5 py-10">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-primary">Painel administrativo</p>
+          <p className="text-sm font-medium text-primary">Painel administrativo</p>
           <h1 className="mt-2 text-3xl font-semibold">Estoque de aparelhos</h1>
           <p className="text-sm text-muted-foreground">{email}</p>
         </div>

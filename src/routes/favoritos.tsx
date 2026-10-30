@@ -23,7 +23,7 @@ export const Route = createFileRoute("/favoritos")({
   errorComponent: catalogError,
   component: () => (
     <>
-      <PageHeader eyebrow="Favoritos" title="Meus favoritos" subtitle="Salvos neste navegador, sem cadastro." />
+      <PageHeader title="Meus favoritos" subtitle="Salvos neste navegador, sem cadastro." />
       <div className="mx-auto max-w-7xl px-5 py-12">
         <Suspense fallback={<CatalogSkeleton />}><List /></Suspense>
       </div>
@@ -46,7 +46,7 @@ function List() {
       </div>
     );
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
       {items.map((p) => <ProductCard key={p.id} p={p} />)}
     </div>
   );

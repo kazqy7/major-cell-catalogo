@@ -3,10 +3,10 @@ import { PageHeader } from "./PageHeader";
 import { Catalog, CatalogSkeleton } from "./Catalog";
 import type { Category } from "@/lib/products";
 
-export function CategoryPage({ eyebrow, title, subtitle, category }: { eyebrow: string; title: string; subtitle: string; category?: Category | undefined }) {
+export function CategoryPage({ title, subtitle, category }: { title: string; subtitle: string; category?: Category | undefined }) {
   return (
     <>
-      <PageHeader eyebrow={eyebrow} title={title} subtitle={subtitle} />
+      <PageHeader title={title} subtitle={subtitle} />
       <div className="mx-auto max-w-7xl px-5 py-12">
         <Suspense fallback={<CatalogSkeleton />}>
           <Catalog fixedCategory={category} />

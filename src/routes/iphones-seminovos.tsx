@@ -13,5 +13,5 @@ export const Route = createFileRoute("/iphones-seminovos")({
   }),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(productsQuery()), context.queryClient.ensureQueryData(comingSoonQuery())]),
   errorComponent: catalogError,
-  component: () => <CategoryPage eyebrow="Catálogo" title="iPhones seminovos" subtitle="iPhones seminovos selecionados e revisados, com saúde de bateria informada." category="iphone_seminovo" />,
+  component: () => <CategoryPage title="iPhones seminovos" subtitle="iPhones seminovos selecionados e revisados, com saúde de bateria informada." category="iphone_seminovo" />,
 });

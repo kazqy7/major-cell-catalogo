@@ -8,17 +8,36 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { catalogError } from "@/components/CategoryPage";
 import { FavoriteButton, StockBadge } from "@/components/FavoriteButton";
 import { InstallmentSimulator } from "@/components/InstallmentSimulator";
+import { absUrl, DEFAULT_SHARE_IMAGE, ldScript, productJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/produto/$id")({
   loader: async ({ context, params }) => {
     const p = await context.queryClient.ensureQueryData(productQuery(params.id));
     if (!p) throw notFound();
-    return { name: p.name as string, model: p.model as string | null };
+    return { product: p };
   },
   head: ({ loaderData }) => {
-    const t = loaderData ? `${loaderData.name}${loaderData.model ? " " + loaderData.model : ""} | Major Cell` : "Aparelho | Major Cell";
-    const d = "Detalhes, fotos e consulta pelo WhatsApp na Major Cell.";
-    return { meta: [{ title: t }, { name: "description", content: d }, { property: "og:title", content: t }, { property: "og:description", content: d }] };
+    const p = loaderData?.product;
+    if (!p) return { meta: [{ title: "Aparelho | Major Cell" }] };
+    const t = `${p.name}${p.model ? " " + p.model : ""}${p.storage ? " " + p.storage : ""} | Major Cell`;
+    const price = formatPrice(p.price);
+    const kind = p.category === "iphone_seminovo" ? "seminovo revisado" : "novo";
+    const d = `${p.name}${p.storage ? " " + p.storage : ""}, ${kind}${price ? `, por ${price}` : ""} na Major Cell, em Montes Claros. Fotos, detalhes e atendimento pelo WhatsApp.`;
+    const image = p.imageUrls[0] ? absUrl(p.imageUrls[0]) : DEFAULT_SHARE_IMAGE;
+    return {
+      meta: [
+        { title: t },
+        { name: "description", content: d },
+        { property: "og:title", content: t },
+        { property: "og:description", content: d },
+        { property: "og:type", content: "product" },
+        { property: "og:url", content: absUrl(`/produto/${p.id}`) },
+        { property: "og:image", content: image },
+        { name: "twitter:image", content: image },
+      ],
+      links: [{ rel: "canonical", href: absUrl(`/produto/${p.id}`) }],
+      scripts: [ldScript(productJsonLd(p))],
+    };
   },
   errorComponent: catalogError,
   notFoundComponent: () => (
@@ -122,7 +141,7 @@ function ProductPage() {
           {!sold && !soon && <InstallmentSimulator price={p.price} />}
 
           {colors.length > 0 && (
-            <section className="mt-10 border-t border-border pt-8">
+            <section className="mt-14">
               <h2 className="text-xl font-semibold">
                 Cor. <span className="text-muted-foreground">{chosenColor ? chosenColor.name : "Escolha a sua."}</span>
               </h2>
@@ -163,7 +182,7 @@ function ProductPage() {
           )}
 
           {usePhotoColors && photoColor && (
-            <section className="mt-10 border-t border-border pt-8">
+            <section className="mt-14">
               <h2 className="text-xl font-semibold">
                 Cor. <span className="text-muted-foreground">{photoColor.name}</span>
               </h2>
@@ -188,7 +207,7 @@ function ProductPage() {
             </section>
           )}
 
-          <section className="mt-10 border-t border-border pt-6">
+          <section className="mt-14">
             <Row k="Condição" v={conditionLabel(p.category)} />
             <Row k="Armazenamento" v={p.storage} />
             <Row k="Memória RAM" v={p.ram} />

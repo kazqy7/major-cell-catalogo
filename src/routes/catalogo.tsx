@@ -13,5 +13,5 @@ export const Route = createFileRoute("/catalogo")({
   }),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(productsQuery()), context.queryClient.ensureQueryData(comingSoonQuery())]),
   errorComponent: catalogError,
-  component: () => <CategoryPage eyebrow="Catálogo" title="Todos os aparelhos" subtitle="iPhones novos, seminovos e Xiaomi disponíveis na Major Cell."  />,
+  component: () => <CategoryPage title="Todos os aparelhos" subtitle="iPhones novos, seminovos e Xiaomi disponíveis na Major Cell."  />,
 });

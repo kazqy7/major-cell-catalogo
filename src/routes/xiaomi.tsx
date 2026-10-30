@@ -13,5 +13,5 @@ export const Route = createFileRoute("/xiaomi")({
   }),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(productsQuery()), context.queryClient.ensureQueryData(comingSoonQuery())]),
   errorComponent: catalogError,
-  component: () => <CategoryPage eyebrow="Catálogo" title="Xiaomi" subtitle="Smartphones Xiaomi com ótimo custo-benefício na Major Cell." category="xiaomi" />,
+  component: () => <CategoryPage title="Xiaomi" subtitle="Smartphones Xiaomi com ótimo custo-benefício na Major Cell." category="xiaomi" />,
 });

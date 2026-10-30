@@ -27,7 +27,7 @@ export function CompareTable() {
 
   return (
     <div className="mx-auto max-w-6xl px-5 pb-20">
-      <PageHeader eyebrow="Comparar" title="Qual iPhone combina com você?" subtitle="Escolha 2 ou 3 iPhones da loja e veja, em palavras simples, o que muda entre eles." />
+      <PageHeader title="Qual iPhone combina com você?" subtitle="Escolha 2 ou 3 iPhones da loja e veja, em palavras simples, o que muda entre eles." />
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
         {[0, 1, 2].map((i) => {
@@ -59,7 +59,7 @@ export function CompareTable() {
                   <div className="mx-auto aspect-square w-full max-w-[200px] rounded-2xl bg-showcase p-3">
                     {p.imageUrls[0] && <img src={p.imageUrls[0]} alt={p.name} className="h-full w-full object-contain" />}
                   </div>
-                  <p className="mt-4 text-center text-[11px] uppercase tracking-[0.18em] text-primary">{conditionLabel(p.category)}</p>
+                  <p className="mt-4 text-center text-sm text-primary">{conditionLabel(p.category)}</p>
                   <Link to="/produto/$id" params={{ id: p.id }} className="mt-1 block text-center text-xl font-semibold hover:text-primary">{p.name}</Link>
                   <p className="mt-1 text-center text-2xl text-primary">{formatPrice(p.price) ?? "Consulte disponibilidade"}</p>
                   {p.storage && <p className="text-center text-sm text-muted-foreground">{p.storage} de espaço</p>}

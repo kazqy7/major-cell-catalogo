@@ -6,13 +6,15 @@ import { applyFilters, brandOf, emptyFilters, type Filters } from "@/lib/catalog
 import { ProductCard } from "./ProductCard";
 
 const sel =
-  "h-11 w-full rounded-full border-0 bg-secondary px-4 text-sm text-foreground focus:border-primary focus:outline-none";
+  "h-11 w-full rounded-full border-0 bg-secondary px-4 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-primary";
 
 export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefined }) {
   const { data } = useSuspenseQuery(productsQuery());
   const { data: soonAll } = useSuspenseQuery(comingSoonQuery());
   const soon = soonAll.filter((p) => !fixedCategory || p.category === fixedCategory);
   const [f, setF] = useState<Filters>(() => emptyFilters(fixedCategory ?? ""));
+  // No celular os filtros ficam recolhidos atrás de um botão, para os aparelhos aparecerem logo.
+  const [showFilters, setShowFilters] = useState(false);
   const set = (k: keyof Filters) => (e: { target: { value: string } }) => setF((o) => ({ ...o, [k]: e.target.value }));
 
   const base = useMemo(() => data.filter((p) => !f.cat || p.category === f.cat), [data, f.cat]);
@@ -23,20 +25,35 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
 
   const list = applyFilters(data, f);
   const active = JSON.stringify(f) !== JSON.stringify(emptyFilters(fixedCategory ?? ""));
+  const empty = emptyFilters(fixedCategory ?? "");
+  const activeCount = (Object.keys(f) as (keyof Filters)[]).filter((k) => k !== "q" && f[k] !== empty[k]).length;
   const clear = () => setF(emptyFilters(fixedCategory ?? ""));
 
   return (
     <div className="space-y-8">
       <div>
         <div className="mb-3 flex items-center justify-between gap-2 text-xs font-medium text-muted-foreground">
-          <span className="flex items-center gap-2"><SlidersHorizontal className="h-4 w-4" /> Filtrar aparelhos</span>
+          <span className="hidden items-center gap-2 sm:flex"><SlidersHorizontal className="h-4 w-4" /> Filtrar aparelhos</span>
           {active && <button onClick={clear} className="text-primary hover:underline">Limpar filtros</button>}
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
-          <label className="relative sm:col-span-2">
-            <Search className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
-            <input value={f.q} onChange={set("q")} placeholder="Buscar pelo nome do aparelho" className={sel + " pl-9"} aria-label="Buscar" />
-          </label>
+          <div className="flex gap-2 sm:col-span-2">
+            <label className="relative flex-1">
+              <Search className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
+              <input value={f.q} onChange={set("q")} placeholder="Buscar pelo nome do aparelho" className={sel + " pl-9"} aria-label="Buscar" />
+            </label>
+            <button
+              type="button"
+              onClick={() => setShowFilters((v) => !v)}
+              aria-expanded={showFilters}
+              aria-controls="filtros-extra"
+              className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-secondary px-4 text-sm text-foreground focus-visible:outline-2 focus-visible:outline-primary sm:hidden"
+            >
+              <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
+              Filtrar{activeCount > 0 ? ` (${activeCount})` : ""}
+            </button>
+          </div>
+          <div id="filtros-extra" className={showFilters ? "contents" : "hidden sm:contents"}>
           {!fixedCategory && (
             <select value={f.cat} onChange={set("cat")} className={sel} aria-label="Categoria">
               <option value="">Todas as categorias</option>
@@ -70,6 +87,7 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
             <input type="number" min={0} value={f.min} onChange={set("min")} placeholder="Preço mín. (R$)" className={sel} aria-label="Preço mínimo" />
             <input type="number" min={0} value={f.max} onChange={set("max")} placeholder="Preço máx. (R$)" className={sel} aria-label="Preço máximo" />
           </div>
+          </div>
         </div>
       </div>
 
@@ -81,7 +99,7 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
           <h3 className="mt-4 text-xl font-semibold">
             {data.length === 0 ? "Novos aparelhos chegando em breve" : "Nenhum aparelho com esses filtros"}
           </h3>
-          <p className="mt-2 max-w-md text-sm text-muted-foreground">
+          <p className="mt-2 max-w-md text-base text-muted-foreground">
             {data.length === 0
               ? "Nosso catálogo está sendo atualizado. Fale com a gente pelo WhatsApp para saber o que está disponível hoje."
               : "Tente ajustar ou limpar os filtros para ver mais opções."}
@@ -97,7 +115,7 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
           {groups(list).map(([g, items]) => (
             <section key={g}>
               <h2 className="mb-6 text-2xl font-semibold md:text-3xl">{g}</h2>
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
                 {items.map((p) => <ProductCard key={p.id} p={p} />)}
               </div>
             </section>
@@ -106,11 +124,10 @@ export function Catalog({ fixedCategory }: { fixedCategory?: Category | undefine
       )}
 
       {soon.length > 0 && (
-        <section id="lancamentos" className="scroll-mt-24 border-t border-border pt-12">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Em breve</p>
-          <h2 className="mt-2 text-2xl font-semibold md:text-3xl">Lançamentos</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Modelos anunciados oficialmente, ainda sem estoque na loja. Consulte preço e previsão pelo WhatsApp.</p>
-          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <section id="lancamentos" className="scroll-mt-24 pt-12">
+          <h2 className="text-2xl font-semibold md:text-3xl">Lançamentos</h2>
+          <p className="mt-2 text-base text-muted-foreground">Modelos anunciados oficialmente, ainda sem estoque na loja. Consulte preço e previsão pelo WhatsApp.</p>
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
             {soon.map((p) => <ProductCard key={p.id} p={p} />)}
           </div>
         </section>

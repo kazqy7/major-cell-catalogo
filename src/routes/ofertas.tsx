@@ -24,7 +24,7 @@ export const Route = createFileRoute("/ofertas")({
   errorComponent: catalogError,
   component: () => (
     <>
-      <PageHeader eyebrow="Ofertas" title="Ofertas Major Cell" subtitle="Condições especiais por tempo limitado." />
+      <PageHeader title="Ofertas Major Cell" subtitle="Condições especiais por tempo limitado." />
       <div className="mx-auto max-w-7xl px-5 py-12">
         <Suspense fallback={<CatalogSkeleton />}><List /></Suspense>
       </div>
@@ -51,7 +51,7 @@ function List() {
         const old = p.price != null && p.price > (p.offer_price ?? 0) ? formatPrice(p.price) : null;
         return (
           <article key={p.id} className="flex flex-col rounded-3xl bg-card p-6 text-center">
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-primary">Oferta · {conditionLabel(p.category)}</p>
+            <p className="text-sm font-medium text-primary">Oferta · {conditionLabel(p.category)}</p>
             <Link to="/produto/$id" params={{ id: p.id }} className="mt-2 block">
               <h3 className="text-2xl font-semibold leading-tight">{p.name}</h3>
               {p.storage && <p className="mt-1 text-sm text-muted-foreground">{p.storage}{p.ram ? ` · ${p.ram} RAM` : ""}</p>}
