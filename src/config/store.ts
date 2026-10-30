@@ -73,10 +73,24 @@ export const INSTALLMENTS = {
 };
 
 /**
- * Avaliações verificadas de clientes reais. Adicione apenas depoimentos autorizados.
- * Exemplo de formato: { name: "Nome", text: "Depoimento", rating: 5, date: "2026-10-01" }
+ * Comentários de clientes reais publicados no Google. Copie o texto sem alterar
+ * e adicione apenas com autorização da pessoa.
  */
-export const REVIEWS: { name: string; text: string; rating: number; date?: string }[] = [];
+export const REVIEWS: { name: string; text: string; rating: number; date?: string }[] = [
+  {
+    name: "Fabricio Wagner",
+    text: "Loja excelente! Atendimento atencioso, profissionais capacitados e sempre dispostos a ajudar. Grande variedade de acessórios e produtos para celulares, além de um serviço de manutenção rápido e de qualidade. Dá para perceber o cuidado e o compromisso com o cliente em cada detalhe. Parabéns pelo trabalho e sucesso sempre! Recomendo sem dúvidas 👏📱🔧",
+    rating: 5,
+  },
+  {
+    name: "Joao paulo Borges Medeiros",
+    text: "Funcionários atenciosos, boa recepção e profissionalismo da equipe.\nProdutos de qualidade e o melhor preço!",
+    rating: 5,
+  },
+  { name: "Igor Matheus", text: "Atendimento muito bom, e os melhores preços da região", rating: 5 },
+  { name: "Cristhian Eduardo Leite", text: "Ótimo atendimento, além de produtos de qualidade e com preço acessível!", rating: 5 },
+  { name: "Marcelo Ramos da Paixão", text: "Melhor atendimento da cidade,variáveis produtos.", rating: 5 },
+];
 
 /**
  * Nota da loja no Google Maps. Atualize rating e count à mão quando mudarem.

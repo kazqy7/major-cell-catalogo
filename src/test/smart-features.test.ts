@@ -56,7 +56,14 @@ describe("parcelas", () => {
 });
 
 describe("avaliações", () => {
-  it("nenhuma avaliação fictícia", () => expect(REVIEWS).toHaveLength(0));
+  it("só comentários reais do Google, autorizados pelos clientes", () =>
+    expect(REVIEWS.map((r) => r.name)).toEqual([
+      "Fabricio Wagner",
+      "Joao paulo Borges Medeiros",
+      "Igor Matheus",
+      "Cristhian Eduardo Leite",
+      "Marcelo Ramos da Paixão",
+    ]));
 });
 
 describe("favoritos", () => {

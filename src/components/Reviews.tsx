@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { queryOptions, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { GOOGLE_REVIEWS } from "@/config/store";
+import { GOOGLE_REVIEWS, REVIEWS } from "@/config/store";
 import { listReviews, submitReview } from "@/lib/reviews.functions";
 import { randomName, shownName, summarize } from "@/lib/reviews";
 
@@ -58,7 +58,18 @@ export function Reviews() {
           Avaliar a loja
         </button>
       </div>
-      {isLoading || (count === 0 && GOOGLE_REVIEWS.url) ? null : count === 0 ? (
+      {REVIEWS.length > 0 && (
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
+          {REVIEWS.map((r) => (
+            <figure key={r.name} className="rounded-3xl bg-card p-6">
+              <Stars value={r.rating} />
+              <blockquote className="mt-3 whitespace-pre-line break-words text-sm">{r.text}</blockquote>
+              <figcaption className="mt-3 text-xs text-muted-foreground">{r.name} · Avaliação do Google</figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
+      {isLoading || (count === 0 && (GOOGLE_REVIEWS.url || REVIEWS.length > 0)) ? null : count === 0 ? (
         <div className="mt-6 rounded-3xl bg-card p-8 text-center">
           <p className="text-muted-foreground">Seja o primeiro a avaliar a Major Cell.</p>
         </div>
