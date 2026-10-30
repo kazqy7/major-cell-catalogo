@@ -8,6 +8,8 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { catalogError } from "@/components/CategoryPage";
 import { FavoriteButton, StockBadge } from "@/components/FavoriteButton";
 import { InstallmentSimulator } from "@/components/InstallmentSimulator";
+import { SwapImage } from "@/components/SwapImage";
+import { preloadImages, preloadWhenIdle } from "@/lib/preload";
 import { absUrl, DEFAULT_SHARE_IMAGE, ldScript, productJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/produto/$id")({
@@ -19,7 +21,8 @@ export const Route = createFileRoute("/produto/$id")({
   head: ({ loaderData }) => {
     const p = loaderData?.product;
     if (!p) return { meta: [{ title: "Aparelho | Major Cell" }] };
-    const t = `${p.name}${p.model ? " " + p.model : ""}${p.storage ? " " + p.storage : ""} | Major Cell`;
+    const model = p.model && !p.name.includes(p.model) ? ` ${p.model}` : "";
+    const t = `${p.name}${model}${p.storage ? " " + p.storage : ""} | Major Cell`;
     const price = formatPrice(p.price);
     const kind = p.category === "iphone_seminovo" ? "seminovo revisado" : "novo";
     const d = `${p.name}${p.storage ? " " + p.storage : ""}, ${kind}${price ? `, por ${price}` : ""} na Major Cell, em Montes Claros. Fotos, detalhes e atendimento pelo WhatsApp.`;
@@ -75,6 +78,16 @@ function ProductPage() {
   const safeIdx = Math.min(idx, Math.max(gallery.length - 1, 0));
   const go = (d: number) => setIdx((safeIdx + d + gallery.length) % gallery.length);
 
+  // Baixa a 1ª foto de cada cor logo que a página abre, e o resto da galeria em seguida,
+  // para a troca de cor ser imediata.
+  useEffect(() => {
+    if (!p) return;
+    preloadImages([...photoColors.map((c) => c.images[0]), ...colors.map((c) => (c.image ? colorImageUrl(c.image) : null))]);
+    preloadWhenIdle(photoColors.flatMap((c) => c.images.slice(1)));
+    // Só precisa rodar quando o produto muda.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [p?.id]);
+
   useEffect(() => {
     if (!zoom) return;
     const onKey = (e: KeyboardEvent) => {
@@ -103,7 +116,7 @@ function ProductPage() {
           <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-3xl bg-showcase p-8">
             {mainImg ? (
               <button type="button" onClick={() => setZoom(true)} className="h-full w-full cursor-zoom-in" aria-label="Ampliar foto">
-                <img src={mainImg} alt={colorName ? `${p.name} ${colorName}` : p.name} className="h-full w-full object-contain" />
+                <SwapImage src={mainImg} alt={colorName ? `${p.name} ${colorName}` : p.name} className="h-full w-full object-contain" />
               </button>
             ) : (
               <Smartphone className="h-16 w-16 text-muted-foreground" strokeWidth={1} />
@@ -243,7 +256,7 @@ function ProductPage() {
         <div role="dialog" aria-modal="true" aria-label="Foto ampliada" className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 p-4 backdrop-blur" onClick={() => setZoom(false)}>
           <button type="button" onClick={() => setZoom(false)} aria-label="Fechar" className="absolute right-4 top-4 rounded-full bg-secondary p-2 text-foreground"><X className="h-5 w-5" /></button>
           <div className="flex max-h-full w-full max-w-4xl items-center justify-center rounded-3xl bg-showcase p-6" onClick={(e) => e.stopPropagation()}>
-            <img src={mainImg} alt={colorName ? `${p.name} ${colorName}` : p.name} className="max-h-[80vh] w-full object-contain" />
+            <SwapImage src={mainImg} alt={colorName ? `${p.name} ${colorName}` : p.name} className="max-h-[80vh] w-full object-contain" />
           </div>
           {gallery.length > 1 && (
             <>

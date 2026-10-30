@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Smartphone, ChevronRight, ChevronLeft } from "lucide-react";
 import { conditionLabel, formatPrice, parseColors, parsePhotoColors, productMessage, comingSoonMessage, type ProductWithUrls } from "@/lib/products";
 import { whatsappLink } from "@/config/store";
 import { FavoriteButton, StockBadge } from "./FavoriteButton";
+import { SwapImage } from "./SwapImage";
+import { preloadImages, preloadWhenIdle } from "@/lib/preload";
 
 export function ProductCard({ p }: { p: ProductWithUrls }) {
   const soon = p.status === "em_breve";
@@ -22,9 +24,28 @@ export function ProductCard({ p }: { p: ProductWithUrls }) {
   const img = gallery[i0];
   const step = (d: number) => setIdx((i0 + d + gallery.length) % gallery.length);
   const arrow = "absolute top-1/2 z-10 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full border sm:h-9 sm:w-9 border-primary/40 bg-background/80 text-primary backdrop-blur transition hover:bg-primary hover:text-primary-foreground md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100";
+  const card = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = card.current;
+    if (!el || photoColors.length < 2) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          preloadWhenIdle(photoColors.map((c) => c.images[0]));
+          io.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+    // As cores de um produto não mudam enquanto o card está na tela.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [p.id]);
+  const warm = () => preloadImages(photoColors.flatMap((c) => c.images.slice(0, 2)));
   const wa = sold ? null : whatsappLink(soon ? comingSoonMessage(p, sel != null ? photoColors[sel]?.name : null) : productMessage(p));
   return (
-    <article className="group relative flex flex-col rounded-2xl bg-card p-3 text-center sm:rounded-3xl sm:p-6 transition-transform duration-500 hover:scale-[1.01]">
+    <article ref={card} onPointerEnter={warm} onTouchStart={warm} onFocus={warm} className="group relative flex flex-col rounded-2xl bg-card p-3 text-center sm:rounded-3xl sm:p-6 transition-transform duration-500 hover:scale-[1.01]">
       <FavoriteButton id={p.id} name={p.name} className="absolute right-1.5 top-1.5 z-10 sm:right-4 sm:top-4" />
       <Link to="/produto/$id" params={{ id: p.id }} className="block">
         <p className="text-sm font-medium text-primary">{conditionLabel(p.category)}</p>
@@ -36,7 +57,7 @@ export function ProductCard({ p }: { p: ProductWithUrls }) {
       <Link to="/produto/$id" params={{ id: p.id }} className="block" tabIndex={-1} aria-hidden="true">
         <div className="relative mx-auto flex aspect-square w-full items-center justify-center overflow-hidden rounded-xl bg-showcase p-2 sm:rounded-2xl sm:p-4">
           {img ? (
-            <img src={img} alt={p.name} width={600} height={600} loading="lazy" decoding="async" className={`h-full w-full object-contain transition-transform duration-700 group-hover:scale-[1.03] ${sold ? "opacity-50" : ""}`} />
+            <SwapImage src={img} alt={p.name} width={600} height={600} loading="lazy" decoding="async" className={`h-full w-full object-contain transition-transform duration-700 group-hover:scale-[1.03] ${sold ? "opacity-50" : ""}`} />
           ) : (
             <Smartphone className="h-14 w-14 text-muted-foreground" strokeWidth={1} />
           )}
