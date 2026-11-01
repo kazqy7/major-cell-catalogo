@@ -1,4 +1,4 @@
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, dehydrate, hydrate } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
@@ -13,6 +13,9 @@ export const getRouter = () => {
     context: { queryClient },
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
+    // Envia os dados buscados no servidor junto com a página, para o navegador não repetir as consultas ao abrir.
+    dehydrate: () => ({ queryClientState: dehydrate(queryClient) as never }),
+    hydrate: (dehydrated) => hydrate(queryClient, dehydrated.queryClientState),
   });
 
   return router;

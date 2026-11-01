@@ -33,7 +33,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 bg-background">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 px-5">
         <Logo />
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav aria-label="Principal" className="hidden items-center gap-7 lg:flex">
           {NAV_DESKTOP.map((n) => (
             <Link
               key={n.to}
@@ -54,13 +54,15 @@ export function SiteHeader() {
         <button
           className="rounded-full p-2 hairline lg:hidden"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={open}
+          aria-controls="menu-celular"
           onClick={() => setOpen(!open)}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
       {open && (
-        <nav className="bg-card px-5 pb-6 pt-2 lg:hidden">
+        <nav id="menu-celular" aria-label="Menu" className="bg-card px-5 pb-6 pt-2 lg:hidden">
           {NAV.map((n) => (
             <Link
               key={n.to}

@@ -38,7 +38,10 @@ export const Route = createFileRoute("/api/public/product-image/$path")({
         // Cache da borda (Cloudflare): depois do primeiro pedido, a foto sai direto da borda,
         // sem buscar no armazenamento de novo. Fora do Cloudflare (ex.: no Mac) é ignorado.
         const edge = (globalThis as { caches?: { default?: Cache } }).caches?.default;
-        const hit = await edge?.match(request).catch(() => undefined);
+        // Ao mudar o Cache-Control abaixo, troque o v= para a borda não servir a cópia antiga por 30 dias.
+        const { origin, pathname } = new URL(request.url);
+        const cacheKey = new Request(`${origin}${pathname}?v=2`);
+        const hit = await edge?.match(cacheKey).catch(() => undefined);
         if (hit) return hit;
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const { data, error } = await supabaseAdmin.storage
@@ -51,11 +54,11 @@ export const Route = createFileRoute("/api/public/product-image/$path")({
         const response = new Response(data, {
           headers: {
             "Content-Type": MIME[ext] ?? "application/octet-stream",
-            // Navegador: 7 dias. Borda/CDN: 30 dias, e serve a cópia antiga enquanto atualiza.
-            "Cache-Control": "public, max-age=604800, s-maxage=2592000, stale-while-revalidate=604800",
+            // Navegador e borda/CDN: 30 dias, e serve a cópia antiga enquanto atualiza.
+            "Cache-Control": "public, max-age=2592000, s-maxage=2592000, stale-while-revalidate=604800",
           },
         });
-        await edge?.put(request, response.clone()).catch(() => undefined);
+        await edge?.put(cacheKey, response.clone()).catch(() => undefined);
         return response;
       },
     },

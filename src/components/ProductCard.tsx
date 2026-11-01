@@ -11,6 +11,8 @@ export function ProductCard({ p }: { p: ProductWithUrls }) {
   const soon = p.status === "em_breve";
   const sold = p.status !== "disponivel" && !soon;
   const price = formatPrice(p.price);
+  // Nome completo para leitores de tela: os cards têm os mesmos botões, mas cada um leva a um aparelho.
+  const label = [p.name, p.storage].filter(Boolean).join(" ");
   const hasColors = parseColors(p.colors).length > 0;
   const photoColors = parsePhotoColors(p.photo_colors);
   const [sel, setSel] = useState<number | null>(null);
@@ -98,11 +100,11 @@ export function ProductCard({ p }: { p: ProductWithUrls }) {
         {soon ? <span className="text-sm text-muted-foreground">Preço a consultar</span> : price ?? <span className="text-sm text-muted-foreground">Consulte disponibilidade</span>}
       </p>
       <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 whitespace-nowrap text-[13px] sm:mt-4 sm:gap-y-3 sm:text-sm">
-        <Link to="/produto/$id" params={{ id: p.id }} className="w-full rounded-full bg-gold px-3 py-2 font-semibold text-primary-foreground sm:w-auto sm:px-5">
+        <Link to="/produto/$id" params={{ id: p.id }} aria-label={`${hasColors ? "Escolher cor" : "Ver detalhes"}: ${label}`} className="w-full rounded-full bg-gold px-3 py-2 font-semibold text-primary-foreground sm:w-auto sm:px-5">
           {hasColors ? "Escolher cor" : "Ver detalhes"}
         </Link>
         {(soon || !hasColors) && wa && (
-          <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-primary hover:underline">
+          <a href={wa} target="_blank" rel="noopener noreferrer" aria-label={`${soon ? "Consultar lançamento" : "Consultar no WhatsApp"}: ${label}`} className="inline-flex items-center text-primary hover:underline">
             {soon ? "Consultar lançamento" : "Consultar no WhatsApp"} <ChevronRight className="h-4 w-4" />
           </a>
         )}

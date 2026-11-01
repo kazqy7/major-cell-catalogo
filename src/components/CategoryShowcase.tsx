@@ -115,7 +115,7 @@ function CategoryCard({ c }: { c: ShowcaseCategory }) {
             )}
           </div>
         )}
-        <Link {...link} className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-semibold text-primary">
+        <Link {...link} aria-label={`${c.cta}: ${c.label}`} className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-semibold text-primary">
           {c.cta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
         </Link>
       </div>

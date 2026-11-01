@@ -4,6 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Manrope servida pelo próprio site: fonte do Google bloqueava a primeira pintura. */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("./assets/fonts/manrope-latin.woff2") format("woff2");
+}
+
 /*
  * Design system definition.
  *

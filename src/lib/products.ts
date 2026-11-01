@@ -1,5 +1,4 @@
 import { queryOptions } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
 export type Product = Database["public"]["Tables"]["products"]["Row"];
@@ -20,6 +19,9 @@ export const formatPrice = (p: number | null) =>
   p == null ? null : p.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export const BUCKET = "product-images";
+
+// O cliente do banco é pesado e os dados da primeira tela já vêm do servidor, então ele só baixa quando for usado.
+const db = () => import("@/integrations/supabase/client").then((m) => m.supabase);
 
 // Product photos are served through a same-origin public endpoint that only
 // exposes the "official/" folder of the private bucket, so no public read
@@ -46,6 +48,7 @@ export const comingSoonQuery = () =>
   queryOptions({
     queryKey: ["products", "em_breve"],
     queryFn: async () => {
+      const supabase = await db();
       const { data, error } = await supabase
         .from("products").select("*").eq("status", "em_breve")
         .order("sort_order", { ascending: true });
@@ -58,6 +61,7 @@ export const productsQuery = (opts: { includeSold?: boolean } = {}) =>
   queryOptions({
     queryKey: ["products", opts.includeSold ? "all" : "available"],
     queryFn: async () => {
+      const supabase = await db();
       let q = supabase
         .from("products")
         .select("*")
@@ -74,6 +78,7 @@ export const productQuery = (id: string) =>
   queryOptions({
     queryKey: ["product", id],
     queryFn: async () => {
+      const supabase = await db();
       const { data, error } = await supabase.from("products").select("*").eq("id", id).maybeSingle();
       if (error) throw error;
       if (!data) return null;

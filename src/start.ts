@@ -1,7 +1,6 @@
 import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/react-start";
 
 import { renderErrorPage } from "./lib/error-page";
-import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
 
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {
@@ -16,6 +15,24 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
       headers: { "content-type": "text/html; charset=utf-8" },
     });
   }
+});
+
+// Igual a attachSupabaseAuth (src/integrations/supabase/auth-attacher.ts), mas só baixa o cliente do
+// banco para quem tem sessão salva. Visitante da loja não entra na conta, então não paga esse peso.
+function hasStoredSession() {
+  try {
+    return Object.keys(localStorage).some((k) => /^sb-.+-auth-token/.test(k));
+  } catch {
+    return false;
+  }
+}
+
+const attachSupabaseAuth = createMiddleware({ type: "function" }).client(async ({ next }) => {
+  if (!hasStoredSession()) return next();
+  const { supabase } = await import("@/integrations/supabase/client");
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  return next({ headers: token ? { Authorization: `Bearer ${token}` } : {} });
 });
 
 // Start installs this automatically when src/start.ts is absent; defining the

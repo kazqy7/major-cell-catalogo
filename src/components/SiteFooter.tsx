@@ -29,7 +29,7 @@ export function SiteFooter() {
           <Link to="/assistencia" className="block text-muted-foreground hover:text-foreground">Assistência Técnica</Link>
           <Link to="/sobre" className="block text-muted-foreground hover:text-foreground">Sobre a loja</Link>
           <Link to="/contato" className="block text-muted-foreground hover:text-foreground">Contato</Link>
-          <Link to="/admin" className="block text-muted-foreground/60 hover:text-foreground">Área administrativa</Link>
+          <Link to="/admin" className="block text-muted-foreground/80 hover:text-foreground">Área administrativa</Link>
         </div>
       </div>
       {(POLICIES.company.legalName || POLICIES.company.cnpj) && (
