@@ -3,6 +3,7 @@ import { Star, Shuffle } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { submitReview } from "@/lib/reviews.functions";
 import { randomName } from "@/lib/reviews";
@@ -43,7 +44,10 @@ export default function ReviewDialog({ open, onOpenChange }: { open: boolean; on
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Avaliar a Major Cell</DialogTitle>
-          <DialogDescription>Não é preciso cadastro. O nome é opcional e o comentário ficará visível publicamente no site.</DialogDescription>
+          <DialogDescription>
+            Não é preciso cadastro. O nome é opcional e o comentário ficará visível publicamente no site. Veja a{" "}
+            <Link to="/privacidade" className="underline">política de privacidade</Link>.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={send} className="space-y-4">
           <div>

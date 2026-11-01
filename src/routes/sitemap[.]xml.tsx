@@ -5,7 +5,7 @@ import { absUrl } from "@/lib/seo";
 // Mapa do site para o Google: as páginas fixas e cada aparelho à venda ou em lançamento.
 // Gerado na hora a partir do catálogo, então produtos novos entram sozinhos.
 
-const PAGES = ["/", "/catalogo", "/iphones-novos", "/iphones-seminovos", "/xiaomi", "/ofertas", "/comparar", "/troca", "/assistencia", "/sobre", "/contato"];
+const PAGES = ["/", "/catalogo", "/iphones-novos", "/iphones-seminovos", "/xiaomi", "/ofertas", "/comparar", "/troca", "/assistencia", "/sobre", "/contato", "/privacidade"];
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 

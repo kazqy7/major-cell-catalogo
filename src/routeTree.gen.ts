@@ -21,6 +21,7 @@ import { Route as IphonesNovosRouteImport } from './routes/iphones-novos'
 import { Route as IphonesSeminovosRouteImport } from './routes/iphones-seminovos'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as OfertasRouteImport } from './routes/ofertas'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SobreRouteImport } from './routes/sobre'
@@ -89,6 +90,11 @@ const OfertasRoute = OfertasRouteImport.update({
   path: '/ofertas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RedefinirSenhaRoute = RedefinirSenhaRouteImport.update({
   id: '/redefinir-senha',
   path: '/redefinir-senha',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/iphones-seminovos': typeof IphonesSeminovosRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/ofertas': typeof OfertasRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
@@ -160,6 +167,7 @@ export interface FileRoutesByTo {
   '/iphones-seminovos': typeof IphonesSeminovosRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/ofertas': typeof OfertasRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/iphones-seminovos': typeof IphonesSeminovosRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/ofertas': typeof OfertasRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/iphones-seminovos'
     | '/llms.txt'
     | '/ofertas'
+    | '/privacidade'
     | '/redefinir-senha'
     | '/sitemap.xml'
     | '/sobre'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/iphones-seminovos'
     | '/llms.txt'
     | '/ofertas'
+    | '/privacidade'
     | '/redefinir-senha'
     | '/sitemap.xml'
     | '/sobre'
@@ -247,6 +258,7 @@ export interface FileRouteTypes {
     | '/iphones-seminovos'
     | '/llms.txt'
     | '/ofertas'
+    | '/privacidade'
     | '/redefinir-senha'
     | '/sitemap.xml'
     | '/sobre'
@@ -269,6 +281,7 @@ export interface RootRouteChildren {
   IphonesSeminovosRoute: typeof IphonesSeminovosRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   OfertasRoute: typeof OfertasRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
   RedefinirSenhaRoute: typeof RedefinirSenhaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
@@ -364,6 +377,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OfertasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/redefinir-senha': {
       id: '/redefinir-senha'
       path: '/redefinir-senha'
@@ -429,6 +449,7 @@ const rootRouteChildren: RootRouteChildren = {
   IphonesSeminovosRoute: IphonesSeminovosRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   OfertasRoute: OfertasRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   RedefinirSenhaRoute: RedefinirSenhaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
